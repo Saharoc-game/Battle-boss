@@ -1,5 +1,6 @@
 import random
-print("Привет, игрок. Ты играешь в игру Batle Boss. ")
+
+print("Привет, игрок. Ты играешь в игру Batle Boss.")
 x = ''
 sell = 0
 sword = 0
@@ -10,12 +11,7 @@ inventory_sword = []
 item_sword = 0
 inventory_armor = []
 item_armor = 0
-list_mag_hp = [50, 55, 60, 65, 70]
-magia_mag_boss = 6
-list_voi_hp = [60, 65, 70, 75, 80]
-magia_voi_boss = random.randint(2, 3)
-list_ob_hp = [50, 55, 60]
-magia_ob_boss = random.randint(3, 4)
+
 hp_igrok = 20
 max_hp_igrok = 20
 magia_igrok = 1000
@@ -23,261 +19,182 @@ max_magia_igrok = 5
 money = 3
 raynd = 0
 kol_boss = 0
-boss = random.randint(0, 2)
 
-if boss == 0 :
-    hp_boss = random.choice(list_mag_hp)
-    magia_boss = magia_mag_boss
-    print("Вам попался босс-маг")
-elif boss == 1 :
-    hp_boss = random.choice(list_voi_hp)
-    magia_boss = magia_voi_boss
-    print("Вам попался босс-воин")
-else :
-    hp_boss = random.choice(list_ob_hp)
-    magia_boss = magia_ob_boss
-    print("Вам попался обычный босс")
-max_hp_boss = hp_boss - 5
-str_1 = "0"
-print("Ваше здоровье ",hp_igrok,". Ваша магия ",magia_igrok,". Ваши деньги ", money )
-print("Здоровье босса ",hp_boss,". Магия босса ",magia_boss,".")
-print("1 чтобы атакавать. 2 чтобы восполнить здоровье. 3 чтобы восполнить магию. 4 чтобы открыть инвентарь. 0 чтобы пропустить ход.")
-while (hp_igrok > 0):
+class Boss: # Класс Босс
 
-# убийство босса + характеристики
-    if hp_boss <= 0 :
-        kol_boss = kol_boss + 1
-        boss = random.randint(0, 2)
-        if boss == 0 :
-            hp_boss = random.choice(list_mag_hp)
-            magia_boss = magia_mag_boss
-            print("Вам попался босс-маг")
-        elif boss == 1 :
-            hp_boss = random.choice(list_voi_hp)
-            magia_boss = magia_voi_boss
-            print("Вам попался босс-воин")
-        else :
-            hp_boss = random.choice(list_ob_hp)
-            magia_boss = magia_ob_boss
-            print("Вам попался обычный босс")
-        hp_igrok = hp_igrok + 5
-        magia_igrok = magia_igrok + 1
-        money = money + 3
-        max_hp_igrok = max_hp_igrok + 5
-        max_magia_igrok = max_magia_igrok + 1
-        sa = random.randint(0,1)
-        if item_sword == 3 :
-            if item_armor == 3 :
-                sa = 4
-        if sa == 0 :
-            item_sword = item_sword + 1
-            x = random.randint(5, 23) + kol_boss
-            inventory_sword.append(x)
-            print("Вы нашли меч и его урон ", x)
-        else :
-            item_armor = item_armor + 1
-            x = random.randint(1, 50)
-            inventory_armor.append(x)
-            print("Вы нашли броню и её защита ",x,"%")
-        print("Поздравлю, игрок! Вы смогли победить босса под номером ",kol_boss)
-        print("Ваша максимальное здоровье теперь",max_hp_igrok," Максимальное количество магии",max_magia_igrok)
+    def __init__(self): # Задаём параметры
+        self.hp = random.choice([50, 55, 60])
+        self.magic = random.randint(3, 4)
+        self.hp_max = self.hp
+
+    def attack(self, kol_boss, zach_armor): # Атака Босса
+        self.damage = random.randint(0, 5)
+        print("Босс нанёс вам урон - ", ((self.damage - self.damage * (zach_armor / 100)) + kol_boss) // 1)
+        return self.damage  # Возвращаем урон
+
+    def health_add(self): # Лечение Босса
+        self.hp += 10
+        print("Босс лечится")
+
+B1 = Boss() # Создаём Босса
+
+def drop_item(kol_boss, item_sword, item_armor): # Выпадение предмета после убийства
+    sa = random.randint(0, 1)
+    if item_sword == 3:
+        sa = 4
+    if item_armor == 3:
+        sa = 4
+
+    if sa == 0:      # Мечи
+        item_sword += 1
+        x = random.randint(5, 23) + kol_boss
+        inventory_sword.append(x)
+        print("Вы нашли меч и его урон ", x)
+
+    else:           # Броня
+        item_armor += 1
+        x = random.randint(1, 50)
+        inventory_armor.append(x)
+        print("Вы нашли броню и её защита ", x, "%")
+
+# Инициализация переменных босса
+hp_boss = B1.hp
+magia_boss = B1.magic
+
+print("Ваше здоровье ", hp_igrok, ". Ваша магия ", magia_igrok, ". Ваши деньги ", money)
+print("Здоровье босса ", B1.hp, ". Магия босса ", B1.magic, ".")
+print("1 чтобы атаковать. 2 чтобы восполнить здоровье. 3 чтобы восполнить магию. 4 чтобы открыть инвентарь. 0 чтобы пропустить ход.")
+
+while hp_igrok > 0:
+    if hp_boss <= 0:
+        kol_boss += 1
+        hp_igrok += 5
+        magia_igrok += 1
+        money += 3
+        max_hp_igrok += 5
+        max_magia_igrok += 1
+        drop_item(kol_boss, item_sword, item_armor)
+
+        print("Поздравлю, игрок! Вы смогли победить босса под номером ", kol_boss)
+        print("Ваша максимальное здоровье теперь", max_hp_igrok, " Максимальное количество магии", max_magia_igrok)
         print("Магия увеличена на 1, здоровье на 5. Также вы нашли 3 монеты!")
-        print("Ваше здоровье ",hp_igrok,". Ваша магия ",magia_igrok,". Ваши деньги ", money )
-        print("Здоровье босса ",hp_boss,". Магия босса ",magia_boss,". Этот босс бьет сильнее предыдущего на 1 урон.")
-        max_hp_boss = hp_boss - 5
-    hod_igroka = 9
-    print("Сейчас ",raynd, "раунд") 
-# защита от дураков (цифры)
-    while (hod_igroka >= 6)and (hod_igroka >= 0) :
-        hod_igroka = int(input("Ваш ход от 0 до 5\n"))
+        print("Ваше здоровье ", hp_igrok, ". Ваша магия ", magia_igrok, ". Ваши деньги ", money)
+        print("Здоровье босса ", B1.hp, ". Магия босса ", B1.magic, ". Этот босс бьет сильнее предыдущего на 1 урон.")
+        hp_boss = B1.hp  # Сброс здоровья босса после победы
 
-# лечение игрока
-    if (hod_igroka == 2) and (magia_igrok > 0) :
+    hod_igroka = -1  # Инициализация переменной для хода игрока
+    print("Сейчас ", raynd, "раунд")
+
+    # Защита от дураков (цифры)
+    while hod_igroka < 0 or hod_igroka > 5:
+        try:
+            hod_igroka = int(input("Ваш ход от 0 до 5\n"))
+        except ValueError:
+            print("Пожалуйста, введите число от 0 до 5.")
+
+    # Лечение игрока
+    if hod_igroka == 2 and magia_igrok > 0:
         print("Вы восполнили здоровье. Но потратили магию")
-        hp_igrok = hp_igrok  + (10 + kol_boss)
-        if (hp_igrok > max_hp_igrok):
-            hp_igrok = max_hp_igrok 
-        magia_igrok = magia_igrok - 1
+        hp_igrok += (10 + kol_boss)
+        if hp_igrok > max_hp_igrok:
+            hp_igrok = max_hp_igrok
+        magia_igrok -= 1
 
-# восполнение магии игрока
-    if (hod_igroka == 3) and (money > 0 ):
+    # Восполнение магии игрока
+    if hod_igroka == 3 and money > 0:
         print("Вы восполнили магию. Но потратили деньги")
-        magia_igrok =  magia_igrok + 3  
-        money = money - 1
-        if (magia_igrok > max_magia_igrok) :
+        magia_igrok += 3
+        money -= 1
+        if magia_igrok > max_magia_igrok:
             magia_igrok = max_magia_igrok
-# удар игрока  
-    if hod_igroka == 1 :
+
+    # Удар игрока
+    if hod_igroka == 1:
         str_i = input("1 чтобы нанести обычный удар. 2 чтобы нанести СУПЕР удар ")
         ataka = int(str_i)
-        if (ataka == 2)and (magia_igrok > 1):
-           igrok_uron = random.randint(10, 15)
-           hp_boss = hp_boss - igrok_uron
-           if (sword == 1) or (sword == 2) or (sword == 3):
-                hp_boss = hp_boss - yron_sword
-           magia_igrok = magia_igrok - 2
-           print ("Вы нанесли боссу урона - ",igrok_uron + yron_sword,". Но потратили магию")
-        else :
-            if random.randint(0, 3) == 0 :
-                print ("Босс поставил блок")
+        if ataka == 2 and magia_igrok > 1:
+            igrok_uron = random.randint(10, 15)
+            B1.hp -= igrok_uron
+            magia_igrok -= 2
+            print("Вы нанесли боссу урона - ", igrok_uron)
+        else:
+            if random.randint(0, 3) == 0:
+                print("Босс поставил блок")
             else:
                 igrok_uron = random.randint(1, 10)
-                hp_boss = hp_boss - igrok_uron
-                if item_sword > 1 :
-                    hp_boss = hp_boss - yron_sword
-                print ("Вы нанесли боссу урона - ",igrok_uron + yron_sword)
-# инвентарь
-    if hod_igroka == 4 :
+                B1.hp -= igrok_uron
+                print("Вы нанесли боссу урона - ", igrok_uron)
+
+    # Инвентарь
+    if hod_igroka == 4:
         ans = int(input("1 чтобы просмотреть мечи 2 чтобы просмотреть броню"))
-        if ans==1 :
-            if item_sword > 0 :
-                if item_sword == 1 :
-                    print(inventory_sword[0]," первый меч")
-                    print("Выберите меч ")
-                    sword = int(input())
-                elif item_sword == 2 :
-                    print(inventory_sword[0]," первый меч")
-                    print(inventory_sword[1]," второй меч")
-                    print("Выберите меч ")
-                    sword = int(input())
-                else :
-                    print(inventory_sword[0]," первый меч")
-                    print(inventory_sword[1]," второй меч")
-                    print(inventory_sword[2]," третий меч")
-                    print("Выберите меч ")
-                    sword = int(input())
-            if sword == 1 :
-                yron_sword = inventory_sword[0]
-            elif sword == 2 :
-                yron_sword = inventory_sword[1]
-            else :
-                yron_sword = inventory_sword[2]
-        else :
-            if item_armor > 0 :
-                if item_armor == 1 :
-                    print(inventory_armor[0]," первая броня")
-                    print("Выберите броню ")
-                    armor = int(input())
-                elif item_armor == 2 :
-                    print(inventory_armor[0]," первая броня")
-                    print(inventory_armor[1]," вторая броня")
-                    print("Выберите броню ")
-                    armor = int(input())
-                else :
-                    print(inventory_armor[0]," первая броня")
-                    print(inventory_armor[1]," вторая броня")
-                    print(inventory_armor[2]," третяя броня")
-                    print("Выберите броню ")
-                    armor = int(input())
-            if armor == 1 :
-                zach_armor = inventory_armor[0]
-            elif armor == 2 :
-                zach_armor = inventory_armor[1]
-            else :
-                zach_armor = inventory_armor[2]
 
+        # Мечи
 
+        if ans == 1:
+            if item_sword > 0:
+                for i in range(item_sword):
+                    print(inventory_sword[i], f"{i + 1} меч")
+                sword = int(input("Выберите меч "))
+                if sword <= item_sword:
+                    yron_sword = inventory_sword[sword - 1]
 
-# продажа
-    if hod_igroka == 5 :
+        # Броня
+
+        else:
+            if item_armor > 0:
+                for i in range(item_armor):
+                    print(inventory_armor[i], f"{i + 1} броня")
+                armor = int(input("Выберите броню "))
+                if armor <= item_armor:
+                    zach_armor = inventory_armor[armor - 1]
+
+    # Продажа
+    if hod_igroka == 5:
         sora = int(input("1 чтобы просмотреть мечи 2 чтобы просмотреть броню"))
-        if sora==1 :
-            if item_sword == 1 :
-                print(inventory_sword[0]," первый меч")
-                print("Выберите меч ")
-                sell = int(input())
-            elif item_sword == 2 :
-                print(inventory_sword[0]," первый меч")
-                print(inventory_sword[1]," второй меч")
-                print("Выберите меч ")
-                sell = int(input())
-            else :
-                print(inventory_sword[0]," первый меч")
-                print(inventory_sword[1]," второй меч")
-                print(inventory_sword[2]," третий меч")
-                print("Выберите меч ")
-                sell = int(input())
+        if sora == 1:
+            if item_sword > 0:
+                for i in range(item_sword):
+                    print(inventory_sword[i], f"{i + 1} меч")
+                sell = int(input("Выберите меч "))
+                if sell <= item_sword:
+                    yron_sword = inventory_sword[sell - 1]
+                    money += yron_sword // 5
+                    del inventory_sword[sell - 1]
+                    item_sword -= 1
+                    print("Вы продали меч, и получили ", yron_sword // 5, " монет")
+        else:
+            if item_armor > 0:
+                for i in range(item_armor):
+                    print(inventory_armor[i], f"{i + 1} броня")
+                sell = int(input("Выберите броню "))
+                if sell <= item_armor:
+                    zach_armor = inventory_armor[sell - 1]
+                    money += zach_armor // 20
+                    del inventory_armor[sell - 1]
+                    item_armor -= 1
+                    print("Вы продали броню, и получили ", zach_armor // 20, " монет")
 
-            if sell == 1 :
-                yron_sword = inventory_sword[0]
-                money = money + yron_sword // 5 
-                del inventory_sword[0]
-                print("Вы продали меч, и получили ",yron_sword // 5," монет")
-                yron_sword = 0
-                item_sword = item_sword - 1
-            elif sell == 2 :
-                yron_sword = inventory_sword[1]
-                money = money + yron_sword // 5
-                del inventory_sword[1]
-                print("Вы продали меч, и получили ",yron_sword // 5," монет")
-                yron_sword = 0
-                item_sword = item_sword - 1
-            else :
-                yron_sword = inventory_sword[2]
-                money = money + yron_sword // 5
-                del inventory_sword[2]
-                print("Вы продали меч, и получили ",yron_sword // 5," монет")
-                yron_sword = 0
-                item_sword = item_sword - 1
-        else :
-            if item_armor == 1 :
-                print(inventory_armor[0]," первая броня")
-                print("Выберите броню ")
-                sell = int(input())
-            elif item_armor == 2 :
-                print(inventory_armor[0]," первая броня")
-                print(inventory_armor[1]," вторая броня")
-                print("Выберите броню ")
-                sell = int(input())
-            else :
-                print(inventory_armor[0]," первая броня")
-                print(inventory_armor[1]," вторая броня")
-                print(inventory_armor[2]," третяя броня")
-                print("Выберите броню ")
-                sell = int(input())
-            if sell == 1 :
-                zach_armor = inventory_armor[0]
-                money = money + zach_armor//20
-                del inventory_armor[0]
-                print("Вы продали броню, и получили ",zach_armor//20," монет")
-                zach_armor = 0
-                item_armor = item_armor - 1
-            elif sell == 2 :
-                zach_armor = inventory_armor[1]
-                money = money + zach_armor//20
-                del inventory_armor[1]
-                print("вы продали броню, и получили ",zach_armor//20," монет")
-                zach_armor = 0
-                item_armor = item_armor - 1
-            else :
-                zach_armor = inventory_armor[2]
-                money = money + zach_armor//20
-                del inventory_armor[2]
-                print("вы продали броню, и получили ",zach_armor//20," монет")
-                zach_armor = 0
-                item_armor = item_armor - 1
-       
-           
-# удар или лечение босса
-    if (hp_boss > 0) :   
-        if (hp_boss < max_hp_boss) and (magia_boss > 0):
-            if random.randint(0, 1) == 0 :
-                hp_boss = hp_boss + 5
-                magia_boss = magia_boss - 1
-                print("Босс лечится")
-            else :
-                boss_uron = random.randint(0, 5) 
-                hp_igrok = (hp_igrok - (boss_uron - boss_uron * (zach_armor/100)) - kol_boss)//1
-                print("Босс нанёс вам урон - ",((boss_uron - boss_uron * (zach_armor/100)) + kol_boss))
-        else :
-            boss_uron = random.randint(0, 5) 
-            hp_igrok = (hp_igrok - (boss_uron - boss_uron * (zach_armor/100)) - kol_boss)//1
-            print("Босс нанёс вам урон - ",((boss_uron - boss_uron * (zach_armor/100)) + kol_boss)//1)
-    
+    # Удар или лечение босса
+    if hp_boss > 0:
+        if hp_boss < B1.hp_max and magia_boss > 0:
+            if random.randint(0, 1) == 0:
+                B1.health_add()  # Вызов метода лечения босса
+            else:
+                boss_uron = random.randint(0, 5)
+                hp_igrok -= (boss_uron - boss_uron * (zach_armor / 100)) - kol_boss
+                print("Босс нанёс вам урон - ", ((boss_uron - boss_uron * (zach_armor / 100)) + kol_boss))
+        else:
+            boss_uron = random.randint(0, 5)
+            hp_igrok -= (boss_uron - boss_uron * (zach_armor / 100)) - kol_boss
+            print("Босс нанёс вам урон - ", ((boss_uron - boss_uron * (zach_armor / 100)) + kol_boss))
+
     print("Ваше здоровье ",hp_igrok,". Ваша магия ",magia_igrok,". Ваши деньги ", money )
     print("Здоровье босса ",hp_boss,". Магия босса ",magia_boss,".") 
     raynd = raynd + 1
-                        
+
+# Проигрышь игрока, записываем рекорд
+
 else :
     print("Вы погибли! Но вы смогли убить ",kol_boss," боссов!")
     f = open("BatleBossrecords.txt", "r+")
@@ -290,5 +207,3 @@ else :
     else :
         print("Рекорд: ",last_line, " раундов")
     f.close()
-        
-# Проверка, ПРа

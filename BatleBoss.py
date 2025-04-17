@@ -28,7 +28,8 @@ class Boss: # Класс Босс
         self.hp_max = self.hp
 
     def attack(self, kol_boss, zach_armor): # Атака Босса
-        self.damage = random.randint(0, 5)
+        x = random.randint(0, 5)
+        self.damage = ((x - x * (zach_armor / 100)) + kol_boss) // 1
         print("Босс нанёс вам урон - ", ((self.damage - self.damage * (zach_armor / 100)) + kol_boss) // 1)
         return self.damage  # Возвращаем урон
 
@@ -38,24 +39,15 @@ class Boss: # Класс Босс
 
 B1 = Boss() # Создаём Босса
 
-def drop_item(kol_boss, item_sword, item_armor): # Выпадение предмета после убийства
-    sa = random.randint(0, 1)
-    if item_sword == 3:
-        sa = 4
-    if item_armor == 3:
-        sa = 4
+def drop_item_sword(kol_boss): # Выдача случайного меча
+    x = random.randint(5, 23) + kol_boss
+    print("Вы нашли меч и его урон ", x)
+    return x
 
-    if sa == 0:      # Мечи
-        item_sword += 1
-        x = random.randint(5, 23) + kol_boss
-        inventory_sword.append(x)
-        print("Вы нашли меч и его урон ", x)
-
-    else:           # Броня
-        item_armor += 1
-        x = random.randint(1, 50)
-        inventory_armor.append(x)
-        print("Вы нашли броню и её защита ", x, "%")
+def drop_item_armor(kol_boss) : # Выдача случайной брони
+    x = random.randint(1, 50)
+    print("Вы нашли броню и её защита ", x, "%")
+    return x
 
 # Инициализация переменных босса
 hp_boss = B1.hp
@@ -66,21 +58,39 @@ print("Здоровье босса ", B1.hp, ". Магия босса ", B1.magi
 print("1 чтобы атаковать. 2 чтобы восполнить здоровье. 3 чтобы восполнить магию. 4 чтобы открыть инвентарь. 0 чтобы пропустить ход.")
 
 while hp_igrok > 0:
-    if hp_boss <= 0:
+
+    if B1.hp <= 0:
         kol_boss += 1
+
+        # Улучшения характеристик
+
         hp_igrok += 5
         magia_igrok += 1
         money += 3
         max_hp_igrok += 5
         max_magia_igrok += 1
-        drop_item(kol_boss, item_sword, item_armor)
+
+
+        # Выдача предметов
+
+        if item_armor < 3 or item_sword < 3 :
+            x = random.randint(0, 1)
+
+            if x == 0 and item_armor < 3: # Выдача брони
+                inventory_armor.append(drop_item_armor(kol_boss))
+                item_armor += 1
+
+            if x == 1 and item_sword < 3 : # Выдача меча
+                item_sword += 1
+                inventory_sword.append(drop_item_sword(kol_boss))
 
         print("Поздравлю, игрок! Вы смогли победить босса под номером ", kol_boss)
         print("Ваша максимальное здоровье теперь", max_hp_igrok, " Максимальное количество магии", max_magia_igrok)
         print("Магия увеличена на 1, здоровье на 5. Также вы нашли 3 монеты!")
         print("Ваше здоровье ", hp_igrok, ". Ваша магия ", magia_igrok, ". Ваши деньги ", money)
         print("Здоровье босса ", B1.hp, ". Магия босса ", B1.magic, ". Этот босс бьет сильнее предыдущего на 1 урон.")
-        hp_boss = B1.hp  # Сброс здоровья босса после победы
+        
+        B1 = Boss() # Создаём нового босса
 
     hod_igroka = -1  # Инициализация переменной для хода игрока
     print("Сейчас ", raynd, "раунд")
@@ -112,22 +122,24 @@ while hp_igrok > 0:
     if hod_igroka == 1:
         str_i = input("1 чтобы нанести обычный удар. 2 чтобы нанести СУПЕР удар ")
         ataka = int(str_i)
-        if ataka == 2 and magia_igrok > 1:
+
+        if ataka == 2 and magia_igrok > 1: # Супер удар
             igrok_uron = random.randint(10, 15)
-            B1.hp -= igrok_uron
+            B1.hp -= (igrok_uron + yron_sword)
             magia_igrok -= 2
-            print("Вы нанесли боссу урона - ", igrok_uron)
-        else:
+            print("Вы нанесли боссу урона - ", igrok_uron+yron_sword)
+
+        else: # Обычный удар
             if random.randint(0, 3) == 0:
                 print("Босс поставил блок")
             else:
                 igrok_uron = random.randint(1, 10)
-                B1.hp -= igrok_uron
-                print("Вы нанесли боссу урона - ", igrok_uron)
+                B1.hp -= (igrok_uron + yron_sword)
+                print("Вы нанесли боссу урона - ", igrok_uron+yron_sword)
 
     # Инвентарь
     if hod_igroka == 4:
-        ans = int(input("1 чтобы просмотреть мечи 2 чтобы просмотреть броню"))
+        ans = int(input("1 чтобы просмотреть мечи 2 чтобы просмотреть броню "))
 
         # Мечи
 
@@ -150,10 +162,13 @@ while hp_igrok > 0:
                     zach_armor = inventory_armor[armor - 1]
 
     # Продажа
+
     if hod_igroka == 5:
         sora = int(input("1 чтобы просмотреть мечи 2 чтобы просмотреть броню"))
+
         if sora == 1:
-            if item_sword > 0:
+
+            if item_sword > 0: # Мечи
                 for i in range(item_sword):
                     print(inventory_sword[i], f"{i + 1} меч")
                 sell = int(input("Выберите меч "))
@@ -163,8 +178,11 @@ while hp_igrok > 0:
                     del inventory_sword[sell - 1]
                     item_sword -= 1
                     print("Вы продали меч, и получили ", yron_sword // 5, " монет")
+                    yron_sword = 0
+
         else:
-            if item_armor > 0:
+
+            if item_armor > 0: # Броня
                 for i in range(item_armor):
                     print(inventory_armor[i], f"{i + 1} броня")
                 sell = int(input("Выберите броню "))
@@ -174,6 +192,7 @@ while hp_igrok > 0:
                     del inventory_armor[sell - 1]
                     item_armor -= 1
                     print("Вы продали броню, и получили ", zach_armor // 20, " монет")
+                    zach_armor = 0
 
     # Удар или лечение босса
     if hp_boss > 0:
@@ -181,16 +200,12 @@ while hp_igrok > 0:
             if random.randint(0, 1) == 0:
                 B1.health_add()  # Вызов метода лечения босса
             else:
-                boss_uron = random.randint(0, 5)
-                hp_igrok -= (boss_uron - boss_uron * (zach_armor / 100)) - kol_boss
-                print("Босс нанёс вам урон - ", ((boss_uron - boss_uron * (zach_armor / 100)) + kol_boss))
+                hp_igrok -= B1.attack(kol_boss, zach_armor)
         else:
-            boss_uron = random.randint(0, 5)
-            hp_igrok -= (boss_uron - boss_uron * (zach_armor / 100)) - kol_boss
-            print("Босс нанёс вам урон - ", ((boss_uron - boss_uron * (zach_armor / 100)) + kol_boss))
+            hp_igrok -= B1.attack(kol_boss, zach_armor)
 
     print("Ваше здоровье ",hp_igrok,". Ваша магия ",magia_igrok,". Ваши деньги ", money )
-    print("Здоровье босса ",hp_boss,". Магия босса ",magia_boss,".") 
+    print("Здоровье босса ",B1.hp,". Магия босса ",B1.magic,".") 
     raynd = raynd + 1
 
 # Проигрышь игрока, записываем рекорд

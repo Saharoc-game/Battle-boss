@@ -14,7 +14,7 @@ item_armor = 0
 
 hp_igrok = 20
 max_hp_igrok = 20
-magia_igrok = 1000
+magia_igrok = 5
 max_magia_igrok = 5
 money = 3
 raynd = 0

@@ -30,5 +30,5 @@
 2. Скачайте код игры.
 3. Запустите игру с помощью команды:
    ```bash
-   python battle_boss.py
+   python BatleBoss.py
 

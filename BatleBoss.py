@@ -30,14 +30,45 @@ class Boss: # Класс Босс
     def attack(self, kol_boss, zach_armor): # Атака Босса
         x = random.randint(0, 5)
         self.damage = ((x - x * (zach_armor / 100)) + kol_boss) // 1
-        print("Босс нанёс вам урон - ", ((self.damage - self.damage * (zach_armor / 100)) + kol_boss) // 1)
+        print("Босс нанёс вам урон - ", self.damage)
         return self.damage  # Возвращаем урон
 
     def health_add(self): # Лечение Босса
+        self.magic -= 1
         self.hp += 10
         print("Босс лечится")
 
-B1 = Boss() # Создаём Босса
+class BossWar (Boss) : # Класс Босс. Подкласс воин
+
+    def __init__(self): # Задаём параметры
+        super().__init__()
+        self.hp = random.choice([60, 65, 70])
+        self.hp_max = self.hp
+
+    def attack(self, kol_boss, zach_armor): # Атака Босса
+        return super().attack(kol_boss, zach_armor)
+
+    def health_add(self): # Лечение Босса
+        return super().health_add()
+
+class BossWiz (Boss) : # Класс Босс. Подкласс маг
+
+    def __init__(self): # Задаём параметры
+        super().__init__()
+        self.magic = random.randint(6, 7)
+
+    def attack(self, kol_boss, zach_armor): # Атака Босса
+        return super().attack(kol_boss, zach_armor)
+
+    def health_add(self): # Лечение Босса
+        return super().health_add()    
+
+def random_boss() : # Создание  случайного Босса
+    x = random.randint(0, 1)
+    if x == 0 :
+        return BossWar() # Воин
+    else :
+        return BossWiz() # Маг
 
 def drop_item_sword(kol_boss): # Выдача случайного меча
     x = random.randint(5, 23) + kol_boss
@@ -49,13 +80,15 @@ def drop_item_armor(kol_boss) : # Выдача случайной брони
     print("Вы нашли броню и её защита ", x, "%")
     return x
 
+B1 = random_boss() # Создание Босса
+
 # Инициализация переменных босса
 hp_boss = B1.hp
 magia_boss = B1.magic
 
 print("Ваше здоровье ", hp_igrok, ". Ваша магия ", magia_igrok, ". Ваши деньги ", money)
 print("Здоровье босса ", B1.hp, ". Магия босса ", B1.magic, ".")
-print("1 чтобы атаковать. 2 чтобы восполнить здоровье. 3 чтобы восполнить магию. 4 чтобы открыть инвентарь. 0 чтобы пропустить ход.")
+print("1 чтобы атаковать. 2 чтобы восполнить здоровье. 3 чтобы восполнить магию. 4 чтобы открыть инвентарь. 5 чтобы продать предмет. 0 чтобы пропустить ход.")
 
 while hp_igrok > 0:
 
@@ -88,10 +121,9 @@ while hp_igrok > 0:
         print("Ваша максимальное здоровье теперь", max_hp_igrok, " Максимальное количество магии", max_magia_igrok)
         print("Магия увеличена на 1, здоровье на 5. Также вы нашли 3 монеты!")
         print("Ваше здоровье ", hp_igrok, ". Ваша магия ", magia_igrok, ". Ваши деньги ", money)
+        B1 = random_boss() # Создание Босса
         print("Здоровье босса ", B1.hp, ". Магия босса ", B1.magic, ". Этот босс бьет сильнее предыдущего на 1 урон.")
         
-        B1 = Boss() # Создаём нового босса
-
     hod_igroka = -1  # Инициализация переменной для хода игрока
     print("Сейчас ", raynd, "раунд")
 
@@ -222,3 +254,4 @@ else :
     else :
         print("Рекорд: ",last_line, " раундов")
     f.close()
+input("")

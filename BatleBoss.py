@@ -13,8 +13,8 @@ class Player: # Класс игрок
         self.hp = 20
         self.max_hp = 20
         self.magic = 5
+        self.money
         self.max_magic = 5
-        self.money = 3
         self.sword_damage = 0  
         self.armor_defense = 0  
         self.inventory_swordss = []  
@@ -32,7 +32,7 @@ class Player: # Класс игрок
     def magic_add(self) : # Добавление магии
         print("Вы восполнили магию. Но потратили деньги")
         self.magic += 3
-        money -= 1
+        self.money -= 1
         if self.magic > self.max_magic:
             self.magic = self.max_magic
     
@@ -103,10 +103,6 @@ def drop_item_armor(bosses_killed) : # Выдача случайной брон�
     return x
 
 B1 = random_boss() # Создание Босса
-
-# Инициализация переменных босса
-hp_boss = B1.hp
-magia_boss = B1.magic
 
 print("Ваше здоровье ", P1.hp, ". Ваша магия ", P1.magic, ". Ваши деньги ", P1.money)
 print("Здоровье босса ", B1.hp, ". Магия босса ", B1.magic, ".")

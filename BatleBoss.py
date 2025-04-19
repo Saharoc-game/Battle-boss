@@ -32,9 +32,9 @@ class Boss: # Класс Босс
         self.magic = random.randint(3, 4)
         self.hp_max = self.hp
 
-    def attack(self, P1.bosses_killed, P1.armor_defense): # Атака Босса
+    def attack(self, bosses_killed, armor_defense): # Атака Босса
         x = random.randint(0, 5)
-        self.damage = ((x - x * (self.armor_defense / 100)) + P1.bosses_killed) // 1
+        self.damage = ((x - x * (armor_defense / 100)) + bosses_killed) // 1
         print("Босс нанёс вам урон - ", self.damage)
         return self.damage  # Возвращаем урон
 
@@ -63,12 +63,12 @@ def random_boss() : # Создание  случайного Босса
     else :
         return BossWiz() # Маг
 
-def drop_item_sword(P1.bosses_killed): # Выдача случайного меча
-    x = random.randint(5, 23) + P1.bosses_killed
+def drop_item_sword(bosses_killed): # Выдача случайного меча
+    x = random.randint(5, 23) + bosses_killed
     print("Вы нашли меч и его урон ", x)
     return x
 
-def drop_item_armor(P1.bosses_killed) : # Выдача случайной брони
+def drop_item_armor(bosses_killed) : # Выдача случайной брони
     x = random.randint(1, 50)
     print("Вы нашли броню и её защита ", x, "%")
     return x

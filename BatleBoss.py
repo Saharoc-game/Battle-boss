@@ -7,7 +7,6 @@ sword = 0
 armor = 0
 item_armor = 0
 magia_igrok = 5
-money = 3
 
 class Player:
     def __init__(self):
@@ -21,7 +20,22 @@ class Player:
         self.inventory_swordss = []  
         self.inventory_armor = []   
         self.rounds = 0             
-        self.bosses_killed = 0      
+        self.bosses_killed = 0
+
+    def healfh_add(self) :
+        print("Вы восполнили здоровье. Но потратили магию")
+        self.hp += (10 + self.bosses_killed)
+        if self.hp > self.max_hp:
+            self.hp = self.max_hp
+        self.magic -= 1
+
+    def magic_add(self) :
+        print("Вы восполнили магию. Но потратили деньги")
+        self.magic += 3
+        money -= 1
+        if self.magic > self.max_magic:
+            self.magic = self.max_magic
+
 
 P1 = Player()
 
@@ -79,7 +93,7 @@ B1 = random_boss() # Создание Босса
 hp_boss = B1.hp
 magia_boss = B1.magic
 
-print("Ваше здоровье ", P1.hp, ". Ваша магия ", P1.magic, ". Ваши деньги ", money)
+print("Ваше здоровье ", P1.hp, ". Ваша магия ", P1.magic, ". Ваши деньги ", P1.money)
 print("Здоровье босса ", B1.hp, ". Магия босса ", B1.magic, ".")
 print("1 чтобы атаковать. 2 чтобы восполнить здоровье. 3 чтобы восполнить магию. 4 чтобы открыть инвентарь. 5 чтобы продать предмет. 0 чтобы пропустить ход.")
 
@@ -128,19 +142,11 @@ while P1.hp > 0:
 
     # Лечение игрока
     if hod_igroka == 2 and P1.magic > 0:
-        print("Вы восполнили здоровье. Но потратили магию")
-        P1.hp += (10 + P1.bosses_killed)
-        if P1.hp > P1.max_hp:
-            P1.hp = P1.max_hp
-        P1.magic -= 1
+        P1.healfh_add()
 
     # Восполнение магии игрока
-    if hod_igroka == 3 and money > 0:
-        print("Вы восполнили магию. Но потратили деньги")
-        P1.magic += 3
-        money -= 1
-        if P1.magic > max_magia_igrok:
-            P1.magic = max_magia_igrok
+    if hod_igroka == 3 and P1.money > 0:
+        P1.magic_add()
 
     # Удар игрока
     if hod_igroka == 1:
@@ -228,7 +234,8 @@ while P1.hp > 0:
         else:
             P1.hp -= B1.attack(P1.bosses_killed, P1.armor_defense)
 
-    print("Ваше здоровье ",P1.hp,". Ваша магия ",P1.magic,". Ваши деньги ", money )
+
+    print("Ваше здоровье ",P1.hp,". Ваша магия ",P1.magic,". Ваши деньги ", P1.money )
     print("Здоровье босса ",B1.hp,". Магия босса ",B1.magic,".") 
     P1.rounds = P1.rounds + 1
 

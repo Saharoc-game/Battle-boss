@@ -8,7 +8,7 @@ armor = 0
 item_armor = 0
 magia_igrok = 5
 
-class Player:
+class Player: # Класс игрок
     def __init__(self):
         self.hp = 20
         self.max_hp = 20
@@ -22,20 +22,35 @@ class Player:
         self.rounds = 0             
         self.bosses_killed = 0
 
-    def healfh_add(self) :
+    def healf(self) : # Лечение
         print("Вы восполнили здоровье. Но потратили магию")
         self.hp += (10 + self.bosses_killed)
         if self.hp > self.max_hp:
             self.hp = self.max_hp
         self.magic -= 1
 
-    def magic_add(self) :
+    def magic_add(self) : # Добавление магии
         print("Вы восполнили магию. Но потратили деньги")
         self.magic += 3
         money -= 1
         if self.magic > self.max_magic:
             self.magic = self.max_magic
+    
+    def attack(self) : # Атака
+        x = int(input("1 чтобы нанести обычный удар. 2 чтобы нанести СУПЕР удар "))
+        if x == 2 and self.magic > 1: # Супер удар
+            igrok_uron = random.randint(10, 15)
+            self.magic -= 2
+            print("Вы нанесли боссу урона - ", igrok_uron+ self.sword_damage)
+            return igrok_uron + self.sword_damage
 
+        else: # Обычный удар
+            if random.randint(0, 3) == 0:
+                print("Босс поставил блок")
+            else:
+                igrok_uron = random.randint(1, 10)
+                print("Вы нанесли боссу урона - ", igrok_uron+self.sword_damage)
+                return igrok_uron+self.sword_damage
 
 P1 = Player()
 
@@ -108,7 +123,7 @@ while P1.hp > 0:
         P1.magic += 1
         money += 3
         P1.max_hp += 5
-        max_magia_igrok += 1
+        P1.max_magic += 1
 
         # Выдача предметов
 
@@ -124,7 +139,7 @@ while P1.hp > 0:
                 P1.inventory_swords.append(drop_item_sword(P1.bosses_killed))
 
         print("Поздравлю, игрок! Вы смогли победить босса под номером ", P1.bosses_killed)
-        print("Ваша максимальное здоровье теперь", P1.max_hp, " Максимальное количество магии", max_magia_igrok)
+        print("Ваша максимальное здоровье теперь", P1.max_hp, " Максимальное количество магии", P1.max_magic)
         print("Магия увеличена на 1, здоровье на 5. Также вы нашли 3 монеты!")
         print("Ваше здоровье ", P1.hp, ". Ваша магия ", P1.magic, ". Ваши деньги ", money)
         B1 = random_boss() # Создание Босса
@@ -142,7 +157,7 @@ while P1.hp > 0:
 
     # Лечение игрока
     if hod_igroka == 2 and P1.magic > 0:
-        P1.healfh_add()
+        P1.healf()
 
     # Восполнение магии игрока
     if hod_igroka == 3 and P1.money > 0:
@@ -150,22 +165,7 @@ while P1.hp > 0:
 
     # Удар игрока
     if hod_igroka == 1:
-        str_i = input("1 чтобы нанести обычный удар. 2 чтобы нанести СУПЕР удар ")
-        ataka = int(str_i)
-
-        if ataka == 2 and P1.magic > 1: # Супер удар
-            igrok_uron = random.randint(10, 15)
-            B1.hp -= (igrok_uron + P1.sword_damage)
-            P1.magic -= 2
-            print("Вы нанесли боссу урона - ", igrok_uron+ P1.sword_damage)
-
-        else: # Обычный удар
-            if random.randint(0, 3) == 0:
-                print("Босс поставил блок")
-            else:
-                igrok_uron = random.randint(1, 10)
-                B1.hp -= (igrok_uron + P1.sword_damage)
-                print("Вы нанесли боссу урона - ", igrok_uron+P1.sword_damage)
+        B1.hp -= P1.attack()
 
     # Инвентарь
     if hod_igroka == 4:

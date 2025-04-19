@@ -13,7 +13,7 @@ class Player: # Класс игрок
         self.hp = 20
         self.max_hp = 20
         self.magic = 5
-        self.money
+        self.money = 3
         self.max_magic = 5
         self.sword_damage = 0  
         self.armor_defense = 0  
@@ -221,8 +221,8 @@ while P1.hp > 0:
                     P1.armor_defense = 0
 
     # Удар или лечение босса
-    if hp_boss > 0:
-        if hp_boss < B1.hp_max and magia_boss > 0:
+    if B1.hp > 0:
+        if B1.hp_max and B1.magic > 0:
             if random.randint(0, 1) == 0:
                 B1.health_add()  # Вызов метода лечения босса
             else:
@@ -235,7 +235,7 @@ while P1.hp > 0:
     print("Здоровье босса ",B1.hp,". Магия босса ",B1.magic,".") 
     P1.rounds = P1.rounds + 1
 
-# Проигрышь игрока, записываем рекорд
+# Проигрыш игрока, записываем рекорд
 
 else :
     print("Вы погибли! Но вы смогли убить ",P1.bosses_killed," боссов!")

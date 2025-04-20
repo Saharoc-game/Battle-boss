@@ -1,5 +1,6 @@
 import random
-class Player: # Класс игрок
+from core import inventory as inv
+class Player(): # Класс игрок
     def __init__(self):
         self.hp = 20
         self.max_hp = 20
@@ -7,11 +8,10 @@ class Player: # Класс игрок
         self.money = 3
         self.max_magic = 5
         self.sword_damage = 0  
-        self.armor_defense = 0  
-        self.inventory_swordss = []  
-        self.inventory_armor = []   
+        self.armor_defense = 0    
         self.rounds = 0             
         self.bosses_killed = 0
+        self.inventory = inv.Inventory()
 
     def healf(self) : # Лечение
         print("Вы восполнили здоровье. Но потратили магию")
@@ -40,4 +40,4 @@ class Player: # Класс игрок
             else:
                 igrok_uron = random.randint(1, 10)
                 print("Вы нанесли боссу урона - ", igrok_uron+self.sword_damage)
-                return igrok_uron+self.sword_damage
+                return 100 # igrok_uron+self.sword_damage

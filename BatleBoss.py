@@ -11,11 +11,7 @@ armor = 0
 item_armor = 0
 magia_igrok = 5
 
-<<<<<<< Updated upstream
 P1 = player.Player() # Создаем Игрока
-=======
-P1 = player.Player()
->>>>>>> Stashed changes
 
 B1 = boss.random_boss() # Создание Босса
 

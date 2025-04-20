@@ -1,7 +1,7 @@
 import random
-import boss
-import player
-import inventory as inv
+from core import boss 
+from core import player
+from core import inventory as inv
 
 print("Привет, игрок. Ты играешь в игру Batle Boss.")
 x = ''

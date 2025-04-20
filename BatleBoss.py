@@ -11,7 +11,11 @@ armor = 0
 item_armor = 0
 magia_igrok = 5
 
+<<<<<<< Updated upstream
 P1 = player.Player() # Создаем Игрока
+=======
+P1 = player.Player()
+>>>>>>> Stashed changes
 
 B1 = boss.random_boss() # Создание Босса
 
@@ -47,7 +51,7 @@ while P1.hp > 0:
         print("Поздравлю, игрок! Вы смогли победить босса под номером ", P1.bosses_killed)
         print("Ваша максимальное здоровье теперь", P1.max_hp, " Максимальное количество магии", P1.max_magic)
         print("Магия увеличена на 1, здоровье на 5. Также вы нашли 3 монеты!")
-        print("Ваше здоровье ", P1.hp, ". Ваша магия ", P1.magic, ". Ваши деньги ", money)
+        print("Ваше здоровье ", P1.hp, ". Ваша магия ", P1.magic, ". Ваши деньги ", P1.money)
         B1 = boss.random_boss() # Создание Босса
         print("Здоровье босса ", B1.hp, ". Магия босса ", B1.magic, ". Этот босс бьет сильнее предыдущего на 1 урон.")
         
@@ -110,7 +114,7 @@ while P1.hp > 0:
                 sell = int(input("Выберите меч "))
                 if sell <= item_sword:
                     P1.sword_damage = P1.inventory_swords[sell - 1]
-                    money += P1.sword_damage // 5
+                    P1.money += P1.sword_damage // 5
                     del P1.inventory_swords[sell - 1]
                     item_sword -= 1
                     print("Вы продали меч, и получили ", P1.sword_damage // 5, " монет")

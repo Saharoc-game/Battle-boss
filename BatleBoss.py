@@ -11,6 +11,8 @@ armor = 0
 item_armor = 0
 magia_igrok = 5
 
+P1 = player.Player() # Создаем Игрока
+
 B1 = boss.random_boss() # Создание Босса
 
 print("Ваше здоровье ", P1.hp, ". Ваша магия ", P1.magic, ". Ваши деньги ", P1.money)

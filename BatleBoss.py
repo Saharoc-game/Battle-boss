@@ -26,7 +26,6 @@ while P1.hp > 0:
 
         P1.hp += 5
         P1.magic += 1
-        money += 3
         P1.max_hp += 5
         P1.max_magic += 1
 
@@ -123,7 +122,7 @@ while P1.hp > 0:
                 sell = int(input("Выберите броню "))
                 if sell <= item_armor:
                     P1.armor_defense = P1.inventory_armor[sell - 1]
-                    money += P1.armor_defense // 20
+                    P1.money += P1.armor_defense // 20
                     del P1.inventory_armor[sell - 1]
                     item_armor -= 1
                     print("Вы продали броню, и получили ", P1.armor_defense // 20, " монет")

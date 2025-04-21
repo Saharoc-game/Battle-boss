@@ -10,10 +10,10 @@ class Inventory() :
             if x == 1 :
                 if len(self.inventory_swordss) > 0:
                     for i in range(len(self.inventory_swordss)):
-                        print(self.inventory_swords[i], f"{i + 1} меч")
+                        print(self.inventory_swordss[i], f"{i + 1} меч")
                     sword = int(input("Выберите меч "))
                     if sword <= len(self.inventory_swordss):
-                        return self.inventory_swords[sword - 1]
+                        return self.inventory_swordss[sword - 1]
 
             # Броня
             else :
@@ -51,12 +51,12 @@ class Inventory() :
                     print("Вы продали броню, и получили ", self.armor_defense // 20, " монет")
                     self.armor_defense = 0
 
-    def drop_item_sword(bosses_killed): # Выдача случайного меча
+    def drop_item_sword(self, bosses_killed): # Выдача случайного меча
         x = random.randint(5, 23) + bosses_killed
         print("Вы нашли меч и его урон ", x)
         return x
 
-    def drop_item_armor(bosses_killed) : # Выдача случайной брони
+    def drop_item_armor(self, bosses_killed) : # Выдача случайной брони
         x = random.randint(1, 50)
         print("Вы нашли броню и её защита ", x, "%")
         return x

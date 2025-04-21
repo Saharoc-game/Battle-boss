@@ -28,28 +28,28 @@ class Player(): # Класс игрок
             self.magic = self.max_magic
     
     def attack(self):
-    while True:
-        try:
-            x = int(input("1 чтобы нанести обычный удар. 2 чтобы нанести СУПЕР удар "))
-            if x not in (1, 2):
-                print("Пожалуйста, введите 1 или 2")
-                continue
-            break
-        except ValueError:
-            print("Пожалуйста, введите число")
+        while True:
+            try:
+                x = int(input("1 чтобы нанести обычный удар. 2 чтобы нанести СУПЕР удар "))
+                if x not in (1, 2):
+                    print("Пожалуйста, введите 1 или 2")
+                    continue
+                break
+            except ValueError:
+                print("Пожалуйста, введите число")
 
-    if x == 2 and self.magic > 1:  # Супер удар
-        igrok_uron = random.randint(10, 15)
-        self.magic -= 2
-        total_damage = igrok_uron + self.sword_damage
-        print(f"Вы нанесли боссу урона - {total_damage}")
-        return total_damage
-    else:  # Обычный удар
-        if random.randint(0, 3) == 0:
-            print("Босс поставил блок")
-            return 0  # Возвращаем 0 вместо None
-        else:
-            igrok_uron = random.randint(1, 10)
+        if x == 2 and self.magic > 1:  # Супер удар
+            igrok_uron = random.randint(10, 15)
+            self.magic -= 2
             total_damage = igrok_uron + self.sword_damage
             print(f"Вы нанесли боссу урона - {total_damage}")
-            return total_damage 
+            return total_damage
+        else:  # Обычный удар
+            if random.randint(0, 3) == 0:
+                print("Босс поставил блок")
+                return 0  # Возвращаем 0 вместо None
+            else:
+                igrok_uron = random.randint(1, 10)
+                total_damage = igrok_uron + self.sword_damage
+                print(f"Вы нанесли боссу урона - {total_damage}")
+                return 100 # total_damage 

@@ -40,4 +40,4 @@ class Player(): # Класс игрок
             else:
                 igrok_uron = random.randint(1, 10)
                 print("Вы нанесли боссу урона - ", igrok_uron+self.sword_damage)
-                return 100 # igrok_uron+self.sword_damage
+                return igrok_uron+self.sword_damage

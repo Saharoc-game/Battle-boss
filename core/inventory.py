@@ -31,11 +31,11 @@ class Inventory() :
 
             if len(self.inventory_swordss) > 0: # Мечи
                 for i in range(len(self.inventory_swordss)):
-                    print(self.inventory_swords[i], f"{i + 1} меч")
+                    print(self.inventory_swordss[i], f"{i + 1} меч")
                 sell = int(input("Выберите меч "))
                 if sell <= len(self.inventory_swordss):
-                    self.sword_damage = self.inventory_swords[sell - 1]
-                    del self.inventory_swords[sell - 1]
+                    self.sword_damage = self.inventory_swordss[sell - 1]
+                    del self.inventory_swordss[sell - 1]
                     print("Вы продали меч, и получили ", self.sword_damage // 5, " монет")
                     self.sword_damage = 0
 

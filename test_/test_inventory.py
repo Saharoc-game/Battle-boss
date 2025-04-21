@@ -10,7 +10,7 @@ from core import inventory as inv
 class TestInventory(unittest.TestCase):
     def setUp(self):
         # Создаем новый объект инвентаря перед каждым тестом
-        self.inv = Inventory()
+        self.inv = inv.Inventory()
     
     def test_initial_state(self):
         """Проверяем начальное состояние инвентаря (пустые списки мечей и брони)"""

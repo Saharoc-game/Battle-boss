@@ -32,14 +32,16 @@ while P1.hp > 0:
         
         # Выдача предметов
 
-        if len(P1.inventory_armor) < 3 or len(P1.inventory_swordss) < 3 :
+        if len(P1.inventory.inventory_armor) < 3 or len(P1.inventory.inventory_swordss) < 3 :
             x = random.randint(0, 1)
 
-            if x == 0 and len(P1.inventory_armor) < 3: # Выдача брони
-                P1.inventory_armor.append(inv.drop_item_armor(P1.bosses_killed))
+            if x == 0 and len(P1.inventory.inventory_armor) < 3: # Выдача брони
+                x = P1.inventory.drop_item_armor(P1.bosses_killed)
+                P1.inventory.inventory_armor.append(x)
 
-            if x == 1 and len(P1.inventory_swordss) < 3 : # Выдача меча
-                P1.inventory_swords.append(inv.drop_item_sword(P1.bosses_killed))
+            if x == 1 and len(P1.inventory.inventory_swordss) < 3 : # Выдача меча
+                x = P1.inventory.drop_item_sword(P1.bosses_killed)
+                P1.inventory.inventory_swordss.append(x)
 
         print("Поздравлю, игрок! Вы смогли победить босса под номером ", P1.bosses_killed)
         print("Ваша максимальное здоровье теперь", P1.max_hp, " Максимальное количество магии", P1.max_magic)
@@ -72,12 +74,12 @@ while P1.hp > 0:
 
     # Инвентарь
     if hod_igroka == 4:
-        inv.Inventory.choose_item()
+        P1.inventory.choose_item()
 
     # Продажа
 
     if hod_igroka == 5:
-        inv.Inventory.sell_item()
+        P1.inventory.sell_item()
 
     # Удар или лечение босса
     if B1.hp > 0:

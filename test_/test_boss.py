@@ -40,7 +40,7 @@ class TestBoss(unittest.TestCase):
 
         bosses_killed = 0
         armor_defense = 50  # 50% защиты
-        expected_damage = 2  # Исправлено с 4 на 2
+        expected_damage = 2  
 
         actual_damage = boss_instance.attack(bosses_killed, armor_defense)
         self.assertEqual(actual_damage, expected_damage)

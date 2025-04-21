@@ -2,7 +2,7 @@ import random
 class Boss: # Класс Босс
 
     def __init__(self): # Задаём параметры
-        self.hp = random.choice([50, 55, 60])
+        self.hp = int(random.choice([50, 55, 60]))
         self.magic = random.randint(3, 4)
         self.hp_max = self.hp
 

@@ -8,7 +8,6 @@ x = ''
 sell = 0
 sword = 0
 armor = 0
-item_armor = 0
 magia_igrok = 5
 
 P1 = player.Player() # Создаем Игрока
@@ -30,19 +29,19 @@ while P1.hp > 0:
         P1.magic += 1
         P1.max_hp += 5
         P1.max_magic += 1
-
+        
         # Выдача предметов
 
-        if item_armor < 3 or item_sword < 3 :
+        if len(P1.inventory.inventory_armor) < 3 or len(P1.inventory.inventory_swordss) < 3 :
             x = random.randint(0, 1)
 
-            if x == 0 and item_armor < 3: # Выдача брони
-                P1.inventory_armor.append(inv.drop_item_armor(P1.bosses_killed))
-                item_armor += 1
+            if x == 0 and len(P1.inventory.inventory_armor) < 3: # Выдача брони
+                x = P1.inventory.drop_item_armor(P1.bosses_killed)
+                P1.inventory.inventory_armor.append(x)
 
-            if x == 1 and item_sword < 3 : # Выдача меча
-                item_sword += 1
-                P1.inventory_swords.append(inv.drop_item_sword(P1.bosses_killed))
+            if x == 1 and len(P1.inventory.inventory_swordss) < 3 : # Выдача меча
+                x = P1.inventory.drop_item_sword(P1.bosses_killed)
+                P1.inventory.inventory_swordss.append(x)
 
         print("Поздравлю, игрок! Вы смогли победить босса под номером ", P1.bosses_killed)
         print("Ваша максимальное здоровье теперь", P1.max_hp, " Максимальное количество магии", P1.max_magic)
@@ -75,61 +74,12 @@ while P1.hp > 0:
 
     # Инвентарь
     if hod_igroka == 4:
-        ans = int(input("1 чтобы просмотреть мечи 2 чтобы просмотреть броню "))
-
-        # Мечи
-
-        if ans == 1:
-            if item_sword > 0:
-                for i in range(item_sword):
-                    print(P1.inventory_swords[i], f"{i + 1} меч")
-                sword = int(input("Выберите меч "))
-                if sword <= item_sword:
-                    P1.sword_damage = P1.inventory_swords[sword - 1]
-
-        # Броня
-
-        else:
-            if item_armor > 0:
-                for i in range(item_armor):
-                    print(P1.inventory_armor[i], f"{i + 1} броня")
-                armor = int(input("Выберите броню "))
-                if armor <= item_armor:
-                    P1.armor_defense = P1.inventory_armor[armor - 1]
+        P1.inventory.choose_item()
 
     # Продажа
 
     if hod_igroka == 5:
-        sora = int(input("1 чтобы просмотреть мечи 2 чтобы просмотреть броню"))
-
-        if sora == 1:
-
-            if item_sword > 0: # Мечи
-                for i in range(item_sword):
-                    print(P1.inventory_swords[i], f"{i + 1} меч")
-                sell = int(input("Выберите меч "))
-                if sell <= item_sword:
-                    P1.sword_damage = P1.inventory_swords[sell - 1]
-                    P1.money += P1.sword_damage // 5
-                    del P1.inventory_swords[sell - 1]
-                    item_sword -= 1
-                    print("Вы продали меч, и получили ", P1.sword_damage // 5, " монет")
-                    P1.sword_damage = 0
-
-        else:
-
-            if item_armor > 0: # Броня
-                for i in range(item_armor):
-                    print(P1.inventory_armor[i], f"{i + 1} броня")
-                sell = int(input("Выберите броню "))
-                if sell <= item_armor:
-                    P1.armor_defense = P1.inventory_armor[sell - 1]
-                    P1.money += P1.armor_defense // 20
-                    del P1.inventory_armor[sell - 1]
-                    item_armor -= 1
-                    print("Вы продали броню, и получили ", P1.armor_defense // 20, " монет")
-                    P1.armor_defense = 0
-
+      
     # Удар или лечение босса
     if B1.hp > 0:
         if B1.hp_max and B1.magic > 0:

@@ -79,8 +79,7 @@ while P1.hp > 0:
     # Продажа
 
     if hod_igroka == 5:
-        P1.inventory.sell_item()
-
+      
     # Удар или лечение босса
     if B1.hp > 0:
         if B1.hp_max and B1.magic > 0:

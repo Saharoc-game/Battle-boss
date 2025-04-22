@@ -79,6 +79,7 @@ while P1.hp > 0:
     # Продажа
 
     if hod_igroka == 5:
+        print("Pofiksit potom")
       
     # Удар или лечение босса
     if B1.hp > 0:
@@ -97,7 +98,7 @@ while P1.hp > 0:
 
 # Проигрыш игрока, записываем рекорд
 
-else :
+else:
     print("Вы погибли! Но вы смогли убить ",P1.bosses_killed," боссов!")
     f = open("BatleBossrecords.txt", "r+")
     last_line = int(f.readlines()[-1])

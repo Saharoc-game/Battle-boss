@@ -51,10 +51,5 @@ class Player(): # Класс игрок
             else:
                 igrok_uron = random.randint(1, 10)
                 total_damage = igrok_uron + self.sword_damage
-<<<<<<< Updated upstream
-                print(f"Вы нанесли боссу урона - {total_damage}")
-                return 100 # total_damage 
-=======
                 print(f"Вы ударили обычным ударом. Нанесли боссу урона - {total_damage}")
                 return total_damage 
->>>>>>> Stashed changes

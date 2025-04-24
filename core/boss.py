@@ -15,7 +15,7 @@ class Boss: # Класс Босс
     def health_add(self): # Лечение Босса
         self.magic -= 1
         self.hp += 10
-        print("Босс лечится")
+        print("Босс использовал заклинание <Исциление>")
 
 class BossWar (Boss) : # Класс Босс. Подкласс воин
 
@@ -30,10 +30,19 @@ class BossWiz (Boss) : # Класс Босс. Подкласс маг
         super().__init__()
         self.magic = random.randint(6, 7)
 
-        
+class BossArc (Boss): # Класс Босс. Подкласс лучник
+
+    def _init_(self): # Задаём параметры
+        super()._init_()
+        self.hp = random.choice([40, 45, 50])
+        self.hp_max = self.hp
+        self.magic = random.randint(5,6)
+
 def random_boss() : # Создание  случайного Босса
-    x = random.randint(0, 1)
+    x = random.randint(0, 2)
     if x == 0 :
         return BossWar() # Воин
-    else :
+    elif x == 2 :
         return BossWiz() # Маг
+    else:
+        return BossArc() # Лучник

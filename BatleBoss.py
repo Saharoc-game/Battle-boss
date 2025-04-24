@@ -79,7 +79,7 @@ while P1.hp > 0:
     # Продажа
 
     if hod_igroka == 5:
-        print("Pofiksit potom")
+        P1.inventory.sell_item()
       
     # Удар или лечение босса
     if B1.hp > 0:

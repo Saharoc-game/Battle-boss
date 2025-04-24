@@ -14,6 +14,8 @@ class Inventory() :
                     sword = int(input("Выберите меч "))
                     if sword <= len(self.inventory_swordss):
                         return self.inventory_swordss[sword - 1]
+                else:
+                    print("У вас нет мечей.")
 
             # Броня
             else :
@@ -23,6 +25,8 @@ class Inventory() :
                     armor = int(input("Выберите броню "))
                     if armor <= len(self.inventory_armor):
                         return self.inventory_armor[armor - 1]
+                else:
+                    print("У вас нет брони.")
     
     def sell_item(self):
         x = int(input("1 чтобы просмотреть мечи 2 чтобы просмотреть броню"))
@@ -38,6 +42,8 @@ class Inventory() :
                     del self.inventory_swordss[sell - 1]
                     print("Вы продали меч, и получили ", self.sword_damage // 5, " монет")
                     self.sword_damage = 0
+            else:
+                print("У вас нет мечей.")
 
         else:
 
@@ -50,6 +56,8 @@ class Inventory() :
                     del self.inventory_armor[sell - 1]
                     print("Вы продали броню, и получили ", self.armor_defense // 20, " монет")
                     self.armor_defense = 0
+            else:
+                print("У вас нет брони.")
 
     def drop_item_sword(self, bosses_killed): # Выдача случайного меча
         x = random.randint(5, 23) + bosses_killed

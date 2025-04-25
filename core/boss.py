@@ -11,10 +11,10 @@ class Boss: # Класс Босс
 
     def attack(self, bosses_killed, armor_defense): # Атака Босса
         if self.recharge >= self.recharge_max :
-            x = random.randint(10, 15)
-            print("Босс использует ", self.name_ability," и наносит - ", x, " урона")
+            self.damage = random.randint(10, 15)
+            print("Босс использует ", self.name_ability," и наносит - ", self.damage, " урона")
             self.recharge = 0
-            return x
+            return self.damage
         else :
             x = random.randint(0, 5)
             self.damage = int(x - x * (armor_defense / 100) + bosses_killed)

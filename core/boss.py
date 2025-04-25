@@ -17,7 +17,7 @@ class Boss: # Класс Босс
             return x
         else :
             x = random.randint(0, 5)
-            self.damage = ((x - x * (armor_defense / 100)) + bosses_killed) // 1
+            self.damage = int(x - x * (armor_defense / 100) + bosses_killed)
             print("Босс нанёс вам урон - ", self.damage)
             return self.damage  # Возвращаем урон
 
@@ -47,8 +47,8 @@ class BossWiz (Boss) : # Класс Босс. Подкласс маг
 
 class BossArc (Boss): # Класс Босс. Подкласс лучник
 
-    def _init_(self): # Задаём параметры
-        super()._init_()
+    def __init__(self): # Задаём параметры
+        super().__init__()
         self.hp = random.choice([40, 45, 50])
         self.hp_max = self.hp
         self.magic = random.randint(5,6)

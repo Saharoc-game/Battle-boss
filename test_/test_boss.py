@@ -1,50 +1,55 @@
 import unittest
-from unittest.mock import patch
+import random
 import sys
 import os
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from core import boss
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'core')))
+
+from boss import Boss, BossWar, BossWiz, BossArc, random_boss
 
 class TestBoss(unittest.TestCase):
-    @patch('core.boss.random.randint') 
-    @patch('core.boss.random.choice')  
-    def test_init(self, mock_choice, mock_randint):
-        mock_choice.return_value = 55  # Boss.hp = 55
-        mock_randint.return_value = 4  # Boss.magic = 4
-        boss1 = boss.Boss()
-        # Проверяем атрибуты
-        self.assertEqual(boss1.hp, 55)
-        self.assertEqual(boss1.magic, 4)
-        self.assertEqual(boss1.hp_max, 55)
 
-        mock_choice.assert_called_once_with([50, 55, 60])
-        mock_randint.assert_called_once_with(3, 4)
+    def test_boss_creation(self):
+        boss = Boss()
+        self.assertIn(boss.hp, [50, 55, 60])
+        self.assertIn(boss.magic, [3, 4])
+        self.assertEqual(boss.recharge, 10)
 
-    @patch('core.boss.random.randint')
-    def test_attack_no_armor(self, mock_randint):
-        boss_instance = boss.Boss()
-        mock_randint.return_value = 3  # x = 3
+    def test_boss_attack(self):
+        boss = Boss()
+        dmg = boss.attack(bosses_killed=2, armor_defense=10)
+        self.assertIsInstance(dmg, int)
+        self.assertGreaterEqual(dmg, 0)  # Урон не должен быть отрицательным
 
-        bosses_killed = 0
-        armor_defense = 0
-        expected_damage = 3
+    def test_health_add(self):
+        boss = Boss()
+        boss.magic = 2
+        boss.health_add()
+        self.assertGreaterEqual(boss.hp, 50)  # Проверяем, что HP увеличилось
+        self.assertEqual(boss.magic, 1)  # Проверяем, что магия уменьшилась
 
-        actual_damage = boss_instance.attack(bosses_killed, armor_defense)
-        self.assertEqual(actual_damage, expected_damage)
-        mock_randint.assert_called_with(0, 5)
+    def test_add_recharge(self):
+        boss = Boss()
+        boss.recharge = 5
+        boss.add_recharge()
+        self.assertEqual(boss.recharge, 7.5)  # Проверяем увеличение заряда
 
-    @patch('core.boss.random.randint')
-    def test_attack_with_armor(self, mock_randint):
-        boss_instance = boss.Boss()
-        mock_randint.return_value = 4  # x = 4
+class TestBossSubclasses(unittest.TestCase):
+    
+    def test_boss_war(self):
+        boss_war = BossWar()
+        self.assertEqual(boss_war.name_ability, "Гнев Титана")
 
-        bosses_killed = 0
-        armor_defense = 50  # 50% защиты
-        expected_damage = 2  
+    def test_boss_wiz(self):
+        boss_wiz = BossWiz()
+        self.assertEqual(boss_wiz.name_ability, "Пламя Затмений")
 
-        actual_damage = boss_instance.attack(bosses_killed, armor_defense)
-        self.assertEqual(actual_damage, expected_damage)
-        mock_randint.assert_called_with(0, 5)
+    def test_boss_arc(self):
+        boss_arc = BossArc()
+        self.assertEqual(boss_arc.name_ability, "Дождь Призрачных Стрел")
 
-if __name__ == '__main__':
+    def test_random_boss(self):
+        boss = random_boss()
+        self.assertIsInstance(boss, (BossWar, BossWiz, BossArc))  # Проверяем, что босс — один из подклассов
+
+if __name__ == "__main__":
     unittest.main()

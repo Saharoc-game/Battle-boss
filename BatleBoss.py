@@ -95,7 +95,6 @@ while P1.hp > 0:
                     P1.hp -= B1.attack(P1.bosses_killed, P1.armor_defense)
 
 
-
     print("Ваше здоровье ",P1.hp,". Ваша магия ",P1.magic,". Ваши деньги ", P1.money )
     print("Здоровье босса ",B1.hp,". Магия босса ",B1.magic,".") 
     P1.rounds = P1.rounds + 1

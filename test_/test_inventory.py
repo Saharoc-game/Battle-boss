@@ -3,14 +3,14 @@ from unittest.mock import patch
 from io import StringIO
 import sys
 import os
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from core import inventory as inv
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'core')))
+from inventory import Inventory
 
 
 class TestInventory(unittest.TestCase):
     def setUp(self):
         # Создаем новый объект инвентаря перед каждым тестом
-        self.inv = inv.Inventory()
+        self.inv = Inventory()
     
     def test_initial_state(self):
         """Проверяем начальное состояние инвентаря (пустые списки мечей и брони)"""

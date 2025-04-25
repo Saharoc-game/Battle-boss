@@ -80,15 +80,19 @@ while P1.hp > 0:
 
     if hod_igroka == 5:
       
-    # Удар или лечение босса
-    if B1.hp > 0:
-        if B1.hp_max and B1.magic > 0:
-            if random.randint(0, 1) == 0:
-                B1.health_add()  # Вызов метода лечения босса
-            else:
-                P1.hp -= B1.attack(P1.bosses_killed, P1.armor_defense)
-        else:
-            P1.hp -= B1.attack(P1.bosses_killed, P1.armor_defense)
+# Удар или лечение босса, или перезарядка
+        if B1.hp > 0:
+            if B1.hp / B1.hp_max < 0.5:  # Проверяем, если HP < 50%
+                if B1.magic > 0:  # Если есть магия, лечимся
+                    B1.health_add()
+                else:  # Если магия закончилась, босс просто атакует
+                    P1.hp -= B1.attack(P1.bosses_killed, P1.armor_defense)
+            elif B1.magic == 0 and B1.hp / B1.hp_max < 0.5:
+                if random.randint(0, 1) == 0:
+                    B1.add_recharge()  # Копит супер-удар
+                else:
+                    P1.hp -= B1.attack(P1.bosses_killed, P1.armor_defense)
+
 
 
     print("Ваше здоровье ",P1.hp,". Ваша магия ",P1.magic,". Ваши деньги ", P1.money )

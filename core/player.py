@@ -42,7 +42,7 @@ class Player(): # Класс игрок
             igrok_uron = random.randint(10, 15)
             self.magic -= 2
             total_damage = igrok_uron + self.sword_damage
-            print(f"Вы нанесли боссу урона - {total_damage}")
+            print(f"Вы ударили супер ударом. Нанесли боссу урона - {total_damage}")
             return total_damage
         else:  # Обычный удар
             if random.randint(0, 3) == 0:
@@ -51,5 +51,5 @@ class Player(): # Класс игрок
             else:
                 igrok_uron = random.randint(1, 10)
                 total_damage = igrok_uron + self.sword_damage
-                print(f"Вы нанесли боссу урона - {total_damage}")
-                return 100 # total_damage 
+                print(f"Вы ударили обычным ударом. Нанесли боссу урона - {total_damage}")
+                return total_damage 

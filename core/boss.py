@@ -9,7 +9,8 @@ class Boss: # Класс Босс
         self.recharge = self.recharge_max
         self.name_ability = "Супер удар"
         self.vampiric = 0
-        
+        self.name_sprite = ""
+
     def attack(self, bosses_killed, armor_defense): # Атака Босса
         if self.recharge >= self.recharge_max :
             self.damage = random.randint(10, 15)
@@ -42,6 +43,7 @@ class BossWar (Boss) : # Класс Босс. Подкласс воин
         self.hp = random.choice([60, 65, 70])
         self.hp_max = self.hp
         self.name_ability = "Гнев Титана"
+        self.name_sprite = "assets/strites/РыцарьБосс.png"
 
 class BossWiz (Boss) : # Класс Босс. Подкласс маг
 
@@ -49,6 +51,7 @@ class BossWiz (Boss) : # Класс Босс. Подкласс маг
         super().__init__()
         self.magic = random.randint(6, 7)
         self.name_ability = "Пламя Затмений"
+        self.name_sprite = "assets/strites/Маг.png"
 
 class BossArc (Boss): # Класс Босс. Подкласс лучник
 
@@ -58,16 +61,8 @@ class BossArc (Boss): # Класс Босс. Подкласс лучник
         self.hp_max = self.hp
         self.magic = random.randint(5,6)
         self.name_ability = "Дождь Призрачных Стрел"
-"""
-class BossVam (Boss): # Класс Босс. Покдласс вампир
-    def __init__(self): # Задаём параметры
-        super().__init__()
-        self.hp = random.choice([50, 60, 65])
-        self.hp_max = self.hp
-        self.vampiric = 1
-        self.name_ability = "Парализующий страх"
-"""
-        
+        self.name_sprite = "assets/strites/Лучник.png"
+
 def random_boss() : # Создание  случайного Босса
     x = random.randint(0, 2)
     if x == 0 :
@@ -76,7 +71,3 @@ def random_boss() : # Создание  случайного Босса
         return BossWiz() # Маг
     else:
         return BossArc() # Лучник
-    """"
-    elif x == 3:
-        return BossVam() # Вампир
-    """

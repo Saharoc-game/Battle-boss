@@ -4,8 +4,8 @@ from core.boss import random_boss
 from core import inventory as inv
 import BatleBoss
 
-SCREEN_WIDTH = 1080
-SCREEN_HEIGHT = 1080
+SCREEN_WIDTH = 1280
+SCREEN_HEIGHT = 720
 
 
 class BatleBoss(arcade.Window):
@@ -19,7 +19,7 @@ class BatleBoss(arcade.Window):
     def setup(self):
         # Настроить игру здесь
         B1 = boss(random_boss())
-        P1 = playr
+        P1 = player()
         pass
 
     def on_draw(self):

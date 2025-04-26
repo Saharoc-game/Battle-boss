@@ -10,7 +10,7 @@ sword = 0
 armor = 0
 magia_igrok = 5
 
-P1 = player.Player() # Создаем Игрока
+P1 = player.random_player() # Создаем Игрока
 
 B1 = boss.random_boss() # Создание Босса
 
@@ -29,7 +29,7 @@ while P1.hp > 0:
         P1.magic += 1
         P1.max_hp += 5
         P1.max_magic += 1
-        
+        P1.money += 3
         # Выдача предметов
 
         if len(P1.inventory.inventory_armor) < 3 or len(P1.inventory.inventory_swordss) < 3 :
@@ -70,7 +70,8 @@ while P1.hp > 0:
 
     # Удар игрока
     if hod_igroka == 1:
-        B1.hp -= P1.attack()
+        if P1.attack() != 0:
+            B1.hp -= P1.attack()
 
     # Инвентарь
     if hod_igroka == 4:
@@ -115,4 +116,3 @@ else:
         print("Рекорд: ",last_line, " раундов")
     f.close()
 input("")
-print("1")

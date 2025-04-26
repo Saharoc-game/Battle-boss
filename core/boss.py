@@ -8,6 +8,7 @@ class Boss: # Класс Босс
         self.recharge_max = 10
         self.recharge = self.recharge_max
         self.name_ability = "Супер удар"
+        self.name_sprite = ""
 
     def attack(self, bosses_killed, armor_defense): # Атака Босса
         if self.recharge >= self.recharge_max :
@@ -37,6 +38,7 @@ class BossWar (Boss) : # Класс Босс. Подкласс воин
         self.hp = random.choice([60, 65, 70])
         self.hp_max = self.hp
         self.name_ability = "Гнев Титана"
+        self.name_sprite = "assets/strites/РыцарьБосс.png"
 
 class BossWiz (Boss) : # Класс Босс. Подкласс маг
 
@@ -44,6 +46,7 @@ class BossWiz (Boss) : # Класс Босс. Подкласс маг
         super().__init__()
         self.magic = random.randint(6, 7)
         self.name_ability = "Пламя Затмений"
+        self.name_sprite = "assets/strites/Маг.png"
 
 class BossArc (Boss): # Класс Босс. Подкласс лучник
 
@@ -53,6 +56,7 @@ class BossArc (Boss): # Класс Босс. Подкласс лучник
         self.hp_max = self.hp
         self.magic = random.randint(5,6)
         self.name_ability = "Дождь Призрачных Стрел"
+        self.name_sprite = "assets/strites/Лучник.png"
 
 def random_boss() : # Создание  случайного Босса
     x = random.randint(0, 2)

@@ -70,9 +70,10 @@ while P1.hp > 0:
 
     # Удар игрока
     if hod_igroka == 1:
-        if P1.attack() != 0:
+        try:
             B1.hp -= P1.attack()
-
+        except TypeError:
+            B1.hp -= 0
     # Инвентарь
     if hod_igroka == 4:
         P1.inventory.choose_item()

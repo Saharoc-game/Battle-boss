@@ -76,54 +76,48 @@ class Player(): # Класс игрок
             print(f"Вы ударили обычным ударом. Нанесли боссу урона - {total_damage}")
             return total_damage
         else: #Способности
-            if self.skill == 1 and self.magic >= 2: #Способность воина
-                self.magic -= 2
-                self.buff = 2
-                print("Вы использовали способность Сердце Бури. Ваш урон увеличен на 2 удара.")
-            elif self.skill == 2 and self.magic >= 2: #Способность мага
-                self.magic -= 2
-                total_damage = 20
-                print(f"Вы использовали заклинание Аэромантия. Нанесли боссу урона - {total_damage}")
-                return total_damage
-            elif self.skill == 3 and self.magic >=2: #Способность везунчика
-                self.magic -= 2
-                chance = random.randint(1,2)
-                if chance == 1: #Удачно
-                    total_damage = 20
-                    print(f"Вы использовали способность Смертельная удача. Нанесли урона - {total_damage}")
-                    return total_damage
-                else: #Неудачно
-                    self.hp -= 10
-                    print(f"Вы неудачно использовали способность Смертельная удача. Нанесли себе урона - 10 ")
+            player_abilities()
                 
                 
-class Warrior (Player): #Воин
+                
+class PlayerWar (Player): #Воин
     def __init__(self):
         super().__init__()
         self.hp = 30
         self.hp_max = self.hp
         self.skill = 1
         self.ability_name = "Громовой удар" #Название супер удара
+    def player_abilities (self) :
+        self.magic -= 2
+        self.buff = 2
+        print("Вы использовали способность Сердце Бури. Ваш урон увеличен на 2 удара.")
 
-class Mage (Player): #Маг
+class PlayerWiz (Player): #Маг
     def __init__(self):
         super().__init__()
         self.magic = 7
         self.max_magic = self.magic
         self.skill = 2
         self.ability_name = "Водяной хлыст" #Название супер удара
+        def player_abilities (self) :
+            self.magic -= 2
+            total_damage = 20
+            print(f"Вы использовали заклинание Аэромантия. Нанесли боссу урона - {total_damage}")
+            return total_damage         
 
-class Fortunate (Player): #Везунчик
+class PlayerFort (Player): #Везунчик
     def __init__(self):
         super().__init__()
         self.crit = 1
         self.skill = 3
         self.ability_name = "Счастливый удар" #Название супер удар
-        
-def player_warrior(): #Класс игрока воин
-    return Warrior()
-def player_mage(): #Класс игрока маг
-    return Mage()
-def player_fortunate():#Класс игрока везунчик
-    return Fortunate()
-                        
+        def player_abilities (self) :
+            self.magic -= 2
+            chance = random.randint(1,2)
+            if chance == 1: #Удачно
+                total_damage = 20
+                print(f"Вы использовали способность Смертельная удача. Нанесли урона - {total_damage}")
+                return total_damage
+            else: #Неудачно
+                self.hp -= 10
+                print(f"Вы неудачно использовали способность Смертельная удача. Нанесли себе урона - 10 ")

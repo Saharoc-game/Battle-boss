@@ -13,9 +13,9 @@ class Player(): # Класс игрок
         self.rounds = 0             
         self.bosses_killed = 0
         self.inventory = inv.Inventory()
-        self.ability_name = "Супер удар"
         self.skill = 0
         self.buff = 0
+        self.ability_name = "Супер удар"
 
     def healf(self) : # Лечение
         print("Вы восполнили здоровье. Но потратили магию")
@@ -34,7 +34,7 @@ class Player(): # Класс игрок
     def attack(self):
         while True:
             try:
-                x = int(input("1 чтобы нанести обычный удар. 2 чтобы нанести СУПЕР удар. 3 чтобы использовать способность "))
+                x = int(input("1 чтобы нанести обычный удар. 2 чтобы нанести СУПЕР удар или 3, чтобы использовать способность "))
                 if x not in (1, 2, 3):
                     print("Пожалуйста, введите 1 или 2")
                     continue
@@ -57,11 +57,21 @@ class Player(): # Класс игрок
             if random.randint(0, 3) == 0 and self.buff == 0:
                 print("Босс поставил блок")
                 return 0  # Возвращаем 0 вместо None
-            elif self.buff >0:
+            elif self.buff > 0:
                 igrok_uron = random.randint(5, 15)
                 self.buff -=1
             else:
-                igrok_uron = random.randint(1,10)
+                if self.crit == 1:
+                    chance = random.randint(1,10)
+                    if chance == 3:
+                        igrok_uron = 12
+                    else:
+                        igrok_uron = random.randint(1,10)
+                    chance = random.randint(1,100)
+                    if chance == 42:
+                        igrok_uron = 50
+                else:
+                    igrok_uron = random.randint(1,10)
             total_damage = igrok_uron + self.sword_damage
             print(f"Вы ударили обычным ударом. Нанесли боссу урона - {total_damage}")
             return total_damage
@@ -75,25 +85,45 @@ class Player(): # Класс игрок
                 total_damage = 20
                 print(f"Вы использовали заклинание Аэромантия. Нанесли боссу урона - {total_damage}")
                 return total_damage
-        
-class Warrior (Player): #Дядя Володя
+            elif self.skill == 3 and self.magic >=2: #Способность везунчика
+                self.magic -= 2
+                chance = random.randint(1,2)
+                if chance == 1: #Удачно
+                    total_damage = 20
+                    print(f"Вы использовали способность Смертельная удача. Нанесли урона - {total_damage}")
+                    return total_damage
+                else: #Неудачно
+                    self.hp -= 10
+                    print(f"Вы неудачно использовали способность Смертельная удача. Нанесли себе урона - 10 ")
+                
+                
+class Warrior (Player): #Воин
     def __init__(self):
         super().__init__()
         self.hp = 30
         self.hp_max = self.hp
-        self.ability_name = "Штормовой удар"
         self.skill = 1
+        self.ability_name = "Громовой удар" #Название супер удара
 
 class Mage (Player): #Маг
     def __init__(self):
         super().__init__()
         self.magic = 7
         self.max_magic = self.magic
-        self.ability_name = "Заклинание Пирокинетик"
         self.skill = 2
-def random_player(): #Пока что, случайный класс игрока
-    x = random.randint(0, 1)
-    if x == 0:
-        return Warrior()
-    else:
-        return Mage()
+        self.ability_name = "Водяной хлыст" #Название супер удара
+
+class Fortunate (Player): #Везунчик
+    def __init__(self):
+        super().__init__()
+        self.crit = 1
+        self.skill = 3
+        self.ability_name = "Счастливый удар" #Название супер удара
+        
+def player_warrior(): #Класс игрока воин
+    return Warrior()
+def player_mage(): #Класс игрока маг
+    return Mage()
+def player_fortunate():#Класс игрока везунчик
+    return Fortunate()
+                        

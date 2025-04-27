@@ -76,7 +76,10 @@ class Player(): # Класс игрок
             print(f"Вы ударили обычным ударом. Нанесли боссу урона - {total_damage}")
             return total_damage
         else: #Способности
-            player_abilities()
+            self.player_abilities()
+        
+        def player_abilites() :
+            pass
                 
                 
                 
@@ -103,7 +106,7 @@ class PlayerWiz (Player): #Маг
             self.magic -= 2
             total_damage = 20
             print(f"Вы использовали заклинание Аэромантия. Нанесли боссу урона - {total_damage}")
-            return total_damage         
+                    
 
 class PlayerFort (Player): #Везунчик
     def __init__(self):

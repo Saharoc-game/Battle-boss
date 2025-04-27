@@ -118,7 +118,7 @@ class Fortunate (Player): #Везунчик
         super().__init__()
         self.crit = 1
         self.skill = 3
-        self.ability_name = "Счастливый удар" #Название супер удара
+        self.ability_name = "Счастливый удар" #Название супер удар
         
 def player_warrior(): #Класс игрока воин
     return Warrior()

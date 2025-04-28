@@ -36,7 +36,7 @@ class Player(): # Класс игрок
             try:
                 x = int(input("1 чтобы нанести обычный удар. 2 чтобы нанести СУПЕР удар или 3, чтобы использовать способность "))
                 if x not in (1, 2, 3):
-                    print("Пожалуйста, введите 1 или 2")
+                    print("Пожалуйста, введите 1, 2 или 3")
                     continue
                 break
             except ValueError:
@@ -76,36 +76,34 @@ class Player(): # Класс игрок
             print(f"Вы ударили обычным ударом. Нанесли боссу урона - {total_damage}")
             return total_damage
         else: #Способности
-            if self.skill == 1 and self.magic >= 2: #Способность воина
-                self.magic -= 2
-                self.buff = 2
-                print("Вы использовали способность Сердце Бури. Ваш урон увеличен на 2 удара.")
-            elif self.skill == 2 and self.magic >= 2: #Способность мага
-                self.magic -= 2
-                total_damage = 20
-                print(f"Вы использовали заклинание Аэромантия. Нанесли боссу урона - {total_damage}")
-                return total_damage
-            elif self.skill == 3 and self.magic >=2: #Способность везунчика
-                self.magic -= 2
-                chance = random.randint(1,2)
-                if chance == 1: #Удачно
-                    total_damage = 20
-                    print(f"Вы использовали способность Смертельная удача. Нанесли урона - {total_damage}")
-                    return total_damage
-                else: #Неудачно
-                    self.hp -= 10
-                    print(f"Вы неудачно использовали способность Смертельная удача. Нанесли себе урона - 10 ")
+            ability_result = self.player_abilities()
+    
+            if "damage" in ability_result:
+                return ability_result["damage"]  # Вернуть урон
+            if "buff" in ability_result:
+                self.buff += ability_result["buff"]  # Применить бафф
+            if "self_damage" in ability_result:
+                self.hp -= ability_result["self_damage"]  # Потеря HP
+        
+        def player_abilites() :
+            print("У вас нет особых способностей.")
                 
                 
-class Warrior (Player): #Воин
+                
+class PlayerWar (Player): #Воин
     def __init__(self):
         super().__init__()
         self.hp = 30
         self.hp_max = self.hp
         self.skill = 1
         self.ability_name = "Громовой удар" #Название супер удара
+    def player_abilities (self) :
+        self.magic -= 2
+        self.buff = 2
+        print("Вы использовали способность 'Сердце Бури'. Ваш урон увеличен на 2 удара.")
+        return {"buff": 2}  # Возвращаем данные об усилении
 
-class Mage (Player): #Маг
+class PlayerWiz (Player): #Маг
     def __init__(self):
         super().__init__()
         self.magic = 7
@@ -113,17 +111,28 @@ class Mage (Player): #Маг
         self.skill = 2
         self.ability_name = "Водяной хлыст" #Название супер удара
 
-class Fortunate (Player): #Везунчик
+    def player_abilities (self) :
+        self.magic -= 2
+        total_damage = 20
+        print(f"Вы использовали заклинание 'Аэромантия'. Нанесли боссу урона - {total_damage}")
+        return {"damage": total_damage}  # Возвращаем урон
+                    
+
+class PlayerFort (Player): #Везунчик
     def __init__(self):
         super().__init__()
         self.crit = 1
         self.skill = 3
         self.ability_name = "Счастливый удар" #Название супер удар
-        
-def player_warrior(): #Класс игрока воин
-    return Warrior()
-def player_mage(): #Класс игрока маг
-    return Mage()
-def player_fortunate():#Класс игрока везунчик
-    return Fortunate()
-                        
+
+    def player_abilities (self) :
+        self.magic -= 2
+        chance = random.randint(1, 2)
+        if chance == 1:
+            total_damage = 20
+            print(f"Вы использовали способность 'Смертельная удача'. Нанесли урона - {total_damage}")
+            return {"damage": total_damage}
+        else:
+            self.hp -= 10
+            print(f"Вы неудачно использовали способность 'Смертельная удача'. Нанесли себе урона - 10")
+            return {"self_damage": 10}

@@ -5,18 +5,14 @@ from core import player
 from core import inventory as inv
 
 print("Привет, игрок. Ты играешь в игру Battle Boss.")
-x = ''
-sell = 0
-sword = 0
-armor = 0
-magia_igrok = 5
 
 B1 = boss.random_boss() # Создание Босса
+x = -1
 
                 #Выбор класса
 while x != 1 or x!= 2 or x!=3:
     try:
-        x = int(input("Выберите свой класс. 1 - класс Воин. 2 - класс Маг. 3 - класс Везунчик."))
+        x = int(input("Выберите свой класс. 1 - класс Воин. 2 - класс Маг. 3 - класс Везунчик. "))
         if x not in (1,2,3):
             print("Пожалуйста, введите число от 1 до 3")
             continue
@@ -25,13 +21,13 @@ while x != 1 or x!= 2 or x!=3:
         print("Пожалуйста, введите число от 1 до 3")
 if x == 1:
     print("Вы выбрали класс воин")
-    P1 = player.player_warrior() #Выбор класса воин
+    P1 = player.PlayerWar() #Выбор класса воин
 elif x == 2:
     print("Вы выбрали класс маг")
-    P1 = player.player_mage() #Выбор класса маг
+    P1 = player.PlayerWiz() #Выбор класса маг
 elif x == 3:
     print("Вы выбрали класс везунчик")
-    P1 = player.player_fortunate() #Выбор класса везунчик
+    P1 = player.PlayerFort() #Выбор класса везунчик
     
 print("Ваше здоровье ", P1.hp, ". Ваша магия ", P1.magic, ". Ваши деньги ", P1.money)
 print("Здоровье босса ", B1.hp, ". Магия босса ", B1.magic, ".")

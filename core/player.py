@@ -36,7 +36,7 @@ class Player(): # Класс игрок
             try:
                 x = int(input("1 чтобы нанести обычный удар. 2 чтобы нанести СУПЕР удар или 3, чтобы использовать способность "))
                 if x not in (1, 2, 3):
-                    print("Пожалуйста, введите 1 или 2")
+                    print("Пожалуйста, введите 1, 2 или 3")
                     continue
                 break
             except ValueError:
@@ -76,10 +76,17 @@ class Player(): # Класс игрок
             print(f"Вы ударили обычным ударом. Нанесли боссу урона - {total_damage}")
             return total_damage
         else: #Способности
-            self.player_abilities()
+            ability_result = self.player_abilities()
+    
+            if "damage" in ability_result:
+                return ability_result["damage"]  # Вернуть урон
+            if "buff" in ability_result:
+                self.buff += ability_result["buff"]  # Применить бафф
+            if "self_damage" in ability_result:
+                self.hp -= ability_result["self_damage"]  # Потеря HP
         
         def player_abilites() :
-            pass
+            print("У вас нет особых способностей.")
                 
                 
                 
@@ -93,7 +100,8 @@ class PlayerWar (Player): #Воин
     def player_abilities (self) :
         self.magic -= 2
         self.buff = 2
-        print("Вы использовали способность Сердце Бури. Ваш урон увеличен на 2 удара.")
+        print("Вы использовали способность 'Сердце Бури'. Ваш урон увеличен на 2 удара.")
+        return {"buff": 2}  # Возвращаем данные об усилении
 
 class PlayerWiz (Player): #Маг
     def __init__(self):
@@ -105,7 +113,8 @@ class PlayerWiz (Player): #Маг
         def player_abilities (self) :
             self.magic -= 2
             total_damage = 20
-            print(f"Вы использовали заклинание Аэромантия. Нанесли боссу урона - {total_damage}")
+            print(f"Вы использовали заклинание 'Аэромантия'. Нанесли боссу урона - {total_damage}")
+            return {"damage": total_damage}  # Возвращаем урон
                     
 
 class PlayerFort (Player): #Везунчик
@@ -116,11 +125,12 @@ class PlayerFort (Player): #Везунчик
         self.ability_name = "Счастливый удар" #Название супер удар
         def player_abilities (self) :
             self.magic -= 2
-            chance = random.randint(1,2)
-            if chance == 1: #Удачно
+            chance = random.randint(1, 2)
+            if chance == 1:
                 total_damage = 20
-                print(f"Вы использовали способность Смертельная удача. Нанесли урона - {total_damage}")
-                return total_damage
-            else: #Неудачно
+                print(f"Вы использовали способность 'Смертельная удача'. Нанесли урона - {total_damage}")
+                return {"damage": total_damage}
+            else:
                 self.hp -= 10
-                print(f"Вы неудачно использовали способность Смертельная удача. Нанесли себе урона - 10 ")
+                print(f"Вы неудачно использовали способность 'Смертельная удача'. Нанесли себе урона - 10")
+                return {"self_damage": 10}

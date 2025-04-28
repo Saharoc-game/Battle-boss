@@ -110,11 +110,12 @@ class PlayerWiz (Player): #Маг
         self.max_magic = self.magic
         self.skill = 2
         self.ability_name = "Водяной хлыст" #Название супер удара
-        def player_abilities (self) :
-            self.magic -= 2
-            total_damage = 20
-            print(f"Вы использовали заклинание 'Аэромантия'. Нанесли боссу урона - {total_damage}")
-            return {"damage": total_damage}  # Возвращаем урон
+
+    def player_abilities (self) :
+        self.magic -= 2
+        total_damage = 20
+        print(f"Вы использовали заклинание 'Аэромантия'. Нанесли боссу урона - {total_damage}")
+        return {"damage": total_damage}  # Возвращаем урон
                     
 
 class PlayerFort (Player): #Везунчик
@@ -123,14 +124,15 @@ class PlayerFort (Player): #Везунчик
         self.crit = 1
         self.skill = 3
         self.ability_name = "Счастливый удар" #Название супер удар
-        def player_abilities (self) :
-            self.magic -= 2
-            chance = random.randint(1, 2)
-            if chance == 1:
-                total_damage = 20
-                print(f"Вы использовали способность 'Смертельная удача'. Нанесли урона - {total_damage}")
-                return {"damage": total_damage}
-            else:
-                self.hp -= 10
-                print(f"Вы неудачно использовали способность 'Смертельная удача'. Нанесли себе урона - 10")
-                return {"self_damage": 10}
+
+    def player_abilities (self) :
+        self.magic -= 2
+        chance = random.randint(1, 2)
+        if chance == 1:
+            total_damage = 20
+            print(f"Вы использовали способность 'Смертельная удача'. Нанесли урона - {total_damage}")
+            return {"damage": total_damage}
+        else:
+            self.hp -= 10
+            print(f"Вы неудачно использовали способность 'Смертельная удача'. Нанесли себе урона - 10")
+            return {"self_damage": 10}

@@ -4,16 +4,11 @@ from core import player
 from core import inventory as inv
 
 print("Привет, игрок. Ты играешь в игру Batle Boss.")
-x = ''
-sell = 0
-sword = 0
-armor = 0
-magia_igrok = 5
+x = -1
 
 while x != 1 or x!= 2 or x!=3:
     try:
         x = int(input("Выберите свой класс. 1 - класс Воин. 2 - класс Маг. 3 - класс Везунчик."))
-        x = int(input("Выберите свой класс. 1 - класс Воин. 2 - класс Маг. 3 - класс Везунчик. "))
         if x not in (1,2,3):
             print("Пожалуйста, введите число от 1 до 3")
             continue

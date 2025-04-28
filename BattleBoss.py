@@ -110,4 +110,3 @@ else:
         print("Рекорд: ",last_line, " раундов")
     f.close()
 input("")
-

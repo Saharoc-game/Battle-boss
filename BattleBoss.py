@@ -1,38 +1,23 @@
-
 import random
 from core import boss 
 from core import player
 from core import inventory as inv
 
-print("Привет, игрок. Ты играешь в игру Battle Boss.")
+print("Привет, игрок. Ты играешь в игру Batle Boss.")
+x = ''
+sell = 0
+sword = 0
+armor = 0
+magia_igrok = 5
+
+P1 = player.Player() # Создаем Игрока
 
 B1 = boss.random_boss() # Создание Босса
-x = -1
 
-                #Выбор класса
-while x != 1 or x!= 2 or x!=3:
-    try:
-        x = int(input("Выберите свой класс. 1 - класс Воин. 2 - класс Маг. 3 - класс Везунчик. "))
-        if x not in (1,2,3):
-            print("Пожалуйста, введите число от 1 до 3")
-            continue
-        break
-    except ValueError:
-        print("Пожалуйста, введите число от 1 до 3")
-if x == 1:
-    print("Вы выбрали класс воин")
-    P1 = player.PlayerWar() #Выбор класса воин
-elif x == 2:
-    print("Вы выбрали класс маг")
-    P1 = player.PlayerWiz() #Выбор класса маг
-elif x == 3:
-    print("Вы выбрали класс везунчик")
-    P1 = player.PlayerFort() #Выбор класса везунчик
-    
 print("Ваше здоровье ", P1.hp, ". Ваша магия ", P1.magic, ". Ваши деньги ", P1.money)
 print("Здоровье босса ", B1.hp, ". Магия босса ", B1.magic, ".")
 print("1 чтобы атаковать. 2 чтобы восполнить здоровье. 3 чтобы восполнить магию. 4 чтобы открыть инвентарь. 5 чтобы продать предмет. 0 чтобы пропустить ход.")
-    
+
 while P1.hp > 0:
 
     if B1.hp <= 0:
@@ -44,7 +29,7 @@ while P1.hp > 0:
         P1.magic += 1
         P1.max_hp += 5
         P1.max_magic += 1
-        P1.money += 3
+        
         # Выдача предметов
 
         if len(P1.inventory.inventory_armor) < 3 or len(P1.inventory.inventory_swordss) < 3 :
@@ -85,11 +70,8 @@ while P1.hp > 0:
 
     # Удар игрока
     if hod_igroka == 1:
-        try:
-            B1.hp -= P1.attack()
-        except TypeError:
-            B1.hp -= 0
-            
+        B1.hp -= P1.attack()
+
     # Инвентарь
     if hod_igroka == 4:
         P1.inventory.choose_item()
@@ -98,7 +80,7 @@ while P1.hp > 0:
 
     if hod_igroka == 5:
         P1.inventory.sell_item()
-            
+      
 # Удар или лечение босса, или перезарядка
     if B1.hp > 0:
         if B1.hp / B1.hp_max < 0.5:  # Проверяем, если HP < 50%
@@ -133,3 +115,4 @@ else:
         print("Рекорд: ",last_line, " раундов")
     f.close()
 input("")
+

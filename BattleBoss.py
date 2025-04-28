@@ -4,26 +4,8 @@ from core import player
 from core import inventory as inv
 
 print("Привет, игрок. Ты играешь в игру Batle Boss.")
-x = -1
 
-while x != 1 or x!= 2 or x!=3:
-    try:
-        x = int(input("Выберите свой класс. 1 - класс Воин. 2 - класс Маг. 3 - класс Везунчик."))
-        if x not in (1,2,3):
-            print("Пожалуйста, введите число от 1 до 3")
-            continue
-        break
-    except ValueError:
-        print("Пожалуйста, введите число от 1 до 3")
-if x == 1:
-    print("Вы выбрали класс воин")
-    P1 = player.PlayerWar() #Выбор класса воин
-elif x == 2:
-    print("Вы выбрали класс маг")
-    P1 = player.PlayerWiz() #Выбор класса маг
-elif x == 3:
-    print("Вы выбрали класс везунчик")
-    P1 = player.PlayerFort() #Выбор класса везунчик
+P1 = player.choose_playerclass() # Создание игрока
 
 B1 = boss.random_boss() # Создание Босса
 

@@ -136,3 +136,25 @@ class PlayerFort (Player): #Везунчик
             self.hp -= 10
             print(f"Вы неудачно использовали способность 'Смертельная удача'. Нанесли себе урона - 10")
             return {"self_damage": 10}
+        
+def choose_playerclass() :
+    x = -1
+
+    while x != 1 or x!= 2 or x!=3:
+        try:
+            x = int(input("Выберите свой класс. 1 - класс Воин. 2 - класс Маг. 3 - класс Везунчик."))
+            if x not in (1,2,3):
+                print("Пожалуйста, введите число от 1 до 3")
+                continue
+            break
+        except ValueError:
+            print("Пожалуйста, введите число от 1 до 3")
+    if x == 1:
+        print("Вы выбрали класс воин")
+        return PlayerWar() #Выбор класса воин
+    elif x == 2:
+        print("Вы выбрали класс маг")
+        return PlayerWiz() #Выбор класса маг
+    elif x == 3:
+        print("Вы выбрали класс везунчик")
+        return PlayerFort() #Выбор класса везунчик

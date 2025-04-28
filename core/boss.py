@@ -58,7 +58,7 @@ class BossArc (Boss): # Класс Босс. Подкласс лучник
         self.hp_max = self.hp
         self.magic = random.randint(5,6)
         self.name_ability = "Дождь Призрачных Стрел"
-
+"""
 class BossVam (Boss): # Класс Босс. Покдласс вампир
     def __init__(self): # Задаём параметры
         super().__init__()
@@ -66,14 +66,17 @@ class BossVam (Boss): # Класс Босс. Покдласс вампир
         self.hp_max = self.hp
         self.vampiric = 1
         self.name_ability = "Парализующий страх"
+"""
         
 def random_boss() : # Создание  случайного Босса
-    x = random.randint(0, 3)
+    x = random.randint(0, 2)
     if x == 0 :
         return BossWar() # Воин
-    elif x == 2 :
+    elif x == 1 :
         return BossWiz() # Маг
-    elif x == 3:
-        return BossVam() # Вампир
     else:
         return BossArc() # Лучник
+    """"
+    elif x == 3:
+        return BossVam() # Вампир
+    """

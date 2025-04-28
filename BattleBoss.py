@@ -122,7 +122,7 @@ while P1.hp > 0:
 
 else:
     print("Вы погибли! Но вы смогли убить ",P1.bosses_killed," боссов!")
-    f = open("BattleBossrecords.txt", "r+")
+    f = open("BatleBossrecords.txt", "r+")
     last_line = int(f.readlines()[-1])
     print(last_line)
     if last_line < P1.rounds :
@@ -133,4 +133,4 @@ else:
         print("Рекорд: ",last_line, " раундов")
     f.close()
 input("")
-print("1")
+

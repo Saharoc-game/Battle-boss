@@ -8,16 +8,21 @@ class Boss: # Класс Босс
         self.recharge_max = 10
         self.recharge = self.recharge_max
         self.name_ability = "Супер удар"
-
+        self.vampiric = 0
+        
     def attack(self, bosses_killed, armor_defense): # Атака Босса
         if self.recharge >= self.recharge_max :
             self.damage = random.randint(10, 15)
+            if self.vampiric == 1:
+                self.hp += 5
             print("Босс использует ", self.name_ability," и наносит - ", self.damage, " урона")
             self.recharge = 0
             return self.damage
         else :
             x = random.randint(0, 5)
             self.damage = int(x - x * (armor_defense / 100) + bosses_killed)
+            if self.vampiric == 1:
+                self.hp += 2
             print("Босс нанёс вам урон - ", self.damage)
             return self.damage  # Возвращаем урон
 
@@ -54,11 +59,21 @@ class BossArc (Boss): # Класс Босс. Подкласс лучник
         self.magic = random.randint(5,6)
         self.name_ability = "Дождь Призрачных Стрел"
 
+class BossVam (Boss): # Класс Босс. Покдласс вампир
+    def __init__(self): # Задаём параметры
+        super().__init__()
+        self.hp = random.choice([50, 60, 65])
+        self.hp_max = self.hp
+        self.vampiric = 1
+        self.name_ability = "Парализующий страх"
+        
 def random_boss() : # Создание  случайного Босса
-    x = random.randint(0, 2)
+    x = random.randint(0, 3)
     if x == 0 :
         return BossWar() # Воин
     elif x == 2 :
         return BossWiz() # Маг
+    elif x == 3:
+        return BossVam() # Вампир
     else:
         return BossArc() # Лучник

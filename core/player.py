@@ -85,8 +85,8 @@ class Player(): # Класс игрок
             if "self_damage" in ability_result:
                 self.hp -= ability_result["self_damage"]  # Потеря HP
         
-        def player_abilites() :
-            print("У вас нет особых способностей.")
+    def player_abilites() :
+        print("У вас нет особых способностей.")
                 
                 
                 

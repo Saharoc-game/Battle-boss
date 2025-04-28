@@ -2,24 +2,24 @@ import arcade
 from core import boss, player
 from core.boss import random_boss
 from core import inventory as inv
-import BatleBoss
+import BattleBoss
 
 SCREEN_WIDTH = 1280
 SCREEN_HEIGHT = 720
 
 
-class BatleBoss(arcade.Window):
+
+class BattleBoss(arcade.Window):
     """ Главный класс приложения. """
 
-    def __init__(self, width, height):
-        super().__init__(width, height)
+    def __init__(self, width, height, title="BattleBoss"):
+        super().__init__(width, height, title)
+        self
 
         arcade.set_background_color(arcade.color.BLACK)
 
     def setup(self):
         # Настроить игру здесь
-        B1 = boss(random_boss())
-        P1 = player()
         pass
 
     def on_draw(self):
@@ -33,7 +33,7 @@ class BatleBoss(arcade.Window):
 
 
 def main():
-    game = BatleBoss(SCREEN_WIDTH, SCREEN_HEIGHT)
+    game = BattleBoss(SCREEN_WIDTH, SCREEN_HEIGHT)
     game.setup()
     arcade.run()
 

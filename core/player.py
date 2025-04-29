@@ -16,6 +16,7 @@ class Player(): # Класс игрок
         self.skill = 0
         self.buff = 0
         self.ability_name = "Супер удар"
+        self.crit = 0 
 
     def healf(self) : # Лечение
         print("Вы восполнили здоровье. Но потратили магию")
@@ -74,7 +75,7 @@ class Player(): # Класс игрок
                     igrok_uron = random.randint(1,10)
             total_damage = igrok_uron + self.sword_damage
             print(f"Вы ударили обычным ударом. Нанесли боссу урона - {total_damage}")
-            return total_damage
+            return 100 # total_damage
         else: #Способности
             ability_result = self.player_abilities()
     
@@ -82,11 +83,13 @@ class Player(): # Класс игрок
                 return ability_result["damage"]  # Вернуть урон
             if "buff" in ability_result:
                 self.buff += ability_result["buff"]  # Применить бафф
+                return 0 
             if "self_damage" in ability_result:
                 self.hp -= ability_result["self_damage"]  # Потеря HP
+                return 0 
         
-        def player_abilites() :
-            print("У вас нет особых способностей.")
+    def player_abilites() :
+        print("У вас нет особых способностей.")
                 
                 
                 

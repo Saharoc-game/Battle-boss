@@ -47,16 +47,16 @@ while P1.hp > 0:
         P1.money += 3
         # Выдача предметов
 
-        if len(P1.inventory.inventory_armor) < 3 or len(P1.inventory.inventory_swordss) < 3 :
+        if len(P1.inventory.inventory["swords"]) < 3 or len(P1.inventory.inventory["armor"]) < 3 :
             x = random.randint(0, 1)
 
-            if x == 0 and len(P1.inventory.inventory_armor) < 3: # Выдача брони
+            if x == 0 and len(P1.inventory.inventory["armor"]) < 3: # Выдача брони
                 x = P1.inventory.drop_item_armor(P1.bosses_killed)
-                P1.inventory.inventory_armor.append(x)
+                P1.inventory.inventory["armor"].append(x)
 
-            if x == 1 and len(P1.inventory.inventory_swordss) < 3 : # Выдача меча
+            if x == 1 and len(P1.inventory.inventory["swords"]) < 3 : # Выдача меча
                 x = P1.inventory.drop_item_sword(P1.bosses_killed)
-                P1.inventory.inventory_swordss.append(x)
+                P1.inventory.inventory["swords"].append(x)
 
         print("Поздравлю, игрок! Вы смогли победить босса под номером ", P1.bosses_killed)
         print("Ваша максимальное здоровье теперь", P1.max_hp, " Максимальное количество магии", P1.max_magic)

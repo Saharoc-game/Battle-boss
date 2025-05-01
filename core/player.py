@@ -16,6 +16,7 @@ class Player(): # Класс игрок
         self.skill = 0
         self.buff = 0
         self.ability_name = "Супер удар"
+        self.crit = 0 
 
     def healf(self) : # Лечение
         print("Вы восполнили здоровье. Но потратили магию")
@@ -74,7 +75,7 @@ class Player(): # Класс игрок
                     igrok_uron = random.randint(1,10)
             total_damage = igrok_uron + self.sword_damage
             print(f"Вы ударили обычным ударом. Нанесли боссу урона - {total_damage}")
-            return total_damage
+            return 100 # total_damage
         else: #Способности
             ability_result = self.player_abilities()
     
@@ -82,11 +83,13 @@ class Player(): # Класс игрок
                 return ability_result["damage"]  # Вернуть урон
             if "buff" in ability_result:
                 self.buff += ability_result["buff"]  # Применить бафф
+                return 0 
             if "self_damage" in ability_result:
                 self.hp -= ability_result["self_damage"]  # Потеря HP
+                return 0 
         
-        def player_abilites() :
-            print("У вас нет особых способностей.")
+    def player_abilites() :
+        print("У вас нет особых способностей.")
                 
                 
                 
@@ -136,3 +139,25 @@ class PlayerFort (Player): #Везунчик
             self.hp -= 10
             print(f"Вы неудачно использовали способность 'Смертельная удача'. Нанесли себе урона - 10")
             return {"self_damage": 10}
+        
+def choose_playerclass() :
+    x = -1
+
+    while x != 1 or x!= 2 or x!=3:
+        try:
+            x = int(input("Выберите свой класс. 1 - класс Воин. 2 - класс Маг. 3 - класс Везунчик."))
+            if x not in (1,2,3):
+                print("Пожалуйста, введите число от 1 до 3")
+                continue
+            break
+        except ValueError:
+            print("Пожалуйста, введите число от 1 до 3")
+    if x == 1:
+        print("Вы выбрали класс воин")
+        return PlayerWar() #Выбор класса воин
+    elif x == 2:
+        print("Вы выбрали класс маг")
+        return PlayerWiz() #Выбор класса маг
+    elif x == 3:
+        print("Вы выбрали класс везунчик")
+        return PlayerFort() #Выбор класса везунчик

@@ -8,6 +8,8 @@ class Boss: # Класс Босс
         self.recharge_max = 10
         self.recharge = self.recharge_max
         self.name_ability = "Супер удар"
+        self.name_sprite = ""
+
         self.vampiric = 0
         self.name_sprite = ""
 

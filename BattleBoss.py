@@ -24,6 +24,7 @@ while P1.hp > 0:
         P1.magic += 1
         P1.max_hp += 5
         P1.max_magic += 1
+        P1.money += 3
         
         # Выдача предметов
 
@@ -69,12 +70,12 @@ while P1.hp > 0:
 
     # Инвентарь
     if hod_igroka == 4:
-        P1.inventory.choose_item()
+        P1.sword_damage = P1.inventory.choose_item()
 
     # Продажа
 
     if hod_igroka == 5:
-        P1.inventory.sell_item()
+        P1.money += P1.inventory.sell_item()
       
 # Удар или лечение босса, или перезарядка
     if B1.hp > 0:

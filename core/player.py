@@ -75,7 +75,7 @@ class Player(): # Класс игрок
                     igrok_uron = random.randint(1,10)
             total_damage = igrok_uron + self.sword_damage
             print(f"Вы ударили обычным ударом. Нанесли боссу урона - {total_damage}")
-            return 100 # total_damage
+            return total_damage
         else: #Способности
             ability_result = self.player_abilities()
     

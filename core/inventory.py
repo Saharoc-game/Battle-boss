@@ -40,7 +40,6 @@ class Inventory:
         
         else:
             print("Неверный выбор типа предмета.")
-        return None
 
     def sell_item(self):
         x = int(input("Введите 1, чтобы продать меч, или 2, чтобы продать броню: "))

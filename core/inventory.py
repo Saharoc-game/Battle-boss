@@ -86,11 +86,11 @@ class Inventory:
         x = random.randint(5, 23) + bosses_killed
         print("Вы нашли меч с уроном", x)
         # Добавляем этот меч в список мечей.
-        self.inventory.setdefault("swords", []).append(x)
+        return x
 
     def drop_item_armor(self, bosses_killed):
         # Выдаём случайную броню. Защита рассчитывается случайно.
         x = random.randint(1, 50)
         print("Вы нашли броню с защитой", x, "%")
         # Добавляем эту броню в список брони.
-        self.inventory.setdefault("armor", []).append(x)
+        return x 

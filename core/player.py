@@ -1,5 +1,6 @@
 import random
 from core import inventory as inv
+from core.effect import poison
 
 class Player(): # Класс игрок
     def __init__(self):
@@ -17,6 +18,7 @@ class Player(): # Класс игрок
         self.buff = 0
         self.ability_name = "Супер удар"
         self.crit = 0 
+        self.effects = []
 
     def healf(self) : # Лечение
         print("Вы восполнили здоровье. Но потратили магию")
@@ -90,6 +92,15 @@ class Player(): # Класс игрок
         
     def player_abilites() :
         print("У вас нет особых способностей.")
+
+    def effect_update(self) :
+        for effect in self.effects[:]:  
+            effect.apply(self)
+            if not effect.update():
+                self.effects.remove(effect)
+
+    def add_effect(self, effect):
+        self.effects.append(effect)
                 
                 
                 

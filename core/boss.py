@@ -1,4 +1,7 @@
 import random
+from core.effect.poison import PosionEffect
+
+
 class Boss: # Класс Босс
 
     def __init__(self): # Задаём параметры
@@ -8,7 +11,6 @@ class Boss: # Класс Босс
         self.recharge_max = 10
         self.recharge = self.recharge_max
         self.name_ability = "Супер удар"
-        self.vampiric = 0
         
     def attack(self, bosses_killed, armor_defense): # Атака Босса
         if self.recharge >= self.recharge_max :
@@ -21,8 +23,6 @@ class Boss: # Класс Босс
         else :
             x = random.randint(0, 5)
             self.damage = int(x - x * (armor_defense / 100) + bosses_killed)
-            if self.vampiric == 1:
-                self.hp += 2
             print("Босс нанёс вам урон - ", self.damage)
             return self.damage  # Возвращаем урон
 
@@ -34,6 +34,14 @@ class Boss: # Класс Босс
     def add_recharge(self) :
         self.recharge += 2.5
         print("Босс копит супер удар")
+
+    def cast_poison_spell(self, target) :
+        print("Босс колдует на вас яд!")
+        self.magic -= 2
+        duration = random.randint(2, 4)
+        damage = random.randint(1, 4)
+        poison = PosionEffect(duration, damage)
+        target.add_effect(poison)
 
 class BossWar (Boss) : # Класс Босс. Подкласс воин
 
@@ -58,15 +66,6 @@ class BossArc (Boss): # Класс Босс. Подкласс лучник
         self.hp_max = self.hp
         self.magic = random.randint(5,6)
         self.name_ability = "Дождь Призрачных Стрел"
-"""
-class BossVam (Boss): # Класс Босс. Покдласс вампир
-    def __init__(self): # Задаём параметры
-        super().__init__()
-        self.hp = random.choice([50, 60, 65])
-        self.hp_max = self.hp
-        self.vampiric = 1
-        self.name_ability = "Парализующий страх"
-"""
         
 def random_boss() : # Создание  случайного Босса
     x = random.randint(0, 2)
@@ -76,7 +75,3 @@ def random_boss() : # Создание  случайного Босса
         return BossWiz() # Маг
     else:
         return BossArc() # Лучник
-    """"
-    elif x == 3:
-        return BossVam() # Вампир
-    """

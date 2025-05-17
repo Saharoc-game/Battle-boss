@@ -92,6 +92,7 @@ class Player(): # Класс игрок
         
     def player_abilites() :
         print("У вас нет особых способностей.")
+        pass
 
     def effect_update(self) :
         for effect in self.effects[:]:  

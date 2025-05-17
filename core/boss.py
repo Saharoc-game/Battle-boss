@@ -1,4 +1,7 @@
 import random
+from core.effect.poison import PosionEffect
+
+
 class Boss: # Класс Босс
 
     def __init__(self): # Задаём параметры
@@ -34,6 +37,14 @@ class Boss: # Класс Босс
     def add_recharge(self) :
         self.recharge += 2.5
         print("Босс копит супер удар")
+
+    def cast_poison_spell(self, target) :
+        print("Босс колдует на вас яд!")
+        self.magic -= 2
+        duration = random.randint(2, 4)
+        damage = random.randint(1, 4)
+        poison = PosionEffect(duration, damage)
+        target.add_effect(poison)
 
 class BossWar (Boss) : # Класс Босс. Подкласс воин
 

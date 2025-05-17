@@ -59,7 +59,7 @@ class Player(): # Класс игрок
         elif x == 1:  # Обычный удар
             if random.randint(0, 3) == 0 and self.buff == 0:
                 print("Босс поставил блок")
-                return 0  # Возвращаем 0 вместо None
+                return 0  
             elif self.buff > 0:
                 igrok_uron = random.randint(5, 15)
                 self.buff -=1
@@ -77,7 +77,8 @@ class Player(): # Класс игрок
                     igrok_uron = random.randint(1,10)
             total_damage = igrok_uron + self.sword_damage
             print(f"Вы ударили обычным ударом. Нанесли боссу урона - {total_damage}")
-            return 100 # total_damage
+            return total_damage
+        
         else: #Способности
             ability_result = self.player_abilities()
     
@@ -90,7 +91,7 @@ class Player(): # Класс игрок
                 self.hp -= ability_result["self_damage"]  # Потеря HP
                 return 0 
         
-    def player_abilites() :
+    def player_abilites(self) :
         print("У вас нет особых способностей.")
         pass
 

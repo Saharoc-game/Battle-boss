@@ -1,4 +1,4 @@
-from effectmain import Effect
+from core.effect.effectmain import Effect
 
 class PosionEffect(Effect) :
 

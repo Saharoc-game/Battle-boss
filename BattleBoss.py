@@ -1,7 +1,7 @@
 import random
 from core import boss 
 from core import player
-from core.effect.poison import PosionEffect
+from core.effect import PosionEffect, BleedingEffect, FireEffect, StunEffect
 
 print("Привет, игрок. Ты играешь в игру Batle Boss.")
 
@@ -46,7 +46,7 @@ while P1.hp > 0:
         B1 = boss.random_boss() # Создание Босса
         print("Здоровье босса ", B1.hp, ". Магия босса ", B1.magic, ". Этот босс бьет сильнее предыдущего на 1 урон.")
 
-    if not P1.has_effect(PosionEffect) :
+    if not P1.has_effect(StunEffect) :
         hod_igroka = -1  # Инициализация переменной для хода игрока
         print("Сейчас ", P1.rounds, "раунд")
 

@@ -23,6 +23,7 @@ BattleBoss/
 │   │   ├── __init__.py
 │   │   ├── bleeding.py
 │   │   ├── effectmain.py
+│   │   ├── fire.py
 │   │   ├── poison.py
 │   │   ├── stun.py
 │   ├── boss.py

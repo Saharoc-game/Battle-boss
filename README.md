@@ -20,8 +20,11 @@
 BattleBoss/
 │── core/
 │   ├── effect/
+│   │   ├── __init__.py
+│   │   ├── bleeding.py
 │   │   ├── effectmain.py
 │   │   ├── poison.py
+│   │   ├── stun.py
 │   ├── boss.py
 │   ├── inventory.py
 │   ├── player.py

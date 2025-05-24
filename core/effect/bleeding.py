@@ -12,4 +12,4 @@ class BleedingEffect(PosionEffect) :
 
     def apply(self, target):
         """Обновляем эффект. Отнимаем у target урон эффекта"""
-        target.health -= self.damage
+        target.hp -= self.damage

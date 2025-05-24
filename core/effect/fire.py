@@ -12,6 +12,6 @@ class FireEffect(PosionEffect) :
 
     def apply(self, target):
         """Обновляем эффект. Отнимаем у target урон эффекта. Также снижаем damage на 30%"""
-        target.health -= self.damage
+        target.hp -= self.damage
         self.damage = int(self.damage - (self.damage * 0.3))
 

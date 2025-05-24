@@ -1,6 +1,7 @@
 import random
 from core import boss 
 from core import player
+from core.effect.poison import PosionEffect
 
 print("Привет, игрок. Ты играешь в игру Batle Boss.")
 
@@ -45,38 +46,37 @@ while P1.hp > 0:
         B1 = boss.random_boss() # Создание Босса
         print("Здоровье босса ", B1.hp, ". Магия босса ", B1.magic, ". Этот босс бьет сильнее предыдущего на 1 урон.")
 
-    P1.effect_update()
-        
-    hod_igroka = -1  # Инициализация переменной для хода игрока
-    print("Сейчас ", P1.rounds, "раунд")
+    if not P1.has_effect(PosionEffect) :
+        hod_igroka = -1  # Инициализация переменной для хода игрока
+        print("Сейчас ", P1.rounds, "раунд")
 
     # Защита от дураков (цифры)
-    while hod_igroka < 0 or hod_igroka > 5:
-        try:
-            hod_igroka = int(input("Ваш ход от 0 до 5\n"))
-        except ValueError:
-            print("Пожалуйста, введите число от 0 до 5.")
+        while hod_igroka < 0 or hod_igroka > 5:
+            try:
+                hod_igroka = int(input("Ваш ход от 0 до 5\n"))
+            except ValueError:
+                print("Пожалуйста, введите число от 0 до 5.")
 
     # Лечение игрока
-    if hod_igroka == 2 and P1.magic > 0:
-        P1.healf()
+        if hod_igroka == 2 and P1.magic > 0:
+            P1.healf()
 
     # Восполнение магии игрока
-    if hod_igroka == 3 and P1.money > 0:
-        P1.magic_add()
+        if hod_igroka == 3 and P1.money > 0:
+            P1.magic_add()
 
     # Удар игрока
-    if hod_igroka == 1:
-        B1.hp -= P1.attack()
+        if hod_igroka == 1:
+            B1.hp -= P1.attack()
 
     # Инвентарь
-    if hod_igroka == 4:
-        P1.inventory.choose_item()
+        if hod_igroka == 4:
+            P1.inventory.choose_item()
 
     # Продажа
 
-    if hod_igroka == 5:
-        P1.money += P1.inventory.sell_item()
+        if hod_igroka == 5:
+            P1.money += P1.inventory.sell_item()
       
 # Удар или лечение босса, или перезарядка
     if B1.hp > 0:
@@ -96,9 +96,8 @@ while P1.hp > 0:
                 B1.cast_poison_spell(P1)
             else :
                 P1.hp -= B1.attack(P1.bosses_killed, P1.armor_defense)
-
-
-
+    
+    P1.effect_update()
     print("Ваше здоровье ",P1.hp,". Ваша магия ",P1.magic,". Ваши деньги ", P1.money )
     print("Здоровье босса ",B1.hp,". Магия босса ",B1.magic,".") 
     P1.rounds = P1.rounds + 1

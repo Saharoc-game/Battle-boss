@@ -103,9 +103,14 @@ class Player(): # Класс игрок
 
     def add_effect(self, effect):
         self.effects.append(effect)
+
+    def has_effect(self, effect_type):
+        for effect in self.effects:
+            if isinstance(effect, effect_type):
+                return True  # Найден нужный эффект
+        return False  # Эффекта нет
                 
-                
-                
+                            
 class PlayerWar (Player): #Воин
     def __init__(self):
         super().__init__()

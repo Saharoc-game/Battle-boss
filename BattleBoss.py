@@ -93,7 +93,7 @@ while P1.hp > 0:
             if (x == 0) and (B1.recharge < B1.recharge_max):
                 B1.add_recharge()  # Копит супер-удар
             elif (x == 1) and (B1.magic > 2 ) :
-                B1.cast_poison_spell(P1)
+                B1.cast_spell(P1)
             else :
                 P1.hp -= B1.attack(P1.bosses_killed, P1.armor_defense)
     

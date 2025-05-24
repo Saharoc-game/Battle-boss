@@ -35,13 +35,11 @@ class Boss: # Класс Босс
         self.recharge += 2.5
         print("Босс копит супер удар")
 
-    def cast_poison_spell(self, target) :
-        print("Босс колдует на вас яд!")
-        self.magic -= 2
-        duration = random.randint(2, 4)
-        damage = random.randint(1, 4)
-        poison = PosionEffect(duration, damage)
-        target.add_effect(poison)
+    def cast_spell(self, target) :
+        print("Босс юзает гидру")
+        self.magic -= 0
+        duration = 0
+        damage = 0
 
 class BossWar (Boss) : # Класс Босс. Подкласс воин
 
@@ -50,6 +48,14 @@ class BossWar (Boss) : # Класс Босс. Подкласс воин
         self.hp = random.choice([60, 65, 70])
         self.hp_max = self.hp
         self.name_ability = "Гнев Титана"
+    def cast_spell(self, target):
+        super().cast_spell()
+        self.magic -= 1
+        duratiom = 1
+        print(f"Босс вас оглушил на {duration} ходов!")
+        damage = 2
+        stun = StunEffect(duration, damage)
+        target.add_effect(stun)
 
 class BossWiz (Boss) : # Класс Босс. Подкласс маг
 
@@ -57,7 +63,15 @@ class BossWiz (Boss) : # Класс Босс. Подкласс маг
         super().__init__()
         self.magic = random.randint(6, 7)
         self.name_ability = "Пламя Затмений"
-
+    def cast_spell(self, target):
+        super().cast_spell()
+        print("Босс колдует на вас огонь!")
+        self.magic -= 2
+        duration = random.randint(1,3)
+        damage = random.randint(2,4)
+        fire = FireEffect(duration, damage)
+        target.add_effect(fire)
+        
 class BossArc (Boss): # Класс Босс. Подкласс лучник
 
     def __init__(self): # Задаём параметры
@@ -66,6 +80,14 @@ class BossArc (Boss): # Класс Босс. Подкласс лучник
         self.hp_max = self.hp
         self.magic = random.randint(5,6)
         self.name_ability = "Дождь Призрачных Стрел"
+    def cast_spell(self, target):
+        super().cast_spell()
+        print("В вас попала кровавая стрела!!!!1!11!!!!")
+        self.hp -= 5
+        duration = random.randint(1,2)
+        damage = random.randint(1,3)
+        bleeding = BleedingEffect(duration, damage)
+        target.add_effect(bleeding)
         
 def random_boss() : # Создание  случайного Босса
     x = random.randint(0, 2)

@@ -1,6 +1,7 @@
 import random
 from core import boss 
 from core import player
+from core.effect import PosionEffect, BleedingEffect, FireEffect, StunEffect
 
 print("Привет, игрок. Ты играешь в игру Batle Boss.")
 
@@ -44,59 +45,59 @@ while P1.hp > 0:
         print("Ваше здоровье ", P1.hp, ". Ваша магия ", P1.magic, ". Ваши деньги ", P1.money)
         B1 = boss.random_boss() # Создание Босса
         print("Здоровье босса ", B1.hp, ". Магия босса ", B1.magic, ". Этот босс бьет сильнее предыдущего на 1 урон.")
-        
-    hod_igroka = -1  # Инициализация переменной для хода игрока
-    print("Сейчас ", P1.rounds, "раунд")
+
+    if not P1.has_effect(StunEffect) :
+        hod_igroka = -1  # Инициализация переменной для хода игрока
+        print("Сейчас ", P1.rounds, "раунд")
 
     # Защита от дураков (цифры)
-    while hod_igroka < 0 or hod_igroka > 5:
-        try:
-            hod_igroka = int(input("Ваш ход от 0 до 5\n"))
-        except ValueError:
-            print("Пожалуйста, введите число от 0 до 5.")
+        while hod_igroka < 0 or hod_igroka > 5:
+            try:
+                hod_igroka = int(input("Ваш ход от 0 до 5\n"))
+            except ValueError:
+                print("Пожалуйста, введите число от 0 до 5.")
 
     # Лечение игрока
-    if hod_igroka == 2 and P1.magic > 0:
-        P1.healf()
+        if hod_igroka == 2 and P1.magic > 0:
+            P1.healf()
 
     # Восполнение магии игрока
-    if hod_igroka == 3 and P1.money > 0:
-        P1.magic_add()
+        if hod_igroka == 3 and P1.money > 0:
+            P1.magic_add()
 
     # Удар игрока
-    if hod_igroka == 1:
-        B1.hp -= P1.attack()
+        if hod_igroka == 1:
+            B1.hp -= P1.attack()
 
     # Инвентарь
-    if hod_igroka == 4:
-        P1.inventory.choose_item()
+        if hod_igroka == 4:
+            P1.inventory.choose_item()
 
     # Продажа
 
-    if hod_igroka == 5:
-        P1.money += P1.inventory.sell_item()
+        if hod_igroka == 5:
+            P1.money += P1.inventory.sell_item()
       
 # Удар или лечение босса, или перезарядка
     if B1.hp > 0:
         if B1.hp / B1.hp_max < 0.5:  # Проверяем, если HP < 50%
             if B1.magic > 0:  # Если есть магия, лечимся
                 B1.health_add()
-            else:  # Если магия закончилась, босс атакует или использует яд
-                if (random.randint(0, 1) == 1) and (B1.magic > 2) : # Используем яд на P1
-                    B1.cast_poison_spell(P1)
+            else:  # Если магия закончилась, босс атакует или кастует эффект
+                if (random.randint(0, 1) == 1) and (B1.magic > B1.magic_for_spell_effect) : 
+                    B1.cast_spell_effect(P1)
                 else :    
                     P1.hp -= B1.attack(P1.bosses_killed, P1.armor_defense)
         else :
             x = random.randint(0, 2)
             if (x == 0) and (B1.recharge < B1.recharge_max):
                 B1.add_recharge()  # Копит супер-удар
-            elif (x == 1) and (B1.magic > 2 ) :
-                B1.cast_poison_spell(P1)
+            elif (x == 1) and (B1.magic > B1.magic_for_spell_effect) :
+                B1.cast_spell_effect(P1)
             else :
                 P1.hp -= B1.attack(P1.bosses_killed, P1.armor_defense)
-
-
-
+    
+    P1.effect_update()
     print("Ваше здоровье ",P1.hp,". Ваша магия ",P1.magic,". Ваши деньги ", P1.money )
     print("Здоровье босса ",B1.hp,". Магия босса ",B1.magic,".") 
     P1.rounds = P1.rounds + 1

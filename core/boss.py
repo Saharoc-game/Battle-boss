@@ -52,7 +52,7 @@ class BossWar (Boss) : # Класс Босс. Подкласс воин
         duration = 1
         print(f"Босс вас оглушил на {duration} ходов!")
         damage = 2
-        stun = StunEffect(duration, damage)
+        stun = StunEffect()
         target.add_effect(stun)
 
 class BossWiz (Boss) : # Класс Босс. Подкласс маг

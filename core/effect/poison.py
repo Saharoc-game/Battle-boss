@@ -7,7 +7,7 @@ class PosionEffect(Effect) :
     def __init__(self, duration: int, damage: int):
         """ Создаём новый эффект. Принимаем duration и damage"""
         super().__init__(duration)
-        print(f"Вас отравили! Яд будет действовать {duration} ходов. А так же сила {damage} ")
+        "print(f Вас отравили! Яд будет действовать {duration} ходов. А так же сила {damage})"
         self.damage = damage
 
     def apply(self, target):

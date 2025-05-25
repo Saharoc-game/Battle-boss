@@ -6,7 +6,7 @@ class FireEffect(PosionEffect) :
 
     def __init__(self, duration: int, damage: int):
         """ Создаём новый эффект. Принимаем duration и damage"""
-        super().__init__(duration)
+        super().__init__(duration, damage)
         print(f"Вас подожгли! Вы будете гореть {duration} ходов. А так же сила {damage} ")
         self.damage = damage
 

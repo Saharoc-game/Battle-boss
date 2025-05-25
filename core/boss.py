@@ -35,11 +35,8 @@ class Boss: # Класс Босс
         self.recharge += 2.5
         print("Босс копит супер удар")
 
-    def cast_spell(self, target) :
-        print("Босс юзает гидру")
-        self.magic -= 0
-        duration = 0
-        damage = 0
+    def cast_spell_effect(self, target) :
+        pass
 
 class BossWar (Boss) : # Класс Босс. Подкласс воин
 
@@ -48,10 +45,11 @@ class BossWar (Boss) : # Класс Босс. Подкласс воин
         self.hp = random.choice([60, 65, 70])
         self.hp_max = self.hp
         self.name_ability = "Гнев Титана"
-    def cast_spell(self, target):
-        super().cast_spell()
+        self.magic_for_spell_effect = 1
+
+    def cast_spell_effect(self, target):
         self.magic -= 1
-        duratiom = 1
+        duration = 1
         print(f"Босс вас оглушил на {duration} ходов!")
         damage = 2
         stun = StunEffect(duration, damage)
@@ -63,8 +61,9 @@ class BossWiz (Boss) : # Класс Босс. Подкласс маг
         super().__init__()
         self.magic = random.randint(6, 7)
         self.name_ability = "Пламя Затмений"
-    def cast_spell(self, target):
-        super().cast_spell()
+        self.magic_for_spell_effect = 2
+
+    def cast_spell_effect(self, target):
         print("Босс колдует на вас огонь!")
         self.magic -= 2
         duration = random.randint(1,3)
@@ -80,8 +79,9 @@ class BossArc (Boss): # Класс Босс. Подкласс лучник
         self.hp_max = self.hp
         self.magic = random.randint(5,6)
         self.name_ability = "Дождь Призрачных Стрел"
-    def cast_spell(self, target):
-        super().cast_spell()
+        self.magic_for_spell_effect = 0
+
+    def cast_spell_effect(self, target):
         print("В вас попала кровавая стрела!!!!1!11!!!!")
         self.hp -= 5
         duration = random.randint(1,2)

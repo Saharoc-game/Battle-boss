@@ -83,17 +83,17 @@ while P1.hp > 0:
         if B1.hp / B1.hp_max < 0.5:  # Проверяем, если HP < 50%
             if B1.magic > 0:  # Если есть магия, лечимся
                 B1.health_add()
-            else:  # Если магия закончилась, босс атакует или использует яд
-                if (random.randint(0, 1) == 1) and (B1.magic > 2) : # Используем яд на P1
-                    B1.cast_poison_spell(P1)
+            else:  # Если магия закончилась, босс атакует или кастует эффект
+                if (random.randint(0, 1) == 1) and (B1.magic > B1.magic_for_spell_effect) : 
+                    B1.cast_spell_effect(P1)
                 else :    
                     P1.hp -= B1.attack(P1.bosses_killed, P1.armor_defense)
         else :
             x = random.randint(0, 2)
             if (x == 0) and (B1.recharge < B1.recharge_max):
                 B1.add_recharge()  # Копит супер-удар
-            elif (x == 1) and (B1.magic > 2 ) :
-                B1.cast_spell(P1)
+            elif (x == 1) and (B1.magic > B1.magic_for_spell_effect) :
+                B1.cast_spell_effect(P1)
             else :
                 P1.hp -= B1.attack(P1.bosses_killed, P1.armor_defense)
     

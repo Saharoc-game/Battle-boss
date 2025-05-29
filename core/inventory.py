@@ -46,6 +46,30 @@ class Inventory:
         else:
             print("Некорректный выбор")
 
+    def sell_item(self) :
+        print("Выберите предмет, который вы продадите")
+        for index, item in enumerate(self.inventory, start=1):
+            if item['type'] == 'sword':
+                print(f"{index}. {item['name']}: Урон {item['damage']} Цена: {item['cost']}")
+            elif item['type'] == 'armor':
+                print(f"{index}. {item['name']}: Защита {item['defence']} Цена: {item['cost']}")
+        ans = int(input("Введите номер предмета: ")) - 1  # Преобразуем в индекс списка
+        if 0 <= ans < len(self.inventory):  # Проверяем, что индекс в пределах списка
+            selected_item = self.inventory[ans]
+            if selected_item['type'] == 'sword':
+                print(f"Вы продали меч {selected_item['name']} за {selected_item['cost']} монет")
+                coins = selected_item['cost']
+                self.inventory.pop(selected_item)
+                return coins
+            elif selected_item['type'] == 'armor':
+                print(f"Вы продали броню {selected_item['name']} за {selected_item['cost']} монет")
+                coins = selected_item['cost']
+                self.inventory.pop(selected_item)
+                return coins
+        else:
+            print("Некорректный выбор")
+
+
     def drop_item_sword(self, bosses_killed):
         sword = Sword(bosses_killed)
         self.inventory.append(sword.create())

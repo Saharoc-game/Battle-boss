@@ -2,7 +2,6 @@ import random
 from core import boss 
 from core import player
 from core.effect import PosionEffect, BleedingEffect, FireEffect, StunEffect
-from core.item.sword import Sword
 
 print("Привет, игрок. Ты играешь в игру Batle Boss.")
 
@@ -10,8 +9,9 @@ P1 = player.choose_playerclass() # Создание игрока
 
 B1 = boss.random_boss() # Создание Босса
 
-P1.inventory.drop_item_sword(P1.bosses_killed)
-P1.inventory.drop_item_armor()
+for i in range(5) :
+    P1.inventory.drop_item_sword(P1.bosses_killed)
+    P1.inventory.drop_item_armor()
 
 print(P1.inventory.inventory)
 
@@ -77,7 +77,7 @@ while P1.hp > 0:
 
     # Инвентарь
         if hod_igroka == 4:
-            P1.inventory.show_item()
+            P1.player_choose_item()
 
     # Продажа
 

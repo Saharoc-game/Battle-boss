@@ -18,6 +18,7 @@
 
 ```
 BattleBoss/
+│── .github/
 │── core/
 │   ├── effect/
 │   │   ├── __init__.py
@@ -26,16 +27,19 @@ BattleBoss/
 │   │   ├── fire.py
 │   │   ├── poison.py
 │   │   ├── stun.py
+│   ├── item/
+│   │   ├── armor.py
+│   │   ├── sword.py
 │   ├── boss.py
 │   ├── inventory.py
 │   ├── player.py
-│── .github/
 │── .gitignore
 │── BattleBoss.py
 │── BattleBossrecords.txt
 │── LICENSE
 │── README.md
 │── requirements.txt
+
 ```
 
 `BattleBoss/` - корневая папка игры. 

@@ -1,96 +1,56 @@
 import random
+from core.item.sword import Sword
+from core.item.armor import Armor
 
 class Inventory:
     def __init__(self):
 
-        self.inventory = {
-            "swords": [],  # список мечей 
-            "armor": []    # список брони 
+        self.max_ID = 0
+
+        self.INVENTORY_STATS = {
+            "swords": {"type": "sword",
+                    "cost":3, 
+                    "damage":5, 
+                    "name": "Обычный меч", 
+                    "description": "Простой, надежный меч с хорошим балансом и удобной рукоятью.",
+                    "weight": 2
+                    },
+
+            "armor": {  "cost":3, 
+                        "defense": 3, 
+                        "name": "Кожаная броня", 
+                        "description": "Легкая, удобная, немного снижает урон.",
+                        "weight": 4.5
+                       }
         }
 
+        self.inventory = []
+
     def choose_item(self):
-        x = int(input("Введите 1, чтобы просмотреть мечи, или 2, чтобы просмотреть броню: "))
+        print("Выберите предмет, который вы экипируете")
+        for index, item in enumerate(self.inventory, start=1):
+            if item['type'] == 'sword':
+                print(f"{index}. {item['name']}: Урон {item['damage']}")
+            elif item['type'] == 'armor':
+                print(f"{index}. {item['name']}: Защита {item['defence']}")
 
-        # Мечи
-        if x == 1:
-            swords = self.inventory.get("swords", [])
-            if len(swords) > 0:
-                for i, sword in enumerate(swords, start=1):
-                    print(f"{i}: Меч с уроном {sword}")
-                sword_choice = int(input("Выберите номер меча: "))
-                if 1 <= sword_choice <= len(swords):
-                    return swords[sword_choice - 1]
-                else:
-                    print("Неверный выбор!")
-            else:
-                print("У вас нет мечей.")
-        
-        elif x == 2:
-            armor = self.inventory.get("armor", [])
-            if len(armor) > 0:
-                for i, piece in enumerate(armor, start=1):
-                    print(f"{i}: Броня с защитой {piece}")
-                armor_choice = int(input("Выберите номер брони: "))
-                if 1 <= armor_choice <= len(armor):
-                    return armor[armor_choice - 1]
-                else:
-                    print("Неверный выбор!")
-            else:
-                print("У вас нет брони.")
-        
+        ans = int(input("Введите номер предмета: ")) - 1  # Преобразуем в индекс списка
+        if 0 <= ans < len(self.inventory):  # Проверяем, что индекс в пределах списка
+            selected_item = self.inventory[ans]
+            if selected_item['type'] == 'sword':
+                print(f"Вы экипировали меч {selected_item['name']} с уроном {selected_item['damage']}")
+                return {'sword_damage': selected_item['damage']}
+            elif selected_item['type'] == 'armor':
+                print(f"Вы экипировали броню {selected_item['name']} с защитой {selected_item['defence']}")
+                return {'armor_defence': selected_item['defence']}
         else:
-            print("Неверный выбор типа предмета.")
-
-    def sell_item(self):
-        x = int(input("Введите 1, чтобы продать меч, или 2, чтобы продать броню: "))
-        
-        # Мечи
-        coins = 0
-        if x == 1:
-            swords = self.inventory.get("swords", [])
-            if len(swords) > 0:
-                for i, sword in enumerate(swords, start=1):
-                    print(f"{i}: Меч с уроном {sword}")
-                sell_choice = int(input("Выберите номер меча для продажи: "))
-                if 1 <= sell_choice <= len(swords):
-                    # Удаляем выбранный меч из списка методом pop, чтобы получить его значение.
-                    sword_damage = swords.pop(sell_choice - 1)
-                    coins = sword_damage // 5
-                    print(f"Вы продали меч и получили {coins} монет.")
-                else:
-                    print("Неверный выбор!")
-            else:
-                print("У вас нет мечей.")
-        
-        # Обработка продажи брони
-        elif x == 2:
-            armor = self.inventory.get("armor", [])
-            if len(armor) > 0:
-                for i, piece in enumerate(armor, start=1):
-                    print(f"{i}: Броня с защитой {piece}")
-                sell_choice = int(input("Выберите номер брони для продажи: "))
-                if 1 <= sell_choice <= len(armor):
-                    armor_defense = armor.pop(sell_choice - 1)
-                    coins = armor_defense // 20
-                    print(f"Вы продали броню и получили {coins} монет.")
-                else:
-                    print("Неверный выбор!")
-            else:
-                print("У вас нет брони.")
-        else:
-            print("Неверный выбор типа предмета.")
-        return coins
+            print("Некорректный выбор")
 
     def drop_item_sword(self, bosses_killed):
-        # Выдаём случайный меч. Значение урона вычисляется случайно + бонус за убийство босса.
-        x = random.randint(5, 23) + bosses_killed
-        print("Вы нашли меч с уроном", x)
-        # Добавляем этот меч в список мечей.
-        return x
+        sword = Sword(bosses_killed)
+        self.inventory.append(sword.create())
+ 
 
-    def drop_item_armor(self, bosses_killed):
-        # Выдаём случайную броню. Защита рассчитывается случайно.
-        x = random.randint(1, 50)
-        print("Вы нашли броню с защитой", x, "%")
-        # Добавляем эту броню в список брони.
-        return x 
+    def drop_item_armor(self):
+        armor = Armor()
+        self.inventory.append(armor.create())

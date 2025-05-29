@@ -9,12 +9,6 @@ P1 = player.choose_playerclass() # Создание игрока
 
 B1 = boss.random_boss() # Создание Босса
 
-for i in range(5) :
-    P1.inventory.drop_item_sword(P1.bosses_killed)
-    P1.inventory.drop_item_armor()
-
-print(P1.inventory.inventory)
-
 print("Ваше здоровье ", P1.hp, ". Ваша магия ", P1.magic, ". Ваши деньги ", P1.money)
 print("Здоровье босса ", B1.hp, ". Магия босса ", B1.magic, ".")
 print("1 чтобы атаковать. 2 чтобы восполнить здоровье. 3 чтобы восполнить магию. 4 чтобы открыть инвентарь. 5 чтобы продать предмет. 0 чтобы пропустить ход.")

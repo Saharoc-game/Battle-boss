@@ -59,12 +59,12 @@ class Inventory:
             if selected_item['type'] == 'sword':
                 print(f"Вы продали меч {selected_item['name']} за {selected_item['cost']} монет")
                 coins = selected_item['cost']
-                self.inventory.pop(selected_item)
+                self.inventory.pop(ans)
                 return coins
             elif selected_item['type'] == 'armor':
                 print(f"Вы продали броню {selected_item['name']} за {selected_item['cost']} монет")
                 coins = selected_item['cost']
-                self.inventory.pop(selected_item)
+                self.inventory.pop(ans)
                 return coins
         else:
             print("Некорректный выбор")

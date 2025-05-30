@@ -90,7 +90,15 @@ class Player(): # Класс игрок
             if "self_damage" in ability_result:
                 self.hp -= ability_result["self_damage"]  # Потеря HP
                 return 0 
-        
+            
+    def player_choose_item(self) :
+        choose = self.inventory.choose_item()
+        if 'sword_damage' in choose:
+            self.sword_damage = choose['sword_damage']
+
+        if 'armor_defence' in choose:
+            self.armor_defense = choose['armor_defence']
+     
     def player_abilites(self) :
         print("У вас нет особых способностей.")
         pass

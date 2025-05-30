@@ -15,8 +15,6 @@ class Boss: # Класс Босс
     def attack(self, bosses_killed, armor_defense): # Атака Босса
         if self.recharge >= self.recharge_max :
             self.damage = random.randint(10, 15)
-            if self.vampiric == 1:
-                self.hp += 5
             print("Босс использует ", self.name_ability," и наносит - ", self.damage, " урона")
             self.recharge = 0
             return self.damage

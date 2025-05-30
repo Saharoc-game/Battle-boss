@@ -1,5 +1,6 @@
 import random
 from core import inventory as inv
+from core.effect import poison
 
 class Player(): # Класс игрок
     def __init__(self):
@@ -17,6 +18,7 @@ class Player(): # Класс игрок
         self.buff = 0
         self.ability_name = "Супер удар"
         self.crit = 0 
+        self.effects = []
 
     def healf(self) : # Лечение
         print("Вы восполнили здоровье. Но потратили магию")
@@ -57,7 +59,7 @@ class Player(): # Класс игрок
         elif x == 1:  # Обычный удар
             if random.randint(0, 3) == 0 and self.buff == 0:
                 print("Босс поставил блок")
-                return 0  # Возвращаем 0 вместо None
+                return 0  
             elif self.buff > 0:
                 igrok_uron = random.randint(5, 15)
                 self.buff -=1
@@ -75,10 +77,10 @@ class Player(): # Класс игрок
                     igrok_uron = random.randint(1,10)
             total_damage = igrok_uron + self.sword_damage
             print(f"Вы ударили обычным ударом. Нанесли боссу урона - {total_damage}")
-            return total_damage # total_damage
-        elif x == 3 and self.magic >= 2: #Способности
+            return total_damage # total_damag
+        
+        else: #Способности
             ability_result = self.player_abilities()
-    
             if "damage" in ability_result:
                 return ability_result["damage"]  # Вернуть урон
             if "buff" in ability_result:
@@ -87,12 +89,35 @@ class Player(): # Класс игрок
             if "self_damage" in ability_result:
                 self.hp -= ability_result["self_damage"]  # Потеря HP
                 return 0 
-        
-    def player_abilites() :
+            
+    def player_choose_item(self) :
+        choose = self.inventory.choose_item()
+        if 'sword_damage' in choose:
+            self.sword_damage = choose['sword_damage']
+
+        if 'armor_defence' in choose:
+            self.armor_defense = choose['armor_defence']
+     
+    def player_abilites(self) :
         print("У вас нет особых способностей.")
+        pass
+
+    def effect_update(self) :
+        for effect in self.effects[:]:  
+            effect.apply(self)
+            if not effect.update():
+                self.effects.remove(effect)
+
+    def add_effect(self, effect):
+        self.effects.append(effect)
+
+    def has_effect(self, effect_type):
+        for effect in self.effects:
+            if isinstance(effect, effect_type):
+                return True  # Найден нужный эффект
+        return False  # Эффекта нет
                 
-                
-                
+                            
 class PlayerWar (Player): #Воин
     def __init__(self):
         super().__init__()

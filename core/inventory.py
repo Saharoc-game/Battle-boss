@@ -5,7 +5,7 @@ from core.item.armor import Armor
 class Inventory:
     def __init__(self):
 
-        self.max_ID = 0
+        self.mass = 0
 
         self.INVENTORY_STATS = {
             "swords": {"type": "sword",
@@ -59,12 +59,14 @@ class Inventory:
             if selected_item['type'] == 'sword':
                 print(f"Вы продали меч {selected_item['name']} за {selected_item['cost']} монет")
                 coins = selected_item['cost']
+                self.mass -= selected_item['weight']
                 self.inventory.pop(ans)
                 return coins
             elif selected_item['type'] == 'armor':
                 print(f"Вы продали броню {selected_item['name']} за {selected_item['cost']} монет")
                 coins = selected_item['cost']
                 self.inventory.pop(ans)
+                self.mass -= selected_item['weight']
                 return coins
         else:
             print("Некорректный выбор")
@@ -72,9 +74,11 @@ class Inventory:
 
     def drop_item_sword(self, bosses_killed):
         sword = Sword(bosses_killed)
+        self.mass += sword.weight
         self.inventory.append(sword.create())
  
 
     def drop_item_armor(self):
         armor = Armor()
+        self.mass += armor.weight
         self.inventory.append(armor.create())

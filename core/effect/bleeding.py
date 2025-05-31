@@ -1,6 +1,6 @@
-from core.effect.poison import PosionEffect 
+from core.effect.poison import PoisonEffect
 
-class BleedingEffect(PosionEffect) :
+class BleedingEffect(PoisonEffect) :
 
     """Эффект Кровотечение: Каждый ход отнимает damage. Длится duration ходов """
 

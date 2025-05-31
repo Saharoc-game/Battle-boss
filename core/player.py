@@ -54,9 +54,13 @@ class Player(): # Класс игрок
             else:
                 igrok_uron = random.randint(10,15)
                 self.magic -= 2
-            total_damage = int((igrok_uron + self.sword_damage) - (igrok_uron + self.sword_damage*0.3))
+            if self.advantage > 0 :
+                total_damage = int((igrok_uron + self.sword_damage) - (igrok_uron + self.sword_damage*0.3))
+            else :
+                total_damage = igrok_uron + self.sword_damage
             print(f"Вы использовали" , self.ability_name, f"Нанесли боссу урона - {total_damage}")
             return total_damage
+    
         elif x == 1:  # Обычный удар
             if random.randint(0, 3) == 0 and self.buff == 0:
                 print("Босс поставил блок")
@@ -76,7 +80,10 @@ class Player(): # Класс игрок
                         igrok_uron = 50
                 else:
                     igrok_uron = random.randint(1,10)
-            total_damage = int((igrok_uron + self.sword_damage) - (igrok_uron + self.sword_damage*0.3))
+            if self.advantage > 0 :
+                total_damage = int((igrok_uron + self.sword_damage) - (igrok_uron + self.sword_damage*0.3))
+            else :
+                total_damage = igrok_uron + self.sword_damage
             print(f"Вы ударили обычным ударом. Нанесли боссу урона - {total_damage}")
             return total_damage
         

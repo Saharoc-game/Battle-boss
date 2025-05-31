@@ -1,6 +1,6 @@
-from core.effect.poison import PosionEffect
+from core.effect.poison import PoisonEffect
 
-class FireEffect(PosionEffect) :
+class FireEffect(PoisonEffect) :
      
     """Эффект Огонь: Каждый ход отнимает damage. Длится duration ходов. Каждый ход снижает урон на 30% """
 

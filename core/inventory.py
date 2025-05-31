@@ -17,7 +17,7 @@ class Inventory:
                     },
 
             "armor": {  "cost":3, 
-                        "defense": 3, 
+                        "defenсe": 3, 
                         "name": "Кожаная броня", 
                         "description": "Легкая, удобная, немного снижает урон.",
                         "weight": 4.5

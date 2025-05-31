@@ -1,6 +1,6 @@
 from core.effect.effectmain import Effect
 
-class PosionEffect(Effect) :
+class PoisonEffect(Effect) :
 
     """Эффект Яд: Каждый ход отнимает damage. Длится duration ходов """
 

@@ -1,5 +1,5 @@
 import random
-from core.effect import PosionEffect, BleedingEffect, FireEffect, StunEffect
+from core.effect import PoisonEffect, BleedingEffect, FireEffect, StunEffect
 
 
 class Boss: # Класс Босс

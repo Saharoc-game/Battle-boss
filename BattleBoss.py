@@ -1,10 +1,8 @@
 import random
 from core import boss 
 from core import player
-
-from core.effect import PosionEffect, BleedingEffect, FireEffect, StunEffect
+from core.effect import PoisonEffect, BleedingEffect, FireEffect, StunEffect
 from utils.input_until import get_valid_int_input
-
 
 print("Привет, игрок. Ты играешь в игру Batle Boss.")
 

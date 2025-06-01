@@ -1,6 +1,6 @@
 import random
 from core import inventory as inv
-from core.effect import poison
+from utils.input_until import get_valid_int_input
 
 class Player(): # Класс игрок
     def __init__(self):
@@ -35,16 +35,10 @@ class Player(): # Класс игрок
             self.magic = self.max_magic
     
     def attack(self):
-        while True:
-            try:
-                x = int(input("1 чтобы нанести обычный удар. 2 чтобы нанести СУПЕР удар или 3, чтобы использовать способность "))
-                if x not in (1, 2, 3):
-                    print("Пожалуйста, введите 1, 2 или 3")
-                    continue
-                break
-            except ValueError:
-                print("Пожалуйста, введите число")
-                
+        x = get_valid_int_input(
+            "1 чтобы нанести обычный удар. 2 чтобы нанести СУПЕР удар или 3, чтобы использовать способность ",
+            [1, 2, 3]
+        )       
         if x == 2 and self.magic >=2:  # Супер удар
             if self.buff >0:
                 self.buff -=1
@@ -167,17 +161,10 @@ class PlayerFort (Player): #Везунчик
             return {"self_damage": 10}
         
 def choose_playerclass() :
-    x = -1
-
-    while x != 1 or x!= 2 or x!=3:
-        try:
-            x = int(input("Выберите свой класс. 1 - класс Воин. 2 - класс Маг. 3 - класс Везунчик."))
-            if x not in (1,2,3):
-                print("Пожалуйста, введите число от 1 до 3")
-                continue
-            break
-        except ValueError:
-            print("Пожалуйста, введите число от 1 до 3")
+    x = get_valid_int_input(
+        "Выберите свой класс. 1 - класс Воин. 2 - класс Маг. 3 - класс Везунчик.",
+        [1, 2, 3]
+    )
     if x == 1:
         print("Вы выбрали класс воин")
         return PlayerWar() #Выбор класса воин

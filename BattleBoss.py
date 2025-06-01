@@ -2,6 +2,7 @@ import random
 from core import boss 
 from core import player
 from core.effect import PosionEffect, BleedingEffect, FireEffect, StunEffect
+from utils.input_until import get_valid_int_input
 
 print("Привет, игрок. Ты играешь в игру Batle Boss.")
 
@@ -47,16 +48,13 @@ while P1.hp > 0:
         print("Здоровье босса ", B1.hp, ". Магия босса ", B1.magic, ". Этот босс бьет сильнее предыдущего на 1 урон.")
 
     if not P1.has_effect(StunEffect) :
-        hod_igroka = -1  # Инициализация переменной для хода игрока
         print("Сейчас ", P1.rounds, "раунд")
 
     # Защита от дураков (цифры)
-        while hod_igroka < 0 or hod_igroka > 5:
-            try:
-                hod_igroka = int(input("Ваш ход от 0 до 5\n"))
-            except ValueError:
-                print("Пожалуйста, введите число от 0 до 5.")
-
+        hod_igroka = get_valid_int_input(
+            "Ваш ход от 0 до 5\n",
+            [0, 1, 2, 3, 4, 5]
+        )
     # Лечение игрока
         if hod_igroka == 2 and P1.magic > 0:
             P1.healf()

@@ -1,6 +1,7 @@
 import random
 from core.item.sword import Sword
 from core.item.armor import Armor
+from utils.input_until import get_valid_int_input
 
 class Inventory:
     def __init__(self):
@@ -28,13 +29,19 @@ class Inventory:
 
     def choose_item(self):
         print("Выберите предмет, который вы экипируете")
+        valid_indexes = []
         for index, item in enumerate(self.inventory, start=1):
             if item['type'] == 'sword':
                 print(f"{index}. {item['name']}: Урон {item['damage']}")
+                valid_indexes.append(index)
             elif item['type'] == 'armor':
                 print(f"{index}. {item['name']}: Защита {item['defence']}")
+                valid_indexes.append(index)
 
-        ans = int(input("Введите номер предмета: ")) - 1  # Преобразуем в индекс списка
+        ans = get_valid_int_input(
+            "Введите номер предмета: ", 
+            valid_indexes
+        ) - 1
         if 0 <= ans < len(self.inventory):  # Проверяем, что индекс в пределах списка
             selected_item = self.inventory[ans]
             if selected_item['type'] == 'sword':
@@ -48,12 +55,18 @@ class Inventory:
 
     def sell_item(self) :
         print("Выберите предмет, который вы продадите")
+        valid_indexes = []
         for index, item in enumerate(self.inventory, start=1):
             if item['type'] == 'sword':
                 print(f"{index}. {item['name']}: Урон {item['damage']} Цена: {item['cost']}")
+                valid_indexes.append(index)
             elif item['type'] == 'armor':
                 print(f"{index}. {item['name']}: Защита {item['defence']} Цена: {item['cost']}")
-        ans = int(input("Введите номер предмета: ")) - 1  # Преобразуем в индекс списка
+                valid_indexes.append(index)
+        ans = get_valid_int_input(
+            "Введите номер предмета: ", 
+            valid_indexes
+        ) - 1
         if 0 <= ans < len(self.inventory):  # Проверяем, что индекс в пределах списка
             selected_item = self.inventory[ans]
             if selected_item['type'] == 'sword':

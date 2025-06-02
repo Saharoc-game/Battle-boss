@@ -1,4 +1,6 @@
 import random
+from rich import print
+
 from core import inventory as inv
 from utils.input_until import get_valid_int_input
 from core.effect.advantage import AdvantageEffect
@@ -39,7 +41,7 @@ class Player(): # Класс игрок
     
     def attack(self):
         x = get_valid_int_input(
-            "1 чтобы нанести обычный удар. 2 чтобы нанести СУПЕР удар или 3, чтобы использовать способность ",
+            "[blue]1[/blue] чтобы нанести обычный удар.\n[blue]2[/blue] чтобы нанести СУПЕР удар.\n[blue]3[/blue] чтобы использовать способность ",
             [1, 2, 3]
         )       
         if x == 2 and self.magic >=2:  # Супер удар
@@ -54,7 +56,7 @@ class Player(): # Класс игрок
                 total_damage = int((igrok_uron + self.sword_damage) - (igrok_uron + self.sword_damage*0.3))
             else :
                 total_damage = igrok_uron + self.sword_damage
-            print(f"Вы использовали" , self.ability_name, f"Нанесли боссу урона - {total_damage}")
+            print(f"Вы использовали [yellow]{self.ability_name}[/yellow] Нанесли боссу урона - [red]{total_damage}[/red]")
             return total_damage
     
         elif x == 1:  # Обычный удар
@@ -80,7 +82,7 @@ class Player(): # Класс игрок
                 total_damage = int((igrok_uron + self.sword_damage) - (igrok_uron + self.sword_damage*0.3))
             else :
                 total_damage = igrok_uron + self.sword_damage
-            print(f"Вы ударили обычным ударом. Нанесли боссу урона - {total_damage}")
+            print(f"Вы ударили обычным ударом. Нанесли боссу урона - [red]{total_damage}[/red]")
             return total_damage
         
         else: #Способности
@@ -136,7 +138,7 @@ class PlayerWar (Player): #Воин
     def player_abilities (self) :
         self.magic -= 2
         self.buff = 2
-        print("Вы использовали способность 'Сердце Бури'. Ваш урон увеличен на 2 удара.")
+        print("Вы использовали способность [yellow]'Сердце Бури'[/yellow]. Ваш урон увеличен на [blue]2[/blue] удара.")
         return {"buff": 2}  # Возвращаем данные об усилении
 
 class PlayerWiz (Player): #Маг
@@ -150,7 +152,7 @@ class PlayerWiz (Player): #Маг
     def player_abilities (self) :
         self.magic -= 2
         total_damage = 20
-        print(f"Вы использовали заклинание 'Аэромантия'. Нанесли боссу урона - {total_damage}")
+        print(f"Вы использовали заклинание [yellow]'Аэромантия'[/yellow]. Нанесли боссу урона - [red]{total_damage}[/red]")
         return {"damage": total_damage}  # Возвращаем урон
                     
 
@@ -166,16 +168,16 @@ class PlayerFort (Player): #Везунчик
         chance = random.randint(1, 2)
         if chance == 1:
             total_damage = 20
-            print(f"Вы использовали способность 'Смертельная удача'. Нанесли урона - {total_damage}")
+            print(f"Вы использовали способность [yellow]'Смертельная удача'[yellow]. Нанесли урона - [red]{total_damage}[/red]")
             return {"damage": total_damage}
         else:
             self.hp -= 10
-            print(f"Вы неудачно использовали способность 'Смертельная удача'. Нанесли себе урона - 10")
+            print(f"Вы неудачно использовали способность [yellow]'Смертельная удача'[yellow]. Нанесли себе урона - [red]10[/red]")
             return {"self_damage": 10}
         
 def choose_playerclass() :
     x = get_valid_int_input(
-        "Выберите свой класс. 1 - класс Воин. 2 - класс Маг. 3 - класс Везунчик.",
+        "Выберите свой класс. [blue]1[/blue] - класс Воин.\n[blue]2[/blue] - класс Маг.\n[blue]3[/blue] - класс Везунчик.",
         [1, 2, 3]
     )
     if x == 1:

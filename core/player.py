@@ -177,7 +177,7 @@ class PlayerFort (Player): #Везунчик
         
 def choose_playerclass() :
     x = get_valid_int_input(
-        "Выберите свой класс. [blue]1[/blue] - класс Воин.\n[blue]2[/blue] - класс Маг.\n[blue]3[/blue] - класс Везунчик.",
+        "Выберите свой класс.\n[blue]1[/blue] - класс Воин.\n[blue]2[/blue] - класс Маг.\n[blue]3[/blue] - класс Везунчик.\n",
         [1, 2, 3]
     )
     if x == 1:

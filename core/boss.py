@@ -1,4 +1,6 @@
 import random
+from rich import print
+
 from core.effect import PoisonEffect, BleedingEffect, FireEffect, StunEffect
 
 
@@ -15,19 +17,19 @@ class Boss: # Класс Босс
     def attack(self, bosses_killed, armor_defense): # Атака Босса
         if self.recharge >= self.recharge_max :
             self.damage = random.randint(10, 15)
-            print("Босс использует ", self.name_ability," и наносит - ", self.damage, " урона")
+            print(f"Босс использует [yellow]{self.name_ability}[/yellow] и наносит - [red]{self.damage}[/red] урона")
             self.recharge = 0
             return self.damage
         else :
             x = random.randint(0, 5)
             self.damage = int(x - x * (armor_defense / 100) + bosses_killed)
-            print("Босс нанёс вам урон - ", self.damage)
+            print(f"Босс нанёс вам урон -  [red]{self.damage}[/red]")
             return self.damage  # Возвращаем урон
 
     def health_add(self): # Лечение Босса
         self.magic -= 1
         self.hp += 10
-        print("Босс использовал заклинание <Исцеление>")
+        print("Босс использовал заклинание [green]<Исцеление>[/green]")
     
     def add_recharge(self) :
         self.recharge += 2.5
@@ -48,8 +50,7 @@ class BossWar (Boss) : # Класс Босс. Подкласс воин
     def cast_spell_effect(self, target):
         self.magic -= 1
         duration = 1
-        print(f"Босс вас оглушил на {duration} ходов!")
-        damage = 2
+        print(f"Босс вас оглушил на [red]{duration}[/red] ходов!")
         stun = StunEffect()
         target.add_effect(stun)
 

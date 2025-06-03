@@ -35,7 +35,7 @@ class Inventory:
 
     def choose_item(self):
         console = Console()
-        console.print(Panel("[bold cyan]Выберите предмет, который вы экипируете[/bold cyan]", border_style="bright_blue"))
+        console.print(Panel("[bold green]Выберите предмет, который вы экипируете[/bold green]"))
 
         valid_indexes = []
         table = Table(show_header=True, header_style="bold magenta")

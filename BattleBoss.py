@@ -3,7 +3,6 @@ import random
 from rich.panel import Panel
 from rich import print
 
-
 from core import boss 
 from core import player
 

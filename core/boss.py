@@ -4,141 +4,91 @@ from rich import print
 from core.effect import PoisonEffect, BleedingEffect, FireEffect, StunEffect
 
 
-class Boss: 
+class Boss: # Класс Босс
 
-    """Базовый класс босса. Описывает общую механику: здоровье, магия, супер-удар."""
-
-    def __init__(self): 
+    def __init__(self): # Задаём параметры
         self.hp = int(random.choice([50, 55, 60]))
         self.magic = random.randint(3, 4)
-        self.HP_MAX = self.hp
-        self.RECHARGE_MAX = 10
-        self.recharge = self.RECHARGE_MAX
-        self.super_punch = "Супер удар" # Название супер удара
+        self.hp_max = self.hp
+        self.recharge_max = 10
+        self.recharge = self.recharge_max
+        self.name_ability = "Супер удар"
         
     def attack(self, bosses_killed, armor_defense): # Атака Босса
-        """
-        Атака босса.
-        Если накоплен супер удар, наносит большой урон.
-        Иначе, обычный удар
-        bosses_killed: число убитых боссов (увеличивает урон)
-        armor_defense: процент защиты игрока
-        Возвращает нанесённый урон по игроку.
-        """
-
-        if self.recharge >= self.RECHARGE_MAX : # Супер удар
+        if self.recharge >= self.recharge_max :
             self.damage = random.randint(10, 15)
-            print(f"Босс использует [cyan]{self.super_punch}[/cyan] и наносит - [red]{self.damage}[/red] урона")
+            print(f"Босс использует [yellow]{self.name_ability}[/yellow] и наносит - [red]{self.damage}[/red] урона")
             self.recharge = 0
-            return self.damage # Возвращаем урон
-        
-        else : # Обычная Атака
+            return self.damage
+        else :
             x = random.randint(0, 5)
             self.damage = int(x - x * (armor_defense / 100) + bosses_killed)
             print(f"Босс нанёс вам урон -  [red]{self.damage}[/red]")
             return self.damage  # Возвращаем урон
 
     def health_add(self): # Лечение Босса
-        """
-        Лечение босса.
-        Отнимает 1 магию.
-        Увеличивает своё здоровье на 10
-        Ничего не возвращает
-        """
-
         self.magic -= 1
         self.hp += 10
         print("Босс использовал заклинание [green]<Исцеление>[/green]")
     
-    def add_recharge(self) : # Накопление супер удара
-        """
-        Накопление супер удара.
-        Добавляет к перезарядке 2.5
-        Ничего не возвращает
-        """
-
+    def add_recharge(self) :
         self.recharge += 2.5
         print("Босс копит супер удар")
 
-    def cast_spell_effect(self, target) : 
-        """Базовый метод — эффект заклинания. Переопределяется в подклассах."""
-
+    def cast_spell_effect(self, target) :
         pass
 
-class BossWar (Boss) : 
-    """Босс воин. Отличается увеличенным здоровьем и эффектом оглушения"""
+class BossWar (Boss) : # Класс Босс. Подкласс воин
 
-    def __init__(self):
+    def __init__(self): # Задаём параметры
         super().__init__()
         self.hp = random.choice([60, 65, 70])
-        self.HP_MAX = self.hp
-        self.super_punch = "Гнев Титана" # Название супер удара
-        self.magic_for_spell_effect = 1 # Количество магии для накладывания эффекта
+        self.hp_max = self.hp
+        self.name_ability = "Гнев Титана"
+        self.magic_for_spell_effect = 1
 
-    def cast_spell_effect(self, target): # Босс накладывает эффект на игрока
-        """
-        Накладывает эффект оглушения на 1 ход
-        Отнимаем 1 магию
-        target: игрок
-        """
-
+    def cast_spell_effect(self, target):
         self.magic -= 1
         duration = 1
-        print(f"[red]Босс вас оглушил на [/red][blue]{duration}[/blue][red] ходов![/red]")
-        stun = StunEffect() # Создаём эффект оглушения
-        target.add_effect(stun) # Добавляем эффект оглушения
+        print(f"Босс вас оглушил на [red]{duration}[/red] ходов!")
+        stun = StunEffect()
+        target.add_effect(stun)
 
-class BossWiz (Boss) :
-    """Маг босс. Отличается увеличенной магией и эффектом горения"""
+class BossWiz (Boss) : # Класс Босс. Подкласс маг
 
-    def __init__(self): 
+    def __init__(self): # Задаём параметры
         super().__init__()
         self.magic = random.randint(6, 7)
-        self.super_punch = "Пламя Затмений" # Название супер удара
-        self.magic_for_spell_effect = 2 # Количество магии для накладывания эффекта
+        self.name_ability = "Пламя Затмений"
+        self.magic_for_spell_effect = 2
 
-    def cast_spell_effect(self, target): # Босс накладывает эффект на игрока
-        """
-        Накладывает эффект горения на от 1 до 3 ходов
-        Отнимаем 2 магии
-        Урон эффекта: от 2 до 4
-        target: игрок
-        """
-
-        print("[red]Босс колдует на вас огонь![/red]")
+    def cast_spell_effect(self, target):
+        print("Босс колдует на вас огонь!")
         self.magic -= 2
         duration = random.randint(1,3)
         damage = random.randint(2,4)
-        fire = FireEffect(duration, damage) # Создаём эффект горения
-        target.add_effect(fire) # Добавляем эффект горения
+        fire = FireEffect(duration, damage)
+        target.add_effect(fire)
         
-class BossArc (Boss): 
-    """Лучник босс. Отличается умененьшенным здоровьем, но магия для кастования эффекта не нужна"""
+class BossArc (Boss): # Класс Босс. Подкласс лучник
 
-    def __init__(self): 
+    def __init__(self): # Задаём параметры
         super().__init__()
         self.hp = random.choice([40, 45, 50])
-        self.HP_MAX = self.hp
+        self.hp_max = self.hp
         self.magic = random.randint(5,6)
-        self.super_punch = "Дождь Призрачных Стрел" # Название супер удара
-        self.magic_for_spell_effect = 0 # Количество магии для накладывания эффекта
+        self.name_ability = "Дождь Призрачных Стрел"
+        self.magic_for_spell_effect = 0
 
-    def cast_spell_effect(self, target): # Босс накладывает эффект на игрока
-        """
-        Накладывает эффект кровотечения от 1 до 2 ходов
-        Отнимаем (боссу) 5 хп
-        Урон эффекта: от 1 до 3
-        target: игрок
-        """
-
-        print("[red]В вас попала стрела! И у вас пошло кровотечение![/red]")
+    def cast_spell_effect(self, target):
+        print("В вас попала кровавая стрела!!!!1!11!!!!")
         self.hp -= 5
         duration = random.randint(1,2)
         damage = random.randint(1,3)
-        bleeding = BleedingEffect(duration, damage) # Создаём эффект кровотечения
-        target.add_effect(bleeding) # Добавляем эффект кровотечения
+        bleeding = BleedingEffect(duration, damage)
+        target.add_effect(bleeding)
         
-def random_boss() : # Создание случайного Босса
+def random_boss() : # Создание  случайного Босса
     x = random.randint(0, 2)
     if x == 0 :
         return BossWar() # Воин

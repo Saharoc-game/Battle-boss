@@ -10,17 +10,10 @@ from core.item.armor import Armor
 from utils.input_until import get_valid_int_input
 
 class Inventory:
-    """
-    Класс Инвентарь.
-    Используется внутри класса Игрок.
-    Описывает логику хранения, экипировки, продажи и получения предметов.
-    """
-
     def __init__(self):
 
         self.mass = 0
 
-        # Пример предметов по умолчанию
         self.INVENTORY_STATS = {
             "swords": {"type": "sword",
                     "cost":3, 
@@ -38,54 +31,43 @@ class Inventory:
                        }
         }
 
-        self.inventory = [] # Сам инвентарь
+        self.inventory = []
 
     def choose_item(self):
-        """
-        Выбор предмета.
-        Создаёт таблицу со всеми предметами и позволяет игроку выбрать предмет для экипировки.
-        Возвращает словарь с параметрами выбранного предмета.
-        """
-
         console = Console()
         console.print(Panel("[bold green]Выберите предмет, который вы экипируете[/bold green]"))
 
         valid_indexes = []
-
-
-        # Создаём таблицу
-        table = Table(show_header=True, header_style="bold magenta") 
-
-        # Создаём колонки
-        table.add_column("№", style="bold cyan", width=3, justify="center") 
+        table = Table(show_header=True, header_style="bold magenta")
+        table.add_column("№", style="bold cyan", width=3, justify="center")
         table.add_column("Название", style="bold yellow")
         table.add_column("Тип", style="green")
         table.add_column("Параметр", style="bold blue")
 
-        for index, item in enumerate(self.inventory, start=1): # Добавляем предметы по очереди
-            if item['type'] == 'sword': # Меч
+        for index, item in enumerate(self.inventory, start=1):
+            if item['type'] == 'sword':
                 table.add_row(
                     str(index),
                     f"[white]{item['name']}[/white]",
                     "[yellow]Меч[/yellow]",
                     f"[red]Урон {item['damage']}[/red]"
-                ) # Добавляем строчку
+                )
                 valid_indexes.append(index)
-            elif item['type'] == 'armor': # Броня
+            elif item['type'] == 'armor':
                 table.add_row(
                     str(index),
                     f"[white]{item['name']}[/white]",
                     "[blue]Броня[/blue]",
                     f"[green]Защита {item['defence']}[/green]"
-                ) # Добавляем строчу
+                )
                 valid_indexes.append(index)
 
-        console.print(table) # Выводим таблицу
+        console.print(table)
 
         ans = get_valid_int_input(
             "[bold green]Введите номер предмета:[/bold green] ",
             valid_indexes
-        ) - 1 # Игрок выбирает предмет
+        ) - 1
 
         if 0 <= ans < len(self.inventory):
             selected_item = self.inventory[ans]
@@ -97,7 +79,6 @@ class Inventory:
                     )
                 )
                 return {'sword_damage': selected_item['damage']}
-            
             elif selected_item['type'] == 'armor':
                 console.print(
                     Panel(
@@ -109,53 +90,43 @@ class Inventory:
         else:
             console.print(Panel("[red]Некорректный выбор[/red]", border_style="red"))
 
-    def sell_item(self): 
-        """
-        Продажа предмета.
-        Создаёт таблицу со всеми предметами и позволяет игроку выбрать предмет для продажи.
-        Возвращает количество монет за проданный предмет.
-        """
-         
+    def sell_item(self):
         console = Console()
         console.print(Panel("[bold cyan]Выберите предмет, который вы продадите[/bold cyan]", border_style="bright_blue"))
 
         valid_indexes = []
-
-        # Создаём таблицу
-        table = Table(show_header=True, header_style="bold magenta") 
-
-        # Добавляем колонки
+        table = Table(show_header=True, header_style="bold magenta")
         table.add_column("№", style="bold cyan", width=3, justify="center")
         table.add_column("Название", style="bold yellow")
         table.add_column("Тип", style="green")
         table.add_column("Параметр", style="bold blue")
         table.add_column("Цена", style="bold yellow")
 
-        for index, item in enumerate(self.inventory, start=1): # Добавляем предметы по очереди
-            if item['type'] == 'sword': # Мечи
+        for index, item in enumerate(self.inventory, start=1):
+            if item['type'] == 'sword':
                 table.add_row(
                     str(index),
                     f"[white]{item['name']}[/white]",
                     "[yellow]Меч[/yellow]",
                     f"[red]Урон {item['damage']}[/red]",
                     f"[bold gold1]{item['cost']} монет[/bold gold1]"
-                ) # Добавляем строчу
+                )
                 valid_indexes.append(index)
-            elif item['type'] == 'armor': # Броня
+            elif item['type'] == 'armor':
                 table.add_row(
                     str(index),
                     f"[white]{item['name']}[/white]",
                     "[blue]Броня[/blue]",
                     f"[green]Защита {item['defence']}[/green]",
                     f"[bold gold1]{item['cost']} монет[/bold gold1]"
-                ) # Добавляем строчу
+                )
                 valid_indexes.append(index)
         console.print(table)
 
         ans = get_valid_int_input(
             "[bold green]Введите номер предмета:[/bold green] ",
             valid_indexes
-        ) - 1 # Игрок выбирает предмет
+        ) - 1
 
         if 0 <= ans < len(self.inventory):
             selected_item = self.inventory[ans]
@@ -178,32 +149,20 @@ class Inventory:
                         border_style="bright_blue"
                     )
                 )
-            return coins # Возвращаем количество денег, которых надо прибавить
+            return coins
         else:
             console.print(Panel("[red]Некорректный выбор[/red]", border_style="red"))
 
 
-    def drop_item_sword(self, bosses_killed): 
-        """
-        Добавляет меч в инвентарь в зависимости от количества убитых боссов.
-        Ничего не возвращаем
-        """
-
-        sword = Sword(bosses_killed) # Создаём предмет
+    def drop_item_sword(self, bosses_killed):
+        sword = Sword(bosses_killed)
         self.mass += sword.weight
         print(Panel(f"Вы получили предмет - {sword.name}\n{sword.description}\nВес - {sword.weight}\nУрон - {sword.damage}\nЦена - {sword.cost}", title="Вы получили предмет!"))
-        # Создаём панель с параметрами предмета
         self.inventory.append(sword.create())
  
 
-    def drop_item_armor(self): 
-        """
-        Добавляет броню в инветарь.
-        Ничего не возвращаем
-        """
-
-        armor = Armor() # Создаём предмет
+    def drop_item_armor(self):
+        armor = Armor()
         self.mass += armor.weight
         print(Panel(f"Вы получили предмет - {armor.name}\n{armor.description}\nВес - {armor.weight}\nБроня - {armor.defence}%\nЦена - {armor.cost}", title="Вы получили предмет!"))
-        # Создаём панель с параметрами предмета
         self.inventory.append(armor.create())

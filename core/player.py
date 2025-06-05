@@ -17,14 +17,13 @@ class Player(): # Класс игрок
         self.armor_defense = 0    
         self.rounds = 0             
         self.bosses_killed = 0
-        self.inventory = inv.Inventory() # Создаём инвентарь
+        self.inventory = inv.Inventory()
         self.skill = 0
         self.buff = 0
-        self.super_punch = "Супер удар" # Супер удар
+        self.ability_name = "Супер удар"
         self.crit = 0 
         self.effects = []
         self.advantage = 0
-        self.name_ability = None # Способность
 
     def healf(self) : # Лечение
         print("Вы восполнили здоровье. Но потратили магию")
@@ -40,14 +39,13 @@ class Player(): # Класс игрок
         if self.magic > self.max_magic:
             self.magic = self.max_magic
     
-    def attack(self): # Когда игрок атакует
+    def attack(self):
         x = get_valid_int_input(
             "[blue]1[/blue] чтобы нанести обычный удар.\n[blue]2[/blue] чтобы нанести СУПЕР удар.\n[blue]3[/blue] чтобы использовать способность ",
             [1, 2, 3]
-        )       # Получаем что хочет сделать игрок
-
+        )       
         if x == 2 and self.magic >=2:  # Супер удар
-            if self.buff > 0 :
+            if self.buff >0:
                 self.buff -=1
                 self.magic -=2
                 igrok_uron = random.randint(20,21)
@@ -58,7 +56,7 @@ class Player(): # Класс игрок
                 total_damage = int((igrok_uron + self.sword_damage) - (igrok_uron + self.sword_damage*0.3))
             else :
                 total_damage = igrok_uron + self.sword_damage
-            print(f"Вы использовали [cyan]{self.super_punch}[/cyan] Нанесли боссу урона - [red]{total_damage}[/red]")
+            print(f"Вы использовали [yellow]{self.ability_name}[/yellow] Нанесли боссу урона - [red]{total_damage}[/red]")
             return total_damage
     
         elif x == 1:  # Обычный удар
@@ -87,48 +85,43 @@ class Player(): # Класс игрок
             print(f"Вы ударили обычным ударом. Нанесли боссу урона - [red]{total_damage}[/red]")
             return total_damage
         
-        else: # Способности
+        else: #Способности
             ability_result = self.player_abilities()
     
             if "damage" in ability_result:
                 return ability_result["damage"]  # Вернуть урон
-            elif "buff" in ability_result:
+            if "buff" in ability_result:
                 self.buff += ability_result["buff"]  # Применить бафф
                 return 0 
-            elif "self_damage" in ability_result:
+            if "self_damage" in ability_result:
                 self.hp -= ability_result["self_damage"]  # Потеря HP
                 return 0 
-            else : # Если не хватает магии
-                print(f"У вас недочтаточно магии для способности [yellow]{self.name_ability}[/yellow]!")
-                return 0
             
-    def player_choose_item(self) : # Экипируем предмет
-        choose = self.inventory.choose_item() # Получаем предмет, который экипировал игрок
-
-        if 'sword_damage' in choose: # Если меч
+    def player_choose_item(self) :
+        choose = self.inventory.choose_item()
+        if 'sword_damage' in choose:
             self.sword_damage = choose['sword_damage']
 
-        if 'armor_defence' in choose: # Если броня
+        if 'armor_defence' in choose:
             self.armor_defense = choose['armor_defence']
      
-    def player_abilites(self) : # Способность
-        """Просто пустышка. Так как у всех подклассов игроков разные способности"""
+    def player_abilites(self) :
         print("У вас нет особых способностей.")
         pass
 
-    def effect_update(self) : # Обновляем все эффекты
+    def effect_update(self) :
         for effect in self.effects[:]:  
             effect.apply(self)
             if not effect.update():
                 self.effects.remove(effect)
-        if self.inventory.mass > 10 : # Если вес всех предметов больше 10, добавляем эффект перевеса
+        if self.inventory.mass > 10 :
             Adv = AdvantageEffect()
             self.add_effect(Adv)
 
-    def add_effect(self, effect): # Добавляем жффект
+    def add_effect(self, effect):
         self.effects.append(effect)
 
-    def has_effect(self, effect_type): # Проверяем есть ли у игрока эффект
+    def has_effect(self, effect_type):
         for effect in self.effects:
             if isinstance(effect, effect_type):
                 return True  # Найден нужный эффект
@@ -136,66 +129,51 @@ class Player(): # Класс игрок
                 
                             
 class PlayerWar (Player): #Воин
-
     def __init__(self):
         super().__init__()
         self.hp = 30
         self.hp_max = self.hp
         self.skill = 1
-        self.super_punch = "Громовой удар" #Название супер удара
-        self.name_ability = 'Сердце Бури' # Название способности
-
-    def player_abilities (self) : # Способность
-        if self.magic >= 2 :
-            self.magic -= 2
-            self.buff = 2
-            print(f"Вы использовали способность [yellow]{self.name_ability}[/yellow]. Ваш урон увеличен на [blue]2[/blue] удара.")
-            return {"buff": 2}  # Возвращаем данные об усилении
-        else :
-            return None
+        self.ability_name = "Громовой удар" #Название супер удара
+    def player_abilities (self) :
+        self.magic -= 2
+        self.buff = 2
+        print("Вы использовали способность [yellow]'Сердце Бури'[/yellow]. Ваш урон увеличен на [blue]2[/blue] удара.")
+        return {"buff": 2}  # Возвращаем данные об усилении
 
 class PlayerWiz (Player): #Маг
-
     def __init__(self):
         super().__init__()
         self.magic = 7
         self.max_magic = self.magic
         self.skill = 2
-        self.super_punch = "Водяной хлыст" #Название супер удара
-        self.name_ability = 'Аэромантия' # Название способности
+        self.ability_name = "Водяной хлыст" #Название супер удара
 
-    def player_abilities (self) : # Спосбность
-        if self.magic >= 2 :
-            self.magic -= 2
-            total_damage = 20
-            print(f"Вы использовали заклинание [yellow]{self.name_ability}[/yellow]. Нанесли боссу урона - [red]{total_damage}[/red]")
-            return {"damage": total_damage}  # Возвращаем урон
-        else :
-            return None            
+    def player_abilities (self) :
+        self.magic -= 2
+        total_damage = 20
+        print(f"Вы использовали заклинание [yellow]'Аэромантия'[/yellow]. Нанесли боссу урона - [red]{total_damage}[/red]")
+        return {"damage": total_damage}  # Возвращаем урон
+                    
 
 class PlayerFort (Player): #Везунчик
-
     def __init__(self):
         super().__init__()
         self.crit = 1
         self.skill = 3
-        self.super_punch = "Счастливый удар" #Название супер удар
-        self.name_ability = 'Смертельная удача' # Название способности
+        self.ability_name = "Счастливый удар" #Название супер удар
 
-    def player_abilities (self) : # Способность
-        if self.magic >= 2 :
-            self.magic -= 2
-            chance = random.randint(1, 2)
-            if chance == 1:
-                total_damage = 20
-                print(f"Вы использовали способность [yellow]{self.name_ability}[yellow]. Нанесли урона - [red]{total_damage}[/red]")
-                return {"damage": total_damage} # Возвращаем данные об уроне по боссу
-            else:
-                self.hp -= 10
-                print(f"Вы неудачно использовали способность [yellow]{self.name_ability}[yellow]. Нанесли себе урона - [red]10[/red]")
-                return {"self_damage": 10} # Возвращаем данные об урону по себе
-        else :
-            return None
+    def player_abilities (self) :
+        self.magic -= 2
+        chance = random.randint(1, 2)
+        if chance == 1:
+            total_damage = 20
+            print(f"Вы использовали способность [yellow]'Смертельная удача'[yellow]. Нанесли урона - [red]{total_damage}[/red]")
+            return {"damage": total_damage}
+        else:
+            self.hp -= 10
+            print(f"Вы неудачно использовали способность [yellow]'Смертельная удача'[yellow]. Нанесли себе урона - [red]10[/red]")
+            return {"self_damage": 10}
         
 def choose_playerclass() :
     x = get_valid_int_input(

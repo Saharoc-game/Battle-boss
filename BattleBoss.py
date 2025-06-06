@@ -1,38 +1,26 @@
 
 import random
+
+from rich.panel import Panel
+from rich import print
+
 from core import boss 
 from core import player
-from core.effect import PosionEffect, BleedingEffect, FireEffect, StunEffect
 
-print("Привет, игрок. Ты играешь в игру Battle Boss.")
+from core.effect import PoisonEffect, BleedingEffect, FireEffect, StunEffect
+from utils.input_until import get_valid_int_input
+from utils.output_until import get_stats_player_and_boss
+
+
+print(Panel("Добро пожаловать в [bold]Battle Boss[/bold] — текстовую RPG-игру.\nВ которой вам предстоит сражаться с боссами, улучшать своё снаряжение и выживать как можно дольше!", title="BattleBoss"))
+
+P1 = player.choose_playerclass() # Создание игрока
 
 B1 = boss.random_boss() # Создание Босса
-x = -1
 
-                #Выбор класса
-while x != 1 or x!= 2 or x!=3:
-    try:
-        x = int(input("Выберите свой класс. 1 - класс Воин. 2 - класс Маг. 3 - класс Везунчик. "))
-        if x not in (1,2,3):
-            print("Пожалуйста, введите число от 1 до 3")
-            continue
-        break
-    except ValueError:
-        print("Пожалуйста, введите число от 1 до 3")
-if x == 1:
-    print("Вы выбрали класс воин")
-    P1 = player.PlayerWar() #Выбор класса воин
-elif x == 2:
-    print("Вы выбрали класс маг")
-    P1 = player.PlayerWiz() #Выбор класса маг
-elif x == 3:
-    print("Вы выбрали класс везунчик")
-    P1 = player.PlayerFort() #Выбор класса везунчик
-    
-print("Ваше здоровье ", P1.hp, ". Ваша магия ", P1.magic, ". Ваши деньги ", P1.money)
-print("Здоровье босса ", B1.hp, ". Магия босса ", B1.magic, ".")
-print("1 чтобы атаковать. 2 чтобы восполнить здоровье. 3 чтобы восполнить магию. 4 чтобы открыть инвентарь. 5 чтобы продать предмет. 0 чтобы пропустить ход.")
-    
+get_stats_player_and_boss(P1, B1)
+print("[bright_blue]1[/bright_blue] чтобы атаковать.\n[bright_blue]2[/bright_blue] чтобы восполнить здоровье.\n[bright_blue]3[/bright_blue] чтобы восполнить магию.\n[bright_blue]4[/bright_blue] чтобы открыть инвентарь.\n[bright_blue]5[/bright_blue] чтобы продать предмет.\n[bright_blue]0[/bright_blue] чтобы пропустить ход.")
+
 while P1.hp > 0:
 
     if B1.hp <= 0:
@@ -47,35 +35,29 @@ while P1.hp > 0:
         P1.money += 3
         # Выдача предметов
 
-        if len(P1.inventory.inventory["swords"]) < 3 or len(P1.inventory.inventory["armor"]) < 3 :
-            x = random.randint(0, 1)
+        x = random.randint(0, 1)
 
-            if x == 0 and len(P1.inventory.inventory["armor"]) < 3: # Выдача брони
-                x = P1.inventory.drop_item_armor(P1.bosses_killed)
-                P1.inventory.inventory["armor"].append(x)
+        if x == 0 : # Выдача брони
+            P1.inventory.drop_item_armor()
 
-            if x == 1 and len(P1.inventory.inventory["swords"]) < 3 : # Выдача меча
-                x = P1.inventory.drop_item_sword(P1.bosses_killed)
-                P1.inventory.inventory["swords"].append(x)
+        if x == 1 : # Выдача меча
+            P1.inventory.drop_item_sword(P1.bosses_killed)
 
-        print("Поздравлю, игрок! Вы смогли победить босса под номером ", P1.bosses_killed)
-        print("Ваша максимальное здоровье теперь", P1.max_hp, " Максимальное количество магии", P1.max_magic)
+        print(f"Поздравлю, игрок! Вы смогли победить босса под номером {P1.bosses_killed}")
+        print(f"Ваша максимальное здоровье теперь {P1.max_hp} Максимальное количество магии {P1.max_magic}")
         print("Магия увеличена на 1, здоровье на 5. Также вы нашли 3 монеты!")
-        print("Ваше здоровье ", P1.hp, ". Ваша магия ", P1.magic, ". Ваши деньги ", P1.money)
         B1 = boss.random_boss() # Создание Босса
-        print("Здоровье босса ", B1.hp, ". Магия босса ", B1.magic, ". Этот босс бьет сильнее предыдущего на 1 урон.")
+        get_stats_player_and_boss(P1, B1)
+        print("Этот босс бьет сильнее предыдущего на 1 урон.")
 
     if not P1.has_effect(StunEffect) :
-        hod_igroka = -1  # Инициализация переменной для хода игрока
         print("Сейчас ", P1.rounds, "раунд")
 
     # Защита от дураков (цифры)
-        while hod_igroka < 0 or hod_igroka > 5:
-            try:
-                hod_igroka = int(input("Ваш ход от 0 до 5\n"))
-            except ValueError:
-                print("Пожалуйста, введите число от 0 до 5.")
-
+        hod_igroka = get_valid_int_input(
+            "Ваш ход от [blue]0[/blue] до [blue]5[/blue]\n",
+            [0, 1, 2, 3, 4, 5]
+        )
     # Лечение игрока
         if hod_igroka == 2 and P1.magic > 0:
             P1.healf()
@@ -119,22 +101,21 @@ while P1.hp > 0:
                 P1.hp -= B1.attack(P1.bosses_killed, P1.armor_defense)
     
     P1.effect_update()
-    print("Ваше здоровье ",P1.hp,". Ваша магия ",P1.magic,". Ваши деньги ", P1.money )
-    print("Здоровье босса ",B1.hp,". Магия босса ",B1.magic,".") 
+    get_stats_player_and_boss(P1, B1)
     P1.rounds = P1.rounds + 1
 
 # Проигрыш игрока, записываем рекорд
 
 else:
-    print("Вы погибли! Но вы смогли убить ",P1.bosses_killed," боссов!")
-    f = open("BatleBossrecords.txt", "r+")
+    print(f"Вы погибли! Но вы смогли убить {P1.bosses_killed} боссов!")
+    f = open("BattleBossrecords.txt", "r+")
     last_line = int(f.readlines()[-1])
     print(last_line)
     if last_line < P1.rounds :
         x = str(P1.rounds)
         f.write(x)
-        print("Вы поставили новый рекорд: ",x, " раундов")
+        print(f"Вы поставили новый рекорд: {x} раундов")
     else :
-        print("Рекорд: ",last_line, " раундов")
+        print(f"Рекорд: {last_line} раундов")
     f.close()
 input("")

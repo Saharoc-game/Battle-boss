@@ -1,13 +1,15 @@
-from core.effect.poison import PosionEffect
+from rich import print
 
-class FireEffect(PosionEffect) :
+from core.effect.poison import PoisonEffect
+
+class FireEffect(PoisonEffect) :
      
     """Эффект Огонь: Каждый ход отнимает damage. Длится duration ходов. Каждый ход снижает урон на 30% """
 
     def __init__(self, duration: int, damage: int):
         """ Создаём новый эффект. Принимаем duration и damage"""
         super().__init__(duration, damage)
-        print(f"Вас подожгли! Вы будете гореть {duration} ходов. А так же сила {damage} ")
+        print(f"[red]Вас подожгли![/red] Вы будете гореть [blue]{duration}[/blue] ходов. А так же сила [blue]{damage}[/blue] ")
         self.damage = damage
 
     def apply(self, target):

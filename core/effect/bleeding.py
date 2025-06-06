@@ -1,13 +1,15 @@
-from core.effect.poison import PosionEffect 
+from rich import print
 
-class BleedingEffect(PosionEffect) :
+from core.effect.poison import PoisonEffect
+
+class BleedingEffect(PoisonEffect) :
 
     """Эффект Кровотечение: Каждый ход отнимает damage. Длится duration ходов """
 
     def __init__(self, duration: int, damage: int):
         """ Создаём новый эффект. Принимаем duration и damage"""
         super().__init__(duration, damage)
-        print(f"У вас кровопотеря! Эффект будет действовать {duration} ходов. А так же сила {damage} ")
+        print(f"[red]У вас кровопотеря![/red] Эффект будет действовать [blue]{duration}[/blue] ходов. А так же сила [blue]{damage}[/blue] ")
         self.damage = damage
 
     def apply(self, target):

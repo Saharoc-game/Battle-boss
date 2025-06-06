@@ -196,10 +196,30 @@ class PlayerFort (Player): #Везунчик
         else :
             return None
         
+class PlayerBand(Player): #Разбойник
+    def __init__(self):
+        super().__init__()
+        self.skill = 4
+        self.ability_name = "Керсель"
+        self.magic = 2
+        self.max_magic = self.magic
+        self.dodge = 1
+    def player_abilities(self):
+        if self.magic >= 1:
+            self.hp -= 2
+            total_damage = 20
+            self.money += 2
+            self.magic -= 1
+            print(f"Вы использовали способность 'Джинада' и украли 2 монеты у босса. Нанесли урона - {total_damage}")
+            return {"damage": total_damage}
+        else:
+            print("Маны нет")
+            return None
+        
 def choose_playerclass() :
     x = get_valid_int_input(
-        "Выберите свой класс.\n[blue]1[/blue] - класс Воин.\n[blue]2[/blue] - класс Маг.\n[blue]3[/blue] - класс Везунчик.\n",
-        [1, 2, 3]
+        "Выберите свой класс.\n[blue]1[/blue] - класс Воин.\n[blue]2[/blue] - класс Маг.\n[blue]3[/blue] - класс Везунчик.\n[blue]4[/blue] - класс Разбойник",
+        [1, 2, 3, 4]
     )
     if x == 1:
         print("Вы выбрали класс воин")
@@ -210,3 +230,6 @@ def choose_playerclass() :
     elif x == 3:
         print("Вы выбрали класс везунчик")
         return PlayerFort() #Выбор класса везунчик
+    elif x == 4:
+        print("Вы выбрали класс разбойник")
+        return PlayerBand() #Выбор класса разбойник

@@ -67,11 +67,11 @@ while P1.hp > 0:
             P1.magic_add()
 
     # Удар игрока
-        if hod_igroka == 1:
-        try:
-            B1.hp -= P1.attack()
-        except TypeError:
-            B1.hp -= 0
+        while hod_igroka == 1:
+            try:
+                B1.hp -= P1.attack()
+            except TypeError:
+                B1.hp -= 0
             
     # Инвентарь
         if hod_igroka == 4:
@@ -89,8 +89,16 @@ while P1.hp > 0:
             else:  # Если магия закончилась, босс атакует или кастует эффект
                 if (random.randint(0, 1) == 1) and (B1.magic > B1.magic_for_spell_effect) : 
                     B1.cast_spell_effect(P1)
-                else :    
-                    P1.hp -= B1.attack(P1.bosses_killed, P1.armor_defense)
+                else :
+                    if P1.dodge == 1:
+                        doge = random.randint(1,3)
+                        if doge == 1:
+                            print("Вы успешно уклонились от атаки босса")
+                            P1.hp -= 0
+                        else:
+                          P1.hp -= B1.attack(P1.bosses_killed, P1.armor_defense)
+                    else:  
+                        P1.hp -= B1.attack(P1.bosses_killed, P1.armor_defense)
         else :
             x = random.randint(0, 2)
             if (x == 0) and (B1.recharge < B1.recharge_max):

@@ -23,7 +23,7 @@ print(Panel.fit("[bright_blue]1[/bright_blue] чтобы атаковать.\n[b
 
 while P1.hp > 0:
 
-    if P1.bosses_killed%10==0 :
+    if P1.bosses_killed%10==0 and P1.bosses_killed!= 0:
         shop = ShopEvent()
         shop.trigger(P1)
 

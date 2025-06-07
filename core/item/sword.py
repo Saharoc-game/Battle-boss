@@ -3,12 +3,14 @@ import random
 
 class Sword() :
 
-    def __init__(self, kolboss):
-        self.damage = random.randint(5, 23) + kolboss
-        self.cost = self.damage // 5
-        self.name = "Обычный меч"
-        self.description = "Простой, надежный меч с хорошим балансом и удобной рукоятью."
-        self.weight = 2
+    def __init__(self, kolboss, damage=None, cost=None, name="Обычный меч", 
+                 description="Простой, надежный меч с хорошим балансом и удобной рукоятью.", 
+                 weight=2):
+        self.damage = random.randint(5, 23) + kolboss if damage is None else damage
+        self.cost = self.damage // 5 if cost is None else cost
+        self.name = name
+        self.description = description
+        self.weight = weight
         self.type = "sword"
     
     def create(self) :

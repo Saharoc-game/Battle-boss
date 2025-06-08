@@ -7,6 +7,7 @@ from core import boss
 from core import player
 
 from core.effect import PoisonEffect, BleedingEffect, FireEffect, StunEffect
+from core.event.shop import ShopEvent
 from utils.input_until import get_valid_int_input
 from utils.output_until import get_stats_player_and_boss
 
@@ -18,9 +19,13 @@ P1 = player.choose_playerclass() # Создание игрока
 B1 = boss.random_boss() # Создание Босса
 
 get_stats_player_and_boss(P1, B1)
-print("[bright_blue]1[/bright_blue] чтобы атаковать.\n[bright_blue]2[/bright_blue] чтобы восполнить здоровье.\n[bright_blue]3[/bright_blue] чтобы восполнить магию.\n[bright_blue]4[/bright_blue] чтобы открыть инвентарь.\n[bright_blue]5[/bright_blue] чтобы продать предмет.\n[bright_blue]0[/bright_blue] чтобы пропустить ход.")
+print(Panel.fit("[bright_blue]1[/bright_blue] чтобы атаковать.\n[bright_blue]2[/bright_blue] чтобы восполнить здоровье.\n[bright_blue]3[/bright_blue] чтобы восполнить магию.\n[bright_blue]4[/bright_blue] чтобы открыть инвентарь.\n[bright_blue]5[/bright_blue] чтобы продать предмет.\n[bright_blue]0[/bright_blue] чтобы пропустить ход.", title="Управление"))
 
 while P1.hp > 0:
+
+    if P1.bosses_killed%10==0 and P1.bosses_killed!= 0:
+        shop = ShopEvent()
+        shop.trigger(P1)
 
     if B1.hp <= 0:
         P1.bosses_killed += 1
@@ -81,7 +86,7 @@ while P1.hp > 0:
       
 # Удар или лечение босса, или перезарядка
     if B1.hp > 0:
-        if B1.hp / B1.hp_max < 0.5:  # Проверяем, если HP < 50%
+        if B1.hp / B1.HP_MAX < 0.5:  # Проверяем, если HP < 50%
             if B1.magic > 0:  # Если есть магия, лечимся
                 B1.health_add()
             else:  # Если магия закончилась, босс атакует или кастует эффект
@@ -91,7 +96,7 @@ while P1.hp > 0:
                     P1.hp -= B1.attack(P1.bosses_killed, P1.armor_defense)
         else :
             x = random.randint(0, 2)
-            if (x == 0) and (B1.recharge < B1.recharge_max):
+            if (x == 0) and (B1.recharge < B1.RECHARGE_MAX):
                 B1.add_recharge()  # Копит супер-удар
             elif (x == 1) and (B1.magic > B1.magic_for_spell_effect) :
                 B1.cast_spell_effect(P1)

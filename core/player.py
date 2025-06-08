@@ -209,7 +209,7 @@ class PlayerBand(Player): #Разбойник
             self.hp -= 2
             total_damage = 20
             self.money += 2
-            self.magic -= 1
+            self.magic -= 2
             print(f"Вы использовали способность 'Джинада' и украли 2 монеты у босса. Нанесли урона - {total_damage}")
             return {"damage": total_damage}
         else:
@@ -218,7 +218,7 @@ class PlayerBand(Player): #Разбойник
         
 def choose_playerclass() :
     x = get_valid_int_input(
-        "Выберите свой класс.\n[blue]1[/blue] - класс Воин.\n[blue]2[/blue] - класс Маг.\n[blue]3[/blue] - класс Везунчик.\n[blue]4[/blue] - класс Разбойник",
+        "Выберите свой класс.\n[blue]1[/blue] - класс Воин.\n[blue]2[/blue] - класс Маг.\n[blue]3[/blue] - класс Везунчик.\n[blue]4[/blue] - класс Разбойник.\n",
         [1, 2, 3, 4]
     )
     if x == 1:

@@ -67,11 +67,8 @@ while P1.hp > 0:
             P1.magic_add()
 
     # Удар игрока
-        while hod_igroka == 1:
-            try:
-                B1.hp -= P1.attack()
-            except TypeError:
-                B1.hp -= 0
+        if hod_igroka == 1:
+            B1.hp -= P1.attack()
             
     # Инвентарь
         if hod_igroka == 4:

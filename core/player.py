@@ -48,17 +48,21 @@ class Player(): # Класс игрок
             [1, 2, 3]
         )       # Получаем что хочет сделать игрок
 
-        if x == 2 and self.magic >=2:  # Супер удар
-            if self.buff > 0 :
-                self.buff -=1
-                self.magic -=2
-                igrok_uron = random.randint(20,21)
-            else:
-                igrok_uron = random.randint(10,15)
+        if x == 2:
+            if self.magic < 2:
+                print("Недостаточно маны для супер удара!")
+                return None
+
+            if self.buff > 0:
+                self.buff -= 1
                 self.magic -= 2
-            if self.advantage > 0 :
-                total_damage = int((igrok_uron + self.sword_damage) - (igrok_uron + self.sword_damage*0.3))
-            else :
+                igrok_uron = random.randint(20, 21)
+            else:
+                igrok_uron = random.randint(10, 15)
+                self.magic -= 2
+            if self.advantage > 0:
+                total_damage = int((igrok_uron + self.sword_damage) - (igrok_uron + self.sword_damage * 0.3))
+            else:
                 total_damage = igrok_uron + self.sword_damage
             print(f"Вы использовали [cyan]{self.super_punch}[/cyan] Нанесли боссу урона - [red]{total_damage}[/red]")
             return total_damage

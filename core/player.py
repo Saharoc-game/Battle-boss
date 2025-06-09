@@ -3,7 +3,8 @@ from rich import print
 
 from core import inventory as inv
 from utils.input_until import get_valid_int_input
-from core.effect.advantage import AdvantageEffect
+
+from core.effect import AdvantageEffect, RegenerationEffect
 
 
 class Player(): # Класс игрок
@@ -14,7 +15,8 @@ class Player(): # Класс игрок
         self.money = 3
         self.max_magic = 5
         self.sword_damage = 0  
-        self.armor_defense = 0    
+        self.armor_defense = 0
+        self.rich_regen = 0     
         self.rounds = 0             
         self.bosses_killed = 0
         self.inventory = inv.Inventory() # Создаём инвентарь
@@ -46,17 +48,21 @@ class Player(): # Класс игрок
             [1, 2, 3]
         )       # Получаем что хочет сделать игрок
 
-        if x == 2 and self.magic >=2:  # Супер удар
-            if self.buff > 0 :
-                self.buff -=1
-                self.magic -=2
-                igrok_uron = random.randint(20,21)
-            else:
-                igrok_uron = random.randint(10,15)
+        if x == 2:
+            if self.magic < 2:
+                print("Недостаточно маны для супер удара!")
+                return None
+
+            if self.buff > 0:
+                self.buff -= 1
                 self.magic -= 2
-            if self.advantage > 0 :
-                total_damage = int((igrok_uron + self.sword_damage) - (igrok_uron + self.sword_damage*0.3))
-            else :
+                igrok_uron = random.randint(20, 21)
+            else:
+                igrok_uron = random.randint(10, 15)
+                self.magic -= 2
+            if self.advantage > 0:
+                total_damage = int((igrok_uron + self.sword_damage) - (igrok_uron + self.sword_damage * 0.3))
+            else:
                 total_damage = igrok_uron + self.sword_damage
             print(f"Вы использовали [cyan]{self.super_punch}[/cyan] Нанесли боссу урона - [red]{total_damage}[/red]")
             return total_damage
@@ -89,7 +95,6 @@ class Player(): # Класс игрок
         
         else: # Способности
             ability_result = self.player_abilities()
-    
             if "damage" in ability_result:
                 return ability_result["damage"]  # Вернуть урон
             elif "buff" in ability_result:
@@ -108,8 +113,11 @@ class Player(): # Класс игрок
         if 'sword_damage' in choose: # Если меч
             self.sword_damage = choose['sword_damage']
 
-        if 'armor_defence' in choose: # Если броня
+        elif 'armor_defence' in choose: # Если броня
             self.armor_defense = choose['armor_defence']
+
+        elif 'ring_regen' in choose: # Если кольцо
+            self.rich_regen = choose['ring_regen']
      
     def player_abilites(self) : # Способность
         """Просто пустышка. Так как у всех подклассов игроков разные способности"""
@@ -124,6 +132,9 @@ class Player(): # Класс игрок
         if self.inventory.mass > 10 : # Если вес всех предметов больше 10, добавляем эффект перевеса
             Adv = AdvantageEffect()
             self.add_effect(Adv)
+        if self.rich_regen > 0 :
+            Reg = RegenerationEffect(duration=1, power=self.rich_regen)
+            self.add_effect(Reg)
 
     def add_effect(self, effect): # Добавляем жффект
         self.effects.append(effect)
@@ -197,10 +208,29 @@ class PlayerFort (Player): #Везунчик
         else :
             return None
         
+class PlayerBand(Player): #Разбойник
+    def __init__(self):
+        super().__init__()
+        self.skill = 4
+        self.ability_name = "Керсель"
+        self.magic = 2
+        self.max_magic = self.magic
+        self.dodge = 1
+    def player_abilities(self):
+        if self.magic >= 2:
+            self.hp -= 2
+            total_damage = 10
+            self.money += 2
+            self.magic -= 2
+            print(f"Вы использовали способность 'Джинада' и украли 2 монеты у босса. Нанесли урона - {total_damage}")
+            return {"damage": total_damage}
+        else:
+            return None
+        
 def choose_playerclass() :
     x = get_valid_int_input(
-        "Выберите свой класс.\n[blue]1[/blue] - класс Воин.\n[blue]2[/blue] - класс Маг.\n[blue]3[/blue] - класс Везунчик.\n",
-        [1, 2, 3]
+        "Выберите свой класс.\n[blue]1[/blue] - класс Воин.\n[blue]2[/blue] - класс Маг.\n[blue]3[/blue] - класс Везунчик.\n[blue]4[/blue] - класс Разбойник.\n",
+        [1, 2, 3, 4]
     )
     if x == 1:
         print("Вы выбрали класс воин")
@@ -211,3 +241,6 @@ def choose_playerclass() :
     elif x == 3:
         print("Вы выбрали класс везунчик")
         return PlayerFort() #Выбор класса везунчик
+    elif x == 4:
+        print("Вы выбрали класс разбойник")
+        return PlayerBand() #Выбор класса разбойник

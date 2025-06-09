@@ -1,3 +1,4 @@
+
 import random
 
 from rich.panel import Panel
@@ -37,7 +38,6 @@ while P1.hp > 0:
         P1.max_hp += 5
         P1.max_magic += 1
         P1.money += 3
-        
         # Выдача предметов
 
         x = random.randint(0, 1)
@@ -74,7 +74,7 @@ while P1.hp > 0:
     # Удар игрока
         if hod_igroka == 1:
             B1.hp -= P1.attack()
-
+            
     # Инвентарь
         if hod_igroka == 4:
             P1.player_choose_item()
@@ -84,7 +84,6 @@ while P1.hp > 0:
         if hod_igroka == 5:
             P1.money += P1.inventory.sell_item()
       
-# Удар или лечение босса, или перезарядка
     if B1.hp > 0:
         if B1.hp / B1.HP_MAX < 0.5:  # Проверяем, если HP < 50%
             if B1.magic > 0:  # Если есть магия, лечимся
@@ -92,8 +91,16 @@ while P1.hp > 0:
             else:  # Если магия закончилась, босс атакует или кастует эффект
                 if (random.randint(0, 1) == 1) and (B1.magic > B1.magic_for_spell_effect) : 
                     B1.cast_spell_effect(P1)
-                else :    
-                    P1.hp -= B1.attack(P1.bosses_killed, P1.armor_defense)
+                else :
+                    if P1.dodge == 1:
+                        doge = random.randint(1,3)
+                        if doge == 1:
+                            print("Вы успешно уклонились от атаки босса")
+                            P1.hp -= 0
+                        else:
+                          P1.hp -= B1.attack(P1.bosses_killed, P1.armor_defense)
+                    else:  
+                        P1.hp -= B1.attack(P1.bosses_killed, P1.armor_defense)
         else :
             x = random.randint(0, 2)
             if (x == 0) and (B1.recharge < B1.RECHARGE_MAX):

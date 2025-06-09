@@ -7,6 +7,7 @@ from rich.table import Table
 
 from core.item.armor import Armor
 from core.item.sword import Sword
+from core.item.ring import Ring
 
 from utils.input_until import get_valid_int_input
 
@@ -15,12 +16,16 @@ class ShopEvent:
         self.inventory = []
 
     def add_random_item(self) :
-        if random.randint(0, 1) == 0 :
+        x = random.randint(0, 2)
+        if x == 0 :
             sword = Sword(kolboss=0)
             self.inventory.append(sword.create())
-        else :
+        elif x == 1 :
             armor = Armor()
             self.inventory.append(armor.create())
+        else :
+            ring = Ring()
+            self.inventory.append(ring.create())
 
     def trigger(self, player):
         print("\n[bold cyan]Вы попали в магазин![/bold cyan]")
@@ -58,13 +63,22 @@ class ShopEvent:
                     valid_indexes.append(index)
                 elif item['type'] == 'armor': # Броня
                     table.add_row(
-                    str(index),
-                    f"[white]{item['name']}[/white]",
-                    "[blue]Броня[/blue]",
-                    f"[green]Защита {item['defence']}[/green]",
-                    f"[bold gold1]{item['cost']} монет[/bold gold1]"
-                ) # Добавляем строчу
-                valid_indexes.append(index)
+                        str(index),
+                        f"[white]{item['name']}[/white]",
+                        "[blue]Броня[/blue]",
+                        f"[green]Защита {item['defence']}[/green]",
+                        f"[bold gold1]{item['cost']} монет[/bold gold1]"
+                    ) # Добавляем строчу
+                    valid_indexes.append(index)
+                elif item['type'] == 'ring' :
+                    table.add_row(
+                        str(index),
+                        f"[white]{item['name']}[/white]",
+                        "[red]Кольцо[/red]",
+                        f"[bright_red]Регенерация {item['heal']}[/bright_red]",
+                        f"[bold gold1]{item['cost']} монет[/bold gold1]"
+                    ) # Добавляем строчку
+                    valid_indexes.append(index)
             console.print(table)
 
             ans = get_valid_int_input(
@@ -94,7 +108,7 @@ class ShopEvent:
                         name=name,
                         description=description,
                         weight=weight)
-                else :
+                elif  selected_item['type'] == 'sword':
                     damage = selected_item['damage']
                     cost = selected_item['cost']
                     name = selected_item['name']
@@ -103,6 +117,18 @@ class ShopEvent:
                     item = Sword(
                         kolboss=player.bosses_killed,
                         damage=damage,
+                        cost=cost,
+                        name=name,
+                        description=description,
+                        weight=weight)
+                else :
+                    heal = selected_item['heal']
+                    cost = selected_item['cost']
+                    name = selected_item['name']
+                    description = selected_item['description']
+                    weight = selected_item['weight']
+                    item = Ring(
+                        heal=heal,
                         cost=cost,
                         name=name,
                         description=description,

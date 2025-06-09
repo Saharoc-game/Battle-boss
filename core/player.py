@@ -3,7 +3,8 @@ from rich import print
 
 from core import inventory as inv
 from utils.input_until import get_valid_int_input
-from core.effect.advantage import AdvantageEffect
+
+from core.effect import AdvantageEffect, RegenerationEffect
 
 
 class Player(): # Класс игрок
@@ -14,7 +15,8 @@ class Player(): # Класс игрок
         self.money = 3
         self.max_magic = 5
         self.sword_damage = 0  
-        self.armor_defense = 0    
+        self.armor_defense = 0
+        self.rich_regen = 0     
         self.rounds = 0             
         self.bosses_killed = 0
         self.inventory = inv.Inventory() # Создаём инвентарь
@@ -107,8 +109,11 @@ class Player(): # Класс игрок
         if 'sword_damage' in choose: # Если меч
             self.sword_damage = choose['sword_damage']
 
-        if 'armor_defence' in choose: # Если броня
+        elif 'armor_defence' in choose: # Если броня
             self.armor_defense = choose['armor_defence']
+
+        elif 'ring_regen' in choose: # Если кольцо
+            self.rich_regen = choose['ring_regen']
      
     def player_abilites(self) : # Способность
         """Просто пустышка. Так как у всех подклассов игроков разные способности"""
@@ -123,6 +128,9 @@ class Player(): # Класс игрок
         if self.inventory.mass > 10 : # Если вес всех предметов больше 10, добавляем эффект перевеса
             Adv = AdvantageEffect()
             self.add_effect(Adv)
+        if self.rich_regen > 0 :
+            Reg = RegenerationEffect(duration=1, power=self.rich_regen)
+            self.add_effect(Reg)
 
     def add_effect(self, effect): # Добавляем жффект
         self.effects.append(effect)
@@ -205,15 +213,14 @@ class PlayerBand(Player): #Разбойник
         self.max_magic = self.magic
         self.dodge = 1
     def player_abilities(self):
-        if self.magic >= 1:
+        if self.magic >= 2:
             self.hp -= 2
-            total_damage = 20
+            total_damage = 10
             self.money += 2
             self.magic -= 2
             print(f"Вы использовали способность 'Джинада' и украли 2 монеты у босса. Нанесли урона - {total_damage}")
             return {"damage": total_damage}
         else:
-            print("Маны нет")
             return None
         
 def choose_playerclass() :

@@ -1,10 +1,14 @@
-from rich import print
 from core.effect.effectmain import Effect
-from core.item.ring import Ring
 
-class Regen(Effect):
-    def __init__(self, duration: int, heal: int):
-        super().__init__(duration, heal)
-        self.heal = Ring.effect
+class RegenerationEffect(Effect):
+
+    """Эффект Регенерации: Каждый ход восстанавливает n-ое колличество hp"""
+
+    def __init__(self, duration: int, power: int):
+        super().__init__(duration)
+        self.power = power
+
     def apply(self, target):
-        target.hp += self.heal
+        """Обновляем эффект. Добавляем target hp по формуле target.hp * ((power * 5 + 5) / 100)"""
+        self.heal = int(target.hp * ((self.power * 5 + 5) / 100))
+        target.hp += min(self.heal, target.max_hp)

@@ -7,6 +7,7 @@ from rich.table import Table
 
 from core.item.sword import Sword
 from core.item.armor import Armor
+from core.item.ring import Ring
 from utils.input_until import get_valid_int_input
 
 class Inventory:
@@ -79,6 +80,14 @@ class Inventory:
                     f"[green]Защита {item['defence']}[/green]"
                 ) # Добавляем строчу
                 valid_indexes.append(index)
+            elif item['type'] == 'ring' :
+                table.add_row(
+                    str(index),
+                    f"[white]{item['name']}[/white]",
+                    "[red]Кольцо[/red]",
+                    f"[bright_red]Регенерация {item['heal']}[/bright_red]"
+                ) # Добавляем строчку
+                valid_indexes.append(index)
 
         console.print(table) # Выводим таблицу
 
@@ -106,6 +115,15 @@ class Inventory:
                     )
                 )
                 return {'armor_defence': selected_item['defence']}
+            elif selected_item['type'] == 'ring' :
+                console.print(
+                    Panel(
+                        f"[bold green]Вы экипировали кольцо[/bold green] [yellow]{selected_item['name']}[/yellow] [bold green]с регенерацией[/bold green] [green]{selected_item['heal']}[/green]",
+                        border_style="bright_blue"
+                    )
+
+                )
+                return {'ring_regen': selected_item['heal']}
         else:
             console.print(Panel("[red]Некорректный выбор[/red]", border_style="red"))
 
@@ -150,6 +168,14 @@ class Inventory:
                     f"[bold gold1]{item['cost']} монет[/bold gold1]"
                 ) # Добавляем строчу
                 valid_indexes.append(index)
+            elif item['type'] == 'ring' :
+                table.add_row(
+                    str(index),
+                    f"[white]{item['name']}[/white]",
+                    "[red]Кольцо[/red]",
+                    f"[bright_red]Регенерация {item['heal']}[/bright_red]",
+                    f"[bold gold1]{item['cost']} монет[/bold gold1]"
+                ) # Добавляем строчку
         console.print(table)
 
         ans = get_valid_int_input(
@@ -178,6 +204,14 @@ class Inventory:
                         border_style="bright_blue"
                     )
                 )
+            elif selected_item['type'] == 'ring':
+                console.print(
+                    Panel(
+                        f"[bold green]Вы продали кольцо[/bold green] [yellow]{selected_item['name']}[/yellow] "
+                        f"[bold green]за[/bold green] [bold gold1]{coins} монет[/bold gold1]",
+                        border_style="bright_blue"
+                    )
+                )
             return coins # Возвращаем количество денег, которых надо прибавить
         else:
             console.print(Panel("[red]Некорректный выбор[/red]", border_style="red"))
@@ -186,6 +220,7 @@ class Inventory:
     def drop_item_sword(self, bosses_killed): 
         """
         Добавляет меч в инвентарь в зависимости от количества убитых боссов.
+        Стандарт
         Ничего не возвращаем
         """
 
@@ -198,7 +233,8 @@ class Inventory:
 
     def drop_item_armor(self): 
         """
-        Добавляет броню в инветарь.
+        Добавляет броню в инвентарь.
+        Стандарт
         Ничего не возвращаем
         """
 
@@ -207,3 +243,16 @@ class Inventory:
         print(Panel(f"Вы получили предмет - {armor.name}\n{armor.description}\nВес - {armor.weight}\nБроня - {armor.defence}%\nЦена - {armor.cost}", title="Вы получили предмет!"))
         # Создаём панель с параметрами предмета
         self.inventory.append(armor.create())
+
+    def drop_item_ring(self):
+        """
+        Добавляет кольцо в инвентарь
+        Стандарт
+        Ничего не возвращаем
+        """
+
+        ring = Ring() # Создаём предмет
+        self.mass = ring.weight
+        print(Panel(f"Вы получили предмет - {ring.name}\n{ring.description}\nВес - {ring.weight}\nРегенерация - {ring.heal}%\nЦена - {ring.cost}", title="Вы получили предмет!"))
+        # Создаём панель с параметрами предмета
+        self.inventory.append(ring.create())

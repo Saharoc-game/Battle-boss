@@ -1,7 +1,7 @@
 import random
 from rich import print
 
-from core.effect import PoisonEffect, BleedingEffect, FireEffect, StunEffect
+from core.effect import PoisonEffect, BleedingEffect, FireEffect, StunEffect, RegenerationEffect
 
 
 class Boss: 

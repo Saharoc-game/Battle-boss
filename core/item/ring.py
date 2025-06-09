@@ -1,9 +1,10 @@
 import random
 
+
 class Ring():
     def __init__(self):
-        self.effect = random.randint(1,3)
-        self.cost = self.effect + 1
+        self.heal = random.randint(1,3)
+        self.cost = self.heal+ 1
         self.name = "Кольцо регенерации"
         self.description = "Красивое железное кольцо с зелёным камнем"
         self.weight = 0.5

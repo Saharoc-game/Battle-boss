@@ -29,15 +29,19 @@ BattleBoss/
 │── core/
 │   ├── effect/
 │   │   ├── __init__.py
+│   │   ├── advantage.py
 │   │   ├── bleeding.py
 │   │   ├── effectmain.py
 │   │   ├── fire.py
 │   │   ├── poison.py
+│   │   ├── regeneration.py
 │   │   ├── stun.py
-│   │   ├── advantage.py
 │   ├── item/
 │   │   ├── armor.py
 │   │   ├── sword.py
+│   │   ├── ring.py
+│   ├── event/
+│   │   ├── shop.py
 │   ├── boss.py
 │   ├── inventory.py
 │   ├── player.py
@@ -71,6 +75,7 @@ BattleBoss/
 - **Инвентарь** (`core/inventory.py`) — система предметов: мечи, броня. Можно экипировать и продавать.
 - **Эффекты** (`core/effect/`) — яд, огонь, кровотечение, оглушение, перевес.
 - **Предметы** (`core/item/`) — мечи и броня, характеристики зависят от прогресса и удачи.
+- **Эвенты** (`core/event`) — магазин, разные эвенты между боссами 
 
 ## 💻 Как внести свой вклад?
 

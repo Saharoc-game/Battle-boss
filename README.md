@@ -29,15 +29,17 @@ BattleBoss/
 │── core/
 │   ├── effect/
 │   │   ├── __init__.py
+│   │   ├── advantage.py
 │   │   ├── bleeding.py
 │   │   ├── effectmain.py
 │   │   ├── fire.py
 │   │   ├── poison.py
+│   │   ├── regeneration.py
 │   │   ├── stun.py
-│   │   ├── advantage.py
 │   ├── item/
 │   │   ├── armor.py
 │   │   ├── sword.py
+│   │   ├── ring.py
 │   ├── event/
 │   │   ├── shop.py
 │   ├── boss.py
@@ -107,6 +109,10 @@ BattleBoss/
     ```sh
     python BattleBoss.py
     ```
+6. **Альтернатива:**  
+   Если не хотите устанавливать Python, вы можете скачать готовый `exe`-файл для Windows из раздела [Releases](https://github.com/Saharoc-game/Battle-boss/releases) на GitHub.  
+   Экзешник собирается автоматически с помощью модуля [pyinstaller](https://pyinstaller.org/) для вашего удобства.
+
 ---
 
 Если есть вопросы или предложения — создайте Issue или Pull Request!

@@ -27,7 +27,8 @@ class Player(): # Класс игрок
         self.effects = []
         self.advantage = 0
         self.name_ability = None # Способность
-        self.dodge = 0.02 # Шанс уклонения
+        self.dodge = 2 # Шанс уклонения
+        self.parry = 1 # Шанс парирования
 
     def healf(self) : # Лечение
         print("Вы восполнили здоровье. Но потратили магию")
@@ -137,7 +138,7 @@ class Player(): # Класс игрок
             Reg = RegenerationEffect(duration=1, power=self.rich_regen)
             self.add_effect(Reg)
 
-    def add_effect(self, effect): # Добавляем жффект
+    def add_effect(self, effect): # Добавляем эффект
         self.effects.append(effect)
 
     def has_effect(self, effect_type): # Проверяем есть ли у игрока эффект
@@ -216,7 +217,9 @@ class PlayerBand(Player): #Разбойник
         self.ability_name = "Керсель"
         self.magic = 2
         self.max_magic = self.magic
-        self.dodge = 0.05 # Шанс уклонения
+        self.dodge = 5 # Шанс уклонения
+        self.parry = 2 # Шанс парирования
+        self.super_punch = "Удар кинжалом" # Название супер удара
     def player_abilities(self):
         if self.magic >= 2:
             self.hp -= 2

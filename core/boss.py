@@ -3,7 +3,7 @@ from rich import print
 
 from core.effect import PoisonEffect, BleedingEffect, FireEffect, StunEffect, RegenerationEffect
 
-from utils.input_until import check_dogde
+from utils.input_until import check_dogde_and_parry
 
 
 class Boss: 
@@ -18,28 +18,36 @@ class Boss:
         self.recharge = self.RECHARGE_MAX
         self.super_punch = "Супер удар" # Название супер удара
         
-    def attack(self, bosses_killed, armor_defense, dodge): # Атака Босса
+    def attack(self, bosses_killed, armor_defense, dodge, parry): # Атака Босса
         """
         Атака босса.
         Если накоплен супер удар, наносит большой урон.
         Иначе, обычный удар
         bosses_killed: число убитых боссов (увеличивает урон)
         armor_defense: процент защиты игрока
-        Возвращает нанесённый урон по игроку, если уклонение не сработало.
-        Если уклонение сработало, возвращает 0.
+        dodge: шанс уклонения
+        parry: шанс парирования 
+        Возвращаем урон, который нужно отнять от игрока.
         """
 
         if self.recharge >= self.RECHARGE_MAX : # Супер удар
             self.damage = random.randint(10, 15)
             print(f"Босс использует [cyan]{self.super_punch}[/cyan] и наносит - [red]{self.damage}[/red] урона")
             self.recharge = 0
-            return check_dogde(dodge, self.damage) # Возвращаем урон
+            return self.damage
         
         else : # Обычная Атака
             x = random.randint(0, 5)
             self.damage = int(x - x * (armor_defense / 100) + bosses_killed)
             print(f"Босс нанёс вам урон -  [red]{self.damage}[/red]")
-            return check_dogde(dodge, self.damage) # Возвращаем урон
+            result = check_dogde_and_parry(dodge, parry, self.damage)
+            if "player_damage" in result:
+                damage = result["player_damage"]
+            if "boss_damage" in result:
+                self.hp-result["boss_damage"]
+            else :
+                damage = 0
+            return damage
 
     def health_add(self): # Лечение Босса
         """

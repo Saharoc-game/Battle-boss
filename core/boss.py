@@ -3,6 +3,8 @@ from rich import print
 
 from core.effect import PoisonEffect, BleedingEffect, FireEffect, StunEffect, RegenerationEffect
 
+from utils.input_until import check_dogde
+
 
 class Boss: 
 
@@ -16,27 +18,28 @@ class Boss:
         self.recharge = self.RECHARGE_MAX
         self.super_punch = "Супер удар" # Название супер удара
         
-    def attack(self, bosses_killed, armor_defense): # Атака Босса
+    def attack(self, bosses_killed, armor_defense, dodge): # Атака Босса
         """
         Атака босса.
         Если накоплен супер удар, наносит большой урон.
         Иначе, обычный удар
         bosses_killed: число убитых боссов (увеличивает урон)
         armor_defense: процент защиты игрока
-        Возвращает нанесённый урон по игроку.
+        Возвращает нанесённый урон по игроку, если уклонение не сработало.
+        Если уклонение сработало, возвращает 0.
         """
 
         if self.recharge >= self.RECHARGE_MAX : # Супер удар
             self.damage = random.randint(10, 15)
             print(f"Босс использует [cyan]{self.super_punch}[/cyan] и наносит - [red]{self.damage}[/red] урона")
             self.recharge = 0
-            return self.damage # Возвращаем урон
+            return check_dogde(dodge, self.damage) # Возвращаем урон
         
         else : # Обычная Атака
             x = random.randint(0, 5)
             self.damage = int(x - x * (armor_defense / 100) + bosses_killed)
             print(f"Босс нанёс вам урон -  [red]{self.damage}[/red]")
-            return self.damage  # Возвращаем урон
+            return check_dogde(dodge, self.damage) # Возвращаем урон
 
     def health_add(self): # Лечение Босса
         """

@@ -27,6 +27,7 @@ class Player(): # Класс игрок
         self.effects = []
         self.advantage = 0
         self.name_ability = None # Способность
+        self.dodge = 0.02 # Шанс уклонения
 
     def healf(self) : # Лечение
         print("Вы восполнили здоровье. Но потратили магию")
@@ -215,7 +216,7 @@ class PlayerBand(Player): #Разбойник
         self.ability_name = "Керсель"
         self.magic = 2
         self.max_magic = self.magic
-        self.dodge = 1
+        self.dodge = 0.05 # Шанс уклонения
     def player_abilities(self):
         if self.magic >= 2:
             self.hp -= 2

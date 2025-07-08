@@ -22,22 +22,25 @@ class Inventory:
         self.mass = 0
 
         # Пример предметов по умолчанию
-        self.INVENTORY_STATS = {
-            "swords": {"type": "sword",
-                    "cost":3, 
-                    "damage":5, 
-                    "name": "Обычный меч", 
-                    "description": "Простой, надежный меч с хорошим балансом и удобной рукоятью.",
-                    "weight": 2
+        self.INVENTORY_STATS = [
+                    {
+                        "type": "sword",
+                        "cost":3, 
+                        "damage":5, 
+                        "name": "Обычный меч", 
+                        "description": "Простой, надежный меч с хорошим балансом и удобной рукоятью.",
+                        "weight": 2
                     },
 
-            "armor": {  "cost":3, 
+                    {  
+                        "type": "sword",
+                        "cost":3, 
                         "defenсe": 3, 
                         "name": "Кожаная броня", 
                         "description": "Легкая, удобная, немного снижает урон.",
                         "weight": 4.5
-                       }
-        }
+                    }
+        ]
 
         self.inventory = [] # Сам инвентарь
 
